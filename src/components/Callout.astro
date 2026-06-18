@@ -1,0 +1,140 @@
+---
+// ══════════════════════════════════════════════════════════════
+// MVGN Labs — Callout Component
+// ══════════════════════════════════════════════════════════════
+
+import Info from '@lucide/astro/icons/info';
+import CircleCheck from '@lucide/astro/icons/circle-check';
+import CircleAlert from '@lucide/astro/icons/circle-alert';
+import CircleX from '@lucide/astro/icons/circle-x';
+
+export type CalloutVariant = 'info' | 'tip' | 'warning' | 'danger';
+
+export interface Props {
+  variant?: CalloutVariant;
+  title?: string;
+}
+
+const { variant = 'info', title } = Astro.props;
+
+const config: Record<string, { icon: any; label: string }> = {
+  info: { icon: Info, label: 'Info' },
+  tip: { icon: CircleCheck, label: 'Consejo' },
+  warning: { icon: CircleAlert, label: 'Importante' },
+  danger: { icon: CircleX, label: 'Advertencia' },
+};
+
+const { icon: Icon, label } = config[variant];
+---
+
+<div class:list={{
+  'callout': true,
+  [`callout--${variant}`]: true,
+}}>
+  <div class="callout-header">
+    <span class="callout-icon" aria-hidden="true">
+      <Icon size={18} />
+    </span>
+    <span class="callout-label">{title || label}</span>
+  </div>
+  <div class="callout-body">
+    <slot />
+  </div>
+</div>
+
+<style is:global>
+  .callout {
+    padding: var(--space-4);
+    border-radius: var(--radius-md);
+    border: 1px solid;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .callout-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .callout-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .callout-label {
+    font-size: var(--text-sm);
+    font-weight: 600;
+  }
+
+  .callout-body {
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+  }
+
+  .callout-body p {
+    margin-bottom: 0 !important;
+    font-size: inherit;
+  }
+
+  /* Info */
+  .callout--info {
+    background: var(--color-info-bg);
+    border-color: rgba(59, 130, 246, 0.2);
+  }
+  .callout--info .callout-icon,
+  .callout--info .callout-label {
+    color: var(--color-info-text);
+  }
+  .callout--info .callout-body,
+  .callout--info .callout-body p {
+    color: var(--color-info-text);
+  }
+
+  /* Tip */
+  .callout--tip {
+    background: var(--color-success-bg);
+    border-color: rgba(34, 197, 94, 0.2);
+  }
+  .callout--tip .callout-icon,
+  .callout--tip .callout-label {
+    color: var(--color-success-text);
+  }
+  .callout--tip .callout-body,
+  .callout--tip .callout-body p {
+    color: var(--color-success-text);
+  }
+
+  /* Warning */
+  .callout--warning {
+    background: var(--color-warning-bg);
+    border-color: rgba(245, 158, 11, 0.2);
+  }
+  .callout--warning .callout-icon,
+  .callout--warning .callout-label {
+    color: var(--color-warning-text);
+  }
+  .callout--warning .callout-body,
+  .callout--warning .callout-body p {
+    color: var(--color-warning-text);
+  }
+
+  /* Danger */
+  .callout--danger {
+    background: var(--color-danger-bg);
+    border-color: rgba(220, 38, 38, 0.2);
+  }
+  .callout--danger .callout-icon,
+  .callout--danger .callout-label {
+    color: var(--color-danger-text);
+  }
+  .callout--danger .callout-body,
+  .callout--danger .callout-body p {
+    color: var(--color-danger-text);
+  }
+</style>

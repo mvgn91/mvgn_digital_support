@@ -1,0 +1,192 @@
+---
+// ══════════════════════════════════════════════════════════════
+// MVGN Labs — ScreenshotFrame Component
+// ══════════════════════════════════════════════════════════════
+
+export interface Props {
+  src: string;
+  alt: string;
+  caption?: string;
+  variant?: 'phone' | 'phone-pair' | 'desktop';
+  annotations?: {
+    number: number;
+    text: string;
+    position?: 'top-right' | 'middle-right' | 'bottom-right' | 'top-left' | 'middle-left' | 'bottom-left';
+  }[];
+}
+
+const { src, alt, caption, variant = 'phone', annotations = [] } = Astro.props;
+
+const positionClasses: Record<string, string> = {
+  'top-right': 'ann-tr',
+  'middle-right': 'ann-mr',
+  'bottom-right': 'ann-br',
+  'top-left': 'ann-tl',
+  'middle-left': 'ann-ml',
+  'bottom-left': 'ann-bl',
+};
+---
+
+<figure class:list={{
+  'screenshot-frame': true,
+  [`screenshot-frame--${variant}`]: true,
+}}>
+  <div class="frame-device">
+    {variant === 'phone' && <div class="frame-notch" aria-hidden="true"></div>}
+    <img src={src} alt={alt} loading="lazy" />
+    {annotations.map((ann) => (
+      <div class:list={['annotation', positionClasses[ann.position || 'middle-right'] || 'ann-mr']}>
+        <div class="annotation-num">{ann.number}</div>
+        <div class="annotation-connector"></div>
+        <span class="annotation-text">{ann.text}</span>
+      </div>
+    ))}
+  </div>
+  {caption && <figcaption class="frame-caption">{caption}</figcaption>}
+</figure>
+
+<style is:global>
+  .screenshot-frame {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+    width: 100%;
+  }
+
+  .frame-device {
+    position: relative;
+    width: 100%;
+    max-width: 280px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: 6px;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+  }
+
+  .frame-notch {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 16px;
+    background: var(--color-bg);
+    border-radius: 0 0 10px 10px;
+    z-index: 2;
+  }
+
+  .frame-device img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: calc(var(--radius-xl) - 6px);
+    position: relative;
+    z-index: 1;
+  }
+
+  .frame-caption {
+    font-size: var(--text-xs);
+    color: var(--color-text-tertiary);
+    text-align: center;
+    letter-spacing: var(--tracking-wide);
+  }
+
+  /* Phone Pair Variant */
+  .screenshot-frame--phone-pair .frame-device {
+    max-width: 200px;
+  }
+
+  .screenshot-frame--phone-pair {
+    flex-direction: row;
+    justify-content: center;
+    gap: var(--space-3);
+  }
+
+  .screenshot-frame--phone-pair .frame-notch {
+    width: 80px;
+    height: 12px;
+  }
+
+  .screenshot-frame--phone-pair figcaption {
+    display: none;
+  }
+
+  .screenshot-frame--phone-pair .annotation {
+    display: none;
+  }
+
+  /* Annotations */
+  .annotation {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    z-index: 5;
+    pointer-events: none;
+  }
+
+  .annotation-num {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: var(--color-text-primary);
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(220, 38, 38, 0.4);
+    position: relative;
+    z-index: 2;
+  }
+
+  .annotation-connector {
+    width: 12px;
+    height: 2px;
+    background: var(--color-primary);
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .annotation-text {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    line-height: 1.2;
+    background: rgba(17, 17, 17, 0.95);
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    white-space: nowrap;
+    border: 1px solid var(--color-border);
+  }
+
+  .ann-tr { top: 22%; right: -28px; }
+  .ann-mr { top: 48%; right: -28px; }
+  .ann-br { top: 72%; right: -28px; }
+  .ann-tl { top: 22%; left: -28px; }
+  .ann-ml { top: 48%; left: -28px; }
+  .ann-bl { top: 72%; left: -28px; }
+
+  .ann-tl .annotation-connector,
+  .ann-ml .annotation-connector,
+  .ann-bl .annotation-connector {
+    order: 1;
+  }
+
+  .ann-tl .annotation-text,
+  .ann-ml .annotation-text,
+  .ann-bl .annotation-text {
+    order: 0;
+  }
+
+  @media (max-width: 640px) {
+    .annotation {
+      display: none;
+    }
+  }
+</style>

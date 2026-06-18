@@ -1,0 +1,248 @@
+---
+// ══════════════════════════════════════════════════════════════
+// MVGN Labs — Base Layout
+// ══════════════════════════════════════════════════════════════
+
+export interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const { title, description = 'Centro de Soporte Digital — Instalación, configuración y soporte para tu experiencia digital.', ogImage } = Astro.props;
+
+// Import styles so Astro bundles them
+import '../styles/global.css';
+import '../styles/tokens.css';
+---
+
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+
+    <!-- Preconnect for fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Inter font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" href="/favicon.ico" />
+
+    <!-- Theme -->
+    <meta name="color-scheme" content="dark light" />
+
+    <title>{title} — MVGN Labs</title>
+
+    <!-- Global Styles are imported in frontmatter and bundled by Astro -->
+
+    <slot name="head" />
+  </head>
+  <body>
+    <slot />
+
+    <footer class="site-footer">
+      <div class="site-footer-bg" aria-hidden="true"></div>
+      <div class="site-footer-border" aria-hidden="true"></div>
+      <div class="site-footer-glass" aria-hidden="true"></div>
+      <div class="site-footer-inner">
+        <div class="site-footer-top-row">
+          <div class="site-footer-brand">
+            <img src="/favicon.png" alt="" class="site-footer-logo" />
+            <div>
+              <span class="site-footer-name">MVGN Labs</span>
+              <span class="site-footer-tagline">Centro de Soporte Digital</span>
+            </div>
+          </div>
+          <span class="site-footer-copy">&copy; {new Date().getFullYear()} MVGN Labs</span>
+        </div>
+        <p class="site-footer-legal">
+          MVGN Labs proporciona servicios de configuración, documentación y asistencia técnica sobre aplicaciones y servicios desarrollados por terceros. MVGN Labs no es desarrollador, propietario, distribuidor oficial ni representante de las marcas o aplicaciones mencionadas.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  @keyframes footer-gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  @keyframes footer-glow {
+    0%, 100% { opacity: 0.4; transform: translateX(-50%) scale(1); }
+    50% { opacity: 0.8; transform: translateX(-50%) scale(1.1); }
+  }
+
+  .site-footer {
+    position: relative;
+    z-index: 1;
+    margin-top: var(--space-12);
+    overflow: hidden;
+  }
+
+  /* Glass background */
+  .site-footer-glass {
+    position: absolute;
+    inset: 0;
+    background: var(--glass-bg-subtle);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid var(--glass-border);
+    pointer-events: none;
+  }
+
+  /* Animated gradient border on top */
+  .site-footer-border {
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(220, 38, 38, 0.4), rgba(220, 38, 38, 0.6), rgba(220, 38, 38, 0.4), transparent);
+    background-size: 200% 100%;
+    animation: footer-gradient 8s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  /* Subtle glow above the border */
+  .site-footer-bg {
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 400px;
+    height: 80px;
+    background: radial-gradient(ellipse, rgba(220, 38, 38, 0.08) 0%, transparent 70%);
+    filter: blur(40px);
+    animation: footer-glow 6s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  .site-footer-inner {
+    position: relative;
+    z-index: 1;
+    max-width: var(--max-width-page);
+    margin: 0 auto;
+    padding: var(--space-8) var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .site-footer-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+
+  .site-footer-brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .site-footer-brand div {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .site-footer-logo {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    display: block;
+  }
+
+  .site-footer-name {
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--color-text-primary);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  .site-footer-tagline {
+    font-size: var(--text-xs);
+    color: var(--color-text-tertiary);
+  }
+
+  .site-footer-legal {
+    font-size: var(--text-xs);
+    color: var(--color-text-tertiary);
+    opacity: 0.35;
+    line-height: var(--leading-relaxed);
+    max-width: 640px;
+    margin: 0;
+  }
+
+  .site-footer-copy {
+    font-size: var(--text-xs);
+    color: var(--color-text-tertiary);
+    opacity: 0.3;
+    white-space: nowrap;
+  }
+
+  [data-theme="light"] .site-footer-legal {
+    color: var(--color-text-secondary);
+    opacity: 0.6;
+  }
+
+  [data-theme="light"] .site-footer-copy {
+    color: var(--color-text-secondary);
+    opacity: 0.5;
+  }
+
+  @media (max-width: 768px) {
+    .site-footer-inner {
+      padding: var(--space-6) var(--space-4);
+      gap: var(--space-3);
+    }
+
+    .site-footer-top-row {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .site-footer-legal {
+      font-size: 0.65rem;
+      max-width: 100%;
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .site-footer-inner {
+      padding: var(--space-5) var(--space-3);
+    }
+
+    .site-footer-legal {
+      font-size: 0.6rem;
+      line-height: var(--leading-normal);
+    }
+  }
+</style>
+
+<script is:inline>
+  (function() {
+    const stored = localStorage.getItem('mvgn-theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = stored || (prefersDark ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+  })();
+</script>

@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EPIX PLAY — Welcome Pack</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════════════════
+   RESET & BASE
+   ══════════════════════════════════════════════════════════════ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  font-size: 12pt;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #111827;
+  background: #e5e7eb;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   PAGE CONTAINER (A4)
+   ══════════════════════════════════════════════════════════════ */
+.page {
+  width: 210mm;
+  height: 297mm;
+  margin: 0 auto;
+  background: #ffffff;
+  page-break-after: always;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+@media print {
+  body { background: none; }
+  .page { margin: 0; box-shadow: none; page-break-after: always; }
+}
+
+.page-inner {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-area {
+  flex: 1;
+  padding: 24mm 20mm 16mm 20mm;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   TYPOGRAPHY
+   ══════════════════════════════════════════════════════════════ */
+.eyebrow {
+  font-size: 8.5pt;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #dc2626;
+  margin-bottom: 0.25rem;
+}
+
+h2 {
+  font-size: 24pt;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  color: #111827;
+  margin-bottom: 0.3rem;
+}
+
+h3 {
+  font-size: 12pt;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  color: #111827;
+  margin-bottom: 0.15rem;
+}  .page-subtitle {
+    font-size: 10.5pt;
+    font-weight: 400;
+    color: #6b7280;
+    line-height: 1.4;
+    margin-bottom: 1rem;
+  }
+
+  .page-h2-sm {
+    font-size: 22pt;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    color: #111827;
+    margin-bottom: 0.5rem;
+  }
+
+/* ══════════════════════════════════════════════════════════════
+   PROGRESS TRACKER
+   ══════════════════════════════════════════════════════════════ */
+.progress-tracker {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 1.25rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.progress-step {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 7.5pt;
+  font-weight: 500;
+  color: #d1d5db;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.progress-step .circle {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #d1d5db;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 6.5pt;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.progress-step.active .circle {
+  border-color: #dc2626;
+  background: #dc2626;
+  color: #fff;
+}
+
+.progress-step.done .circle {
+  border-color: #9ca3af;
+  background: #9ca3af;
+  color: #fff;
+}
+
+.progress-step.active { color: #dc2626; }
+.progress-step.done { color: #6b7280; }
+
+.progress-connector {
+  width: 16px;
+  height: 1px;
+  background: #d1d5db;
+  margin: 0 0.4rem;
+  flex-shrink: 0;
+}
+
+.progress-connector.done { background: #9ca3af; }
+
+/* ══════════════════════════════════════════════════════════════
+   LAYOUT — Content Row
+   ══════════════════════════════════════════════════════════════ */
+.content-row {
+  flex: 1;
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.content-row .text-col {
+  flex: 1;
+  min-width: 0;
+}
+
+.content-row .media-col {
+  flex: 0 0 auto;
+  width: 34%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SMARTPHONE FRAME
+   ══════════════════════════════════════════════════════════════ */
+.phone-frame {
+  position: relative;
+  width: 100%;
+  background: #ffffff;
+  border: 2px solid #e5e7eb;
+  border-radius: 20px;
+  padding: 6px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.10);
+}
+
+.phone-frame .notch {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40%;
+  height: 16px;
+  background: #111827;
+  border-radius: 0 0 10px 10px;
+  z-index: 2;
+}
+
+.phone-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 14px;
+  position: relative;
+  z-index: 1;
+}
+
+.frame-label {
+  position: absolute;
+  bottom: -14px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 7pt;
+  color: #9ca3af;
+  letter-spacing: 0.02em;
+}
+
+/* Dual phone frames (side by side) */
+.phone-pair {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.phone-pair .phone-frame {
+  flex: 1;
+  border-radius: 14px;
+  padding: 4px;
+}
+
+.phone-pair .phone-frame .notch {
+  height: 12px;
+  width: 50%;
+}
+
+.phone-pair .phone-frame img {
+  border-radius: 10px;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   ANNOTATIONS with arrow connectors
+   ══════════════════════════════════════════════════════════════ */
+.annotation {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.annotation .anum {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #dc2626;
+  color: #fff;
+  font-size: 7.5pt;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(220,38,38,0.35);
+  position: relative;
+  z-index: 2;
+}
+
+.annotation .connector {
+  width: 14px;
+  height: 2px;
+  background: #dc2626;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.annotation .connector::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 4px 5px 4px 0;
+  border-color: transparent #dc2626 transparent transparent;
+}
+
+.annotation .connector.left {
+  order: -1;
+}
+
+.annotation .connector.left::after {
+  right: auto;
+  left: 0;
+  border-width: 4px 0 4px 5px;
+  border-color: transparent transparent transparent #dc2626;
+}
+
+.annotation .atext {
+  font-size: 6.5pt;
+  font-weight: 500;
+  color: #111827;
+  line-height: 1.2;
+  background: rgba(255,255,255,0.95);
+  padding: 0.15rem 0.35rem;
+  border-radius: 3px;
+  white-space: nowrap;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+/* Annotation positions — right side */
+.ann-tr { top: 22%; right: -30px; }
+.ann-mr { top: 48%; right: -30px; }
+.ann-br { top: 72%; right: -30px; }
+
+/* Annotation positions — left side */
+.ann-tl { top: 22%; left: -30px; }
+.ann-ml { top: 48%; left: -30px; }
+.ann-bl { top: 72%; left: -30px; }
+
+/* Within phone-pair, shift annotations inward */
+.phone-pair .ann-tr { right: -22px; }
+.phone-pair .ann-tl { left: -22px; }
+.phone-pair .ann-mr { right: -22px; }
+.phone-pair .ann-ml { left: -22px; }
+.phone-pair .ann-br { right: -22px; }
+.phone-pair .ann-bl { left: -22px; }
+
+/* ══════════════════════════════════════════════════════════════
+   ONBOARDING BOXES
+   ══════════════════════════════════════════════════════════════ */
+.onboard-box {
+  display: flex;
+  gap: 0.6rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  align-items: flex-start;
+}
+
+.onboard-box .icon {
+  font-size: 11pt;
+  flex-shrink: 0;
+  margin-top: 0.05rem;
+  line-height: 1;
+}
+
+.onboard-box .text {
+  font-size: 8.5pt;
+  line-height: 1.45;
+}
+
+.onboard-box.tip { background: #f0fdf4; }
+.onboard-box.tip .icon { color: #16a34a; }
+.onboard-box.tip .text { color: #166534; }
+.onboard-box.tip .text strong { color: #111827; }
+
+.onboard-box.important { background: #fef2f2; }
+.onboard-box.important .icon { color: #dc2626; }
+.onboard-box.important .text { color: #991b1b; }
+.onboard-box.important .text strong { color: #111827; }
+
+.onboard-box.recommend { background: #eff6ff; }
+.onboard-box.recommend .icon { color: #2563eb; }
+.onboard-box.recommend .text { color: #1e40af; }
+.onboard-box.recommend .text strong { color: #111827; }
+
+/* ══════════════════════════════════════════════════════════════
+   MINI INSTRUCTION STEP
+   ══════════════════════════════════════════════════════════════ */
+.mini-step {
+  margin-bottom: 0.9rem;
+}
+
+.mini-step h3 {
+  margin-bottom: 0.1rem;
+}
+
+.mini-step p {
+  font-size: 9.5pt;
+  color: #4b5563;
+  line-height: 1.5;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   CATEGORY CHIPS (no inline styles)
+   ══════════════════════════════════════════════════════════════ */
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.5rem 0 0.75rem 0;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 5px;
+  background: #f9fafb;
+  border: 1px solid #f3f4f6;
+  font-size: 8pt;
+  font-weight: 500;
+  color: #374151;
+}
+
+.chip .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.chip .dot-amber { background: #d97706; }
+.chip .dot-blue { background: #2563eb; }
+.chip .dot-pink { background: #db2777; }
+.chip .dot-purple { background: #7c3aed; }
+
+/* ══════════════════════════════════════════════════════════════
+   DIVIDER
+   ══════════════════════════════════════════════════════════════ */
+.divider {
+  width: 100%;
+  height: 1px;
+  background: #e5e7eb;
+  margin: 0.6rem 0;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   FOOTER
+   ══════════════════════════════════════════════════════════════ */
+.page-footer {
+  padding: 0 20mm 5mm 20mm;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 6.5pt;
+  color: #9ca3af;
+  letter-spacing: 0.03em;
+}
+.page-footer .page-number { font-weight: 500; }
+.page-footer .brand { font-weight: 600; color: #6b7280; }
+
+/* ══════════════════════════════════════════════════════════════
+   PAGE 1 — COVER (aspirational)
+   ══════════════════════════════════════════════════════════════ */
+.page-cover {
+  background: #0a0a0a;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Abstract decorative glow shapes */
+.page-cover::before {
+  content: '';
+  position: absolute;
+  top: -120px;
+  right: -80px;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(220,38,38,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.page-cover::after {
+  content: '';
+  position: absolute;
+  bottom: -180px;
+  left: -100px;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(220,38,38,0.08) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.cover-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+
+.cover-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(220,38,38,0.08) 0%, transparent 60%);
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+.page-cover .page-inner {
+  position: relative;
+  z-index: 1;
+}
+
+.cover-brand {
+  position: absolute;
+  top: 16mm;
+  left: 20mm;
+}
+
+.cover-brand svg { height: 20px; }
+
+.cover-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 20mm;
+}
+
+.cover-tag {
+  display: inline-block;
+  font-size: 7.5pt;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.8rem;
+  border-radius: 4px;
+  background: rgba(220,38,38,0.12);
+  color: #fca5a5;
+  margin-bottom: 1.25rem;
+  align-self: flex-start;
+}
+
+.cover-body h1 {
+  font-size: 56pt;
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  color: #ffffff;
+  margin-bottom: 0.4rem;
+}
+
+.cover-body .tagline {
+  font-size: 14pt;
+  font-weight: 400;
+  color: #d1d5db;
+  line-height: 1.3;
+  margin-bottom: 1.25rem;
+}
+
+.cover-categories {
+  display: flex;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.cover-categories span {
+  font-size: 8pt;
+  font-weight: 500;
+  color: #6b7280;
+  letter-spacing: 0.03em;
+}
+
+.cover-categories span::before {
+  content: "·";
+  margin-right: 0.4rem;
+  color: #dc2626;
+}
+
+.cover-categories span:first-child::before { display: none; }
+
+.cover-divider {
+  width: 36px;
+  height: 3px;
+  background: #dc2626;
+  border-radius: 2px;
+  margin-bottom: 1.5rem;
+}
+
+.cover-footer-text {
+  display: flex;
+  gap: 2rem;
+}
+
+.cover-footer-text .col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.cover-footer-text .col .lbl {
+  font-size: 6.5pt;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #4b5563;
+}
+
+.cover-footer-text .col .val {
+  font-size: 8pt;
+  font-weight: 500;
+  color: #9ca3af;
+}
+
+.cover-meta {
+  position: absolute;
+  bottom: 12mm;
+  left: 20mm;
+  font-size: 7pt;
+  color: #4b5563;
+  letter-spacing: 0.04em;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   PAGE 5 — CLOSING (Important + Terms + Help)
+   ══════════════════════════════════════════════════════════════ */
+.info-block {
+  margin-bottom: 0.4rem;
+}
+
+.info-block h3 {
+  font-size: 11pt;
+  margin-bottom: 0.1rem;
+}
+
+.info-block p {
+  font-size: 9pt;
+  color: #4b5563;
+  line-height: 1.5;
+}
+
+.terms-heading {
+  font-size: 8pt;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #9ca3af;
+  margin-bottom: 0.25rem;
+  margin-top: 0.15rem;
+}
+
+.terms-list {
+  list-style: none;
+  padding: 0;
+}
+
+.terms-list li {
+  font-size: 7.5pt;
+  color: #6b7280;
+  line-height: 1.5;
+  position: relative;
+  padding-left: 0.75rem;
+  margin-bottom: 0.15rem;
+}
+
+.terms-list li::before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  color: #dc2626;
+}
+
+.help-section {
+  margin-top: auto;
+  padding-top: 0.75rem;
+}
+
+.help-heading {
+  font-size: 10pt;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.4rem;
+}
+
+.help-grid {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.help-item { }
+
+.help-item .lbl {
+  font-size: 6pt;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #9ca3af;
+}
+
+.help-item .val {
+  font-size: 8.5pt;
+  font-weight: 500;
+  color: #111827;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════════════════════════════════ */
+@media screen and (max-width: 800px) {
+  .page { width: 100%; height: auto; min-height: 297mm; }
+  .content-area { padding: 18mm 14mm; }
+  .content-row { flex-direction: column; }
+  .content-row .media-col { width: 70%; margin: 0 auto; }
+  .progress-tracker { overflow-x: auto; gap: 0.2rem; }
+  .progress-step { font-size: 6.5pt; }
+  .progress-connector { width: 10px; }
+  .cover-body h1 { font-size: 36pt; }
+  .cover-categories { flex-wrap: wrap; gap: 0.5rem; }
+  .page-footer { padding: 0 14mm 5mm 14mm; }
+  .help-grid { flex-direction: column; gap: 0.4rem; }
+  .annotation { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PAGE 1 — COVER
+     ══════════════════════════════════════════════════════════════ -->
+<div class="page page-cover">
+  <div class="cover-grid"></div>
+  <div class="cover-glow"></div>
+
+  <div class="page-inner">
+    <div class="cover-brand">
+      <svg width="90" height="20" viewBox="0 0 90 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0.5" y="0.5" width="19" height="19" rx="5" fill="#dc2626"/>
+        <text x="10.5" y="14" text-anchor="middle" fill="white" font-family="Inter" font-weight="700" font-size="10">M</text>
+        <text x="28" y="14" fill="white" font-family="Inter" font-weight="700" font-size="10" letter-spacing="0.12em">MVGN</text>
+        <text x="28" y="14" fill="white" font-family="Inter" font-weight="300" font-size="10" letter-spacing="0.12em">LABS</text>
+      </svg>
+    </div>
+
+    <div class="cover-body">
+      <div class="cover-tag">Welcome Pack</div>
+      <h1>EPIX PLAY</h1>
+      <p class="tagline">Todo tu entretenimiento en un solo lugar.</p>
+      <div class="cover-divider"></div>
+      <div class="cover-categories">
+        <span>Películas</span>
+        <span>Series</span>
+        <span>TV en Vivo</span>
+        <span>Complementos</span>
+      </div>
+      <div class="cover-footer-text">
+        <div class="col">
+          <span class="lbl">Desarrollado por</span>
+          <span class="val">MVGN Labs</span>
+        </div>
+        <div class="col">
+          <span class="lbl">Versión</span>
+          <span class="val">1.0 — 2026</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cover-meta">Premium Welcome Pack &mdash; MVGN Labs</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PAGE 2 — INSTALL & LOGIN
+     ══════════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-inner">
+    <div class="content-area">
+      <div class="progress-tracker">
+        <span class="progress-step done">
+          <span class="circle">&#10003;</span> Instalar
+        </span>
+        <span class="progress-connector done"></span>
+        <span class="progress-step active">
+          <span class="circle">2</span> Iniciar sesión
+        </span>
+        <span class="progress-connector"></span>
+        <span class="progress-step">
+          <span class="circle">3</span> Explorar
+        </span>
+        <span class="progress-connector"></span>
+        <span class="progress-step">
+          <span class="circle">4</span> Activar TV
+        </span>
+      </div>
+
+      <div class="eyebrow">Paso 1 — Instalación</div>
+      <h2>Prepara tu dispositivo</h2>
+      <p class="page-subtitle">Habilita tu equipo y conecta tu cuenta en menos de 2 minutos.</p>
+
+      <div class="content-row">
+        <div class="text-col">
+          <div class="mini-step">
+            <h3>Permitir instalación externa</h3>
+            <p>Ve a <strong>Ajustes &gt; Seguridad</strong> y activa &laquo;Instalar apps de fuentes desconocidas&raquo;.</p>
+          </div>
+
+          <div class="mini-step">
+            <h3>Autenticar con Google</h3>
+            <p>Presiona <strong>&laquo;Continuar con Google&raquo;</strong> para vincular tu perfil al instante.</p>
+          </div>
+
+          <div class="onboard-box tip">
+            <span class="icon">✓</span>
+            <span class="text"><strong>Consejo:</strong> Usa la misma cuenta de Google que registraste con tu servicio.</span>
+          </div>
+
+          <div class="onboard-box important">
+            <span class="icon">⚠</span>
+            <span class="text"><strong>Importante:</strong> Busca &laquo;Instalar apps desconocidas&raquo; en Ajustes si no ves la opción.</span>
+          </div>
+        </div>
+
+        <div class="media-col">
+          <div class="phone-frame">
+            <div class="notch"></div>
+            <img src="assets/login.png" alt="Login EPIX PLAY">
+            <div class="annotation ann-mr">
+              <div class="anum">1</div>
+              <div class="connector"></div>
+              <span class="atext">Acceso con Google</span>
+            </div>
+            <span class="frame-label">Pantalla de inicio de sesión</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      <span class="brand">MVGN LABS</span>
+      <span class="page-number">02</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PAGE 3 — EXPLORE & DASHBOARD
+     ══════════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-inner">
+    <div class="content-area">
+      <div class="progress-tracker">
+        <span class="progress-step done">
+          <span class="circle">&#10003;</span> Instalar
+        </span>
+        <span class="progress-connector done"></span>
+        <span class="progress-step done">
+          <span class="circle">&#10003;</span> Iniciar sesión
+        </span>
+        <span class="progress-connector done"></span>
+        <span class="progress-step active">
+          <span class="circle">3</span> Explorar
+        </span>
+        <span class="progress-connector"></span>
+        <span class="progress-step">
+          <span class="circle">4</span> Activar TV
+        </span>
+      </div>
+
+      <div class="eyebrow">Paso 2 — Navegación</div>
+      <h2>Descubre tu contenido</h2>
+      <p class="page-subtitle">Explora el catálogo y cambia entre canales en vivo desde un solo panel.</p>
+
+      <div class="content-row">
+        <div class="text-col">
+          <div class="mini-step">
+            <h3>Categorías principales</h3>
+            <p>Navega entre Películas, Series, Reels y Celebridades desde la cabecera superior.</p>
+          </div>
+
+          <div class="chip-row">
+            <span class="chip"><span class="dot dot-amber"></span> Películas</span>
+            <span class="chip"><span class="dot dot-blue"></span> Series</span>
+            <span class="chip"><span class="dot dot-pink"></span> Reels</span>
+            <span class="chip"><span class="dot dot-purple"></span> Celebridades</span>
+          </div>
+
+          <div class="mini-step">
+            <h3>TV en vivo</h3>
+            <p>Accede a los canales en directo directamente desde la misma interfaz del catálogo.</p>
+          </div>
+
+          <div class="onboard-box recommend">
+            <span class="icon">&#9670;</span>
+            <span class="text"><strong>Recomendación:</strong> Desliza horizontalmente sobre las filas para descubrir más títulos.</span>
+          </div>
+
+          <div class="onboard-box tip">
+            <span class="icon">✓</span>
+            <span class="text"><strong>Consejo:</strong> Usa el buscador integrado para encontrar contenido específico al instante.</span>
+          </div>
+        </div>
+
+        <div class="media-col">
+          <div class="phone-pair">
+            <div class="phone-frame">
+              <div class="notch"></div>
+              <img src="assets/dashboard.png" alt="Dashboard">
+              <div class="annotation ann-tr">
+                <div class="anum">1</div>
+                <div class="connector"></div>
+                <span class="atext">Navegación</span>
+              </div>
+              <div class="annotation ann-bl">
+                <div class="connector left"></div>
+                <div class="anum">2</div>
+                <span class="atext">Categorías</span>
+              </div>
+              <span class="frame-label">Panel principal</span>
+            </div>
+            <div class="phone-frame">
+              <div class="notch"></div>
+              <img src="assets/canales.png" alt="Canales">
+              <div class="annotation ann-tr">
+                <div class="anum">3</div>
+                <div class="connector"></div>
+                <span class="atext">TV en vivo</span>
+              </div>
+              <span class="frame-label">Canales</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      <span class="brand">MVGN LABS</span>
+      <span class="page-number">03</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PAGE 4 — ACTIVATE TV (ADDONS)
+     ══════════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-inner">
+    <div class="content-area">
+      <div class="progress-tracker">
+        <span class="progress-step done">
+          <span class="circle">&#10003;</span> Instalar
+        </span>
+        <span class="progress-connector done"></span>
+        <span class="progress-step done">
+          <span class="circle">&#10003;</span> Iniciar sesión
+        </span>
+        <span class="progress-connector done"></span>
+        <span class="progress-step done">
+          <span class="circle">&#10003;</span> Explorar
+        </span>
+        <span class="progress-connector done"></span>
+        <span class="progress-step active">
+          <span class="circle">4</span> Activar TV
+        </span>
+      </div>
+
+      <div class="eyebrow">Paso 3 — Complementos</div>
+      <h2>Activa la TV en vivo</h2>
+      <p class="page-subtitle">Conecta los addons y empieza a disfrutar canales en directo al instante.</p>
+
+      <div class="content-row">
+        <div class="text-col">
+          <div class="mini-step">
+            <h3>Abrir el panel &laquo;Más&raquo;</h3>
+            <p>Toca el icono de engranaje etiquetado como <strong>&laquo;Más&raquo;</strong> en la barra inferior.</p>
+          </div>
+
+          <div class="mini-step">
+            <h3>Activar complementos</h3>
+            <p>Ingresa a <strong>Addons</strong> y verifica que los módulos de streaming estén encendidos.</p>
+          </div>
+
+          <div class="mini-step">
+            <h3>Vincular IPTV</h3>
+            <p>Selecciona <strong>TV en Directo</strong> e ingresa la URL o código de activación de soporte.</p>
+          </div>
+
+          <div class="onboard-box important">
+            <span class="icon">⚠</span>
+            <span class="text"><strong>Importante:</strong> Al cambiar de servidor verás un anuncio de 10 segundos. La transmisión iniciará automáticamente.</span>
+          </div>
+
+          <div class="onboard-box recommend">
+            <span class="icon">&#9670;</span>
+            <span class="text"><strong>Recomendación:</strong> Si un addon aparece desactivado, actívalo manualmente y reinicia la app.</span>
+          </div>
+        </div>
+
+        <div class="media-col">
+          <div class="phone-pair">
+            <div class="phone-frame">
+              <div class="notch"></div>
+              <img src="assets/seccion MAS.png" alt="Panel Más">
+              <div class="annotation ann-br">
+                <div class="anum">1</div>
+                <div class="connector"></div>
+                <span class="atext">Panel Más</span>
+              </div>
+              <span class="frame-label">Panel &laquo;Más&raquo;</span>
+            </div>
+            <div class="phone-frame">
+              <div class="notch"></div>
+              <img src="assets/ADDONs.png" alt="Addons">
+              <div class="annotation ann-ml">
+                <div class="connector left"></div>
+                <div class="anum">2</div>
+                <span class="atext">Addons activos</span>
+              </div>
+              <span class="frame-label">Gestor de addons</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      <span class="brand">MVGN LABS</span>
+      <span class="page-number">04</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PAGE 5 — INFO + TERMS + HELP
+     ══════════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-inner">
+    <div class="content-area">
+      <div class="eyebrow">Información importante</div>
+      <h2 class="page-h2-sm">Antes de usar EPIX PLAY</h2>
+
+      <div class="info-block">
+        <h3>Compatibilidad de entorno</h3>
+        <p>Servicio optimizado para smartphones y tablets Android. No compatible con Smart TV de forma nativa.</p>
+      </div>
+
+      <div class="info-block">
+        <h3>Cómo ver en televisión</h3>
+        <p>Usa <strong>Cast / Mirroring</strong> desde tu dispositivo para duplicar la pantalla en un televisor.</p>
+      </div>
+
+      <div class="info-block">
+        <h3>Soporte técnico</h3>
+        <p>Disponible vía WhatsApp al <strong>33 2262 1939</strong> y en <strong>mvgn.vercel.app</strong>.</p>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="terms-heading">Términos del servicio</div>
+      <ul class="terms-list">
+        <li>Las aplicaciones son desarrolladas por terceros. MVGN Labs actúa como facilitador técnico.</li>
+        <li>No se garantiza el funcionamiento indefinido de una app específica. El valor del servicio está en la capacidad de migración.</li>
+        <li>MVGN Labs no se responsabiliza por daños o pérdidas derivados del uso del software.</li>
+        <li>El cliente es responsable de usar el servicio conforme a las leyes de su jurisdicción.</li>
+      </ul>
+
+      <div class="help-section">
+        <div class="help-heading">¿Necesitas ayuda?</div>
+        <div class="help-grid">
+          <div class="help-item">
+            <span class="lbl">WhatsApp</span>
+            <span class="val">33 2262 1939</span>
+          </div>
+          <div class="help-item">
+            <span class="lbl">Web</span>
+            <span class="val">mvgn.vercel.app</span>
+          </div>
+          <div class="help-item">
+            <span class="lbl">Versión</span>
+            <span class="val">1.0 — 2026</span>
+          </div>
+          <div class="help-item">
+            <span class="lbl">Correo</span>
+            <span class="val">soporte@mvgnlabs.com</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      <span class="brand">MVGN LABS</span>
+      <span class="page-number">05</span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

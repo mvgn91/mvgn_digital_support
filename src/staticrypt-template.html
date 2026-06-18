@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html class="staticrypt-html" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<title>·/MVGN Labs/· — Acceso Protegido</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta http-equiv="cache-control" content="max-age=0" />
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="expires" content="0" />
+<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+<meta http-equiv="pragma" content="no-cache" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+<style>
+  /* ══════════════════════════════════════════════════
+     MVGN LABS — StatiCrypt Custom Template
+     ══════════════════════════════════════════════════ */
+  *, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  .staticrypt-html {
+    height: 100%;
+    background: #0A0A0A;
+  }
+
+  .staticrypt-body {
+    height: 100%;
+    margin: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: #0A0A0A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ── Ambient Background ── */
+  .staticrypt-body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 40% at 50% 0%, rgba(220, 38, 38, 0.25) 0%, transparent 50%),
+      radial-gradient(ellipse 80% 25% at 50% 100%, rgba(220, 38, 38, 0.08) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Grid pattern */
+  .staticrypt-body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 65% 50% at 50% 0%, black 20%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse 65% 50% at 50% 0%, black 20%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Glow ── */
+  .staticrypt-glow {
+    position: fixed;
+    top: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 900px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(220, 38, 38, 0.18) 0%, rgba(220, 38, 38, 0.05) 40%, transparent 65%);
+    filter: blur(100px);
+    pointer-events: none;
+    z-index: 0;
+    animation: staticrypt-drift 25s ease-in-out infinite;
+  }
+
+  @keyframes staticrypt-drift {
+    0%, 100% { transform: translateX(-50%) translateY(0) scale(1); }
+    25% { transform: translateX(-50%) translateY(1%) scale(1.02); }
+    50% { transform: translateX(-50%) translateY(2.5%) scale(0.98); }
+    75% { transform: translateX(-50%) translateY(-1%) scale(1.01); }
+  }
+
+  /* ── Spinner ── */
+  .staticrypt-spinner-container {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+  }
+
+  .staticrypt-spinner {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    border: 2px solid rgba(220, 38, 38, 0.15);
+    border-top-color: #DC2626;
+    border-radius: 50%;
+    animation: staticrypt-spin 0.75s linear infinite;
+  }
+
+  @keyframes staticrypt-spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* ── Content ── */
+  .staticrypt-content {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  /* ── Glass Card ── */
+  .staticrypt-card {
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(220, 38, 38, 0.12) 0%, rgba(255,255,255,0.03) 50%, transparent 100%);
+  }
+
+  .staticrypt-card-glass {
+    position: absolute;
+    inset: 1px;
+    border-radius: 19px;
+    background: rgba(18, 18, 18, 0.85);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    pointer-events: none;
+  }
+
+  .staticrypt-card-body {
+    position: relative;
+    padding: 48px 36px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  /* ── Brand ── */
+  .staticrypt-logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(220, 38, 38, 0.15), rgba(220, 38, 38, 0.05));
+    border: 1px solid rgba(220, 38, 38, 0.12);
+    padding: 12px;
+  }
+
+  .staticrypt-logo svg {
+    width: 24px;
+    height: 24px;
+    color: #DC2626;
+  }
+
+  .staticrypt-brand {
+    font-size: 14px;
+    font-weight: 700;
+    color: rgba(245, 245, 245, 0.9);
+    letter-spacing: -0.02em;
+    margin-bottom: 4px;
+  }
+
+  .staticrypt-title {
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(245, 245, 245, 0.35);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .staticrypt-divider {
+    width: 32px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.06);
+    margin-bottom: 24px;
+  }
+
+  .staticrypt-instructions {
+    font-size: 13px;
+    color: rgba(245, 245, 245, 0.5);
+    line-height: 1.6;
+    margin-bottom: 24px;
+    max-width: 280px;
+  }
+
+  /* ── Form ── */
+  .staticrypt-form {
+    width: 100%;
+  }
+
+  .staticrypt-password-container {
+    position: relative;
+    margin-bottom: 16px;
+  }
+
+  .staticrypt-password-container input {
+    width: 100%;
+    padding: 14px 48px 14px 16px;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    color: rgba(245, 245, 245, 0.9);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    outline: none;
+    transition: all 0.2s ease;
+  }
+
+  .staticrypt-password-container input::placeholder {
+    color: rgba(245, 245, 245, 0.2);
+  }
+
+  .staticrypt-password-container input:focus {
+    border-color: rgba(220, 38, 38, 0.3);
+    background: rgba(255, 255, 255, 0.04);
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.06);
+  }
+
+  .staticrypt-toggle-password-visibility {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    opacity: 0.3;
+    transition: opacity 0.2s ease;
+    padding: 0;
+  }
+
+  .staticrypt-toggle-password-visibility:hover {
+    opacity: 0.6;
+  }
+
+  /* ── Remember me ── */
+  .staticrypt-remember-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    font-size: 12px;
+    color: rgba(245, 245, 245, 0.35);
+    cursor: pointer;
+    user-select: none;
+    justify-content: center;
+  }
+
+  .staticrypt-remember-label input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+    accent-color: #DC2626;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* ── Button ── */
+  .staticrypt-decrypt-button {
+    width: 100%;
+    padding: 14px 24px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: #fff;
+    background: /*[|template_color_primary|]*/0;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 16px rgba(220, 38, 38, 0.15);
+  }
+
+  .staticrypt-decrypt-button:hover {
+    filter: brightness(110%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 24px rgba(220, 38, 38, 0.25);
+  }
+
+  .staticrypt-decrypt-button:active {
+    transform: translateY(0);
+    filter: brightness(90%);
+  }
+
+  /* ── Error ── */
+  .staticrypt-error {
+    margin-top: 12px;
+    font-size: 12px;
+    color: rgba(220, 38, 38, 0.7);
+    font-weight: 500;
+    min-height: 18px;
+  }
+
+  /* ── Footer ── */
+  .staticrypt-footer {
+    margin-top: 24px;
+    font-size: 10px;
+    color: rgba(245, 245, 245, 0.15);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── Error State ── */
+  .staticrypt-password-container.has-error input {
+    border-color: rgba(220, 38, 38, 0.3);
+    background: rgba(220, 38, 38, 0.03);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 480px) {
+    .staticrypt-card-body {
+      padding: 36px 24px 32px;
+    }
+
+    .staticrypt-content {
+      padding: 16px;
+    }
+  }
+</style>
+</head>
+<body class="staticrypt-body">
+  <div class="staticrypt-glow" aria-hidden="true"></div>
+
+  <!-- Loading -->
+  <div id="staticrypt_loading" class="staticrypt-spinner-container">
+    <div class="staticrypt-spinner"></div>
+  </div>
+
+  <!-- Content -->
+  <div id="staticrypt_content" class="staticrypt-content hidden">
+    <div class="staticrypt-card">
+      <div class="staticrypt-card-glass"></div>
+      <div class="staticrypt-card-body">
+
+        <!-- Brand -->
+        <div class="staticrypt-logo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </div>
+
+        <div class="staticrypt-brand">MVGN Labs</div>
+        <div class="staticrypt-title">CENTRO DE SOPORTE</div>
+        <div class="staticrypt-divider"></div>
+
+        <p class="staticrypt-instructions">
+          /*[|template_instructions|]*/0
+        </p>
+
+        <!-- Form -->
+        <form id="staticrypt-form" class="staticrypt-form" action="#" method="post">
+          <div class="staticrypt-password-container" id="staticrypt-password-container">
+            <input
+              id="staticrypt-password"
+              type="password"
+              name="password"
+              placeholder="/*[|template_placeholder|]*/0"
+              autofocus
+              autocomplete="off"
+            />
+            <img
+              class="staticrypt-toggle-password-visibility"
+              alt="/*[|template_toggle_show|]*/0"
+              title="/*[|template_toggle_show|]*/0"
+              src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NDAgNTEyIj48IS0tIUZvbnQgQXdlc29tZSBGcmVlIDYuNS4yIGJ5IEBmb250YXdlc29tZSAtIGh0dHBzOi8vZm9udGF3ZXNvbWUuY29tIExpY2Vuc2UgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbS9saWNlbnNlL2ZyZWUgQ29weXJpZ2h0IDIwMjQgRm9udGljb25zLCBJbmMuLS0+PHBhdGggZD0iTTI4OCAzMmMtODAuOCAwLTE0NS41IDM2LjgtMTkyLjYgODAuNkM0OC42IDE1NiAxNy4zIDIwOCAyLjUgMjQzLjdjLTMuMyA3LjktMy4zIDE2LjcgMCAyNC42QzE3LjMgMzA0IDQ4LjYgMzU2IDk1LjQgMzk5LjRDMTQyLjUgNDQzLjIgMjA3LjIgNDgwIDI4OCA0ODBzMTQ1LjUtMzYuOCAxOTIuNi04MC42YzQ2LjgtNDMuNSA3OC4xLTk1LjQgOTMtMTMxLjFjMy4zLTcuOSAzLjMtMTYuNyAwLTI0LjZjLTE0LjktMzUuNy00Ni4yLTg3LjctOTMtMTMxLjFDNDMzLjUgNjguOCAzNjguOCAzMiAyODggMzJ6TTE0NCAyNTZhMTQ0IDE0NCAwIDEgMSAyODggMCAxNDQgMTQ0IDAgMSAxIC0yODggMHptMTQ0LTY0YzAgMzUuMy0yOC43IDY0LTY0IDY0Yy03LjEgMC0xMy45LTEuMi0yMC4zLTMuM2MtNS41LTEuOC0xMS45IDEuNi0xMS43IDcuNGMuMyA2LjkgMS4zIDEzLjggMy4yIDIwLjdjMTMuNyA1MS4yIDY2LjQgODEuNiAxMTcuNiA2Ny45czgxLjYtNjYuNCA2Ny45LTExNy42Yy0xMS4xLTQxLjUtNDcuOC02OS40LTg4LjYtNzEuMWMtNS44LS4yLTkuMiA2LjEtNy40IDExLjdjMi4xIDYuNCAzLjMgMTMuMiAzLjMgMjAuM3oiLz48L3N2Zz4="
+            />
+          </div>
+
+          <label id="staticrypt-remember-label" class="staticrypt-remember-label hidden">
+            <input id="staticrypt-remember" type="checkbox" name="remember" />
+            /*[|template_remember|]*/0
+          </label>
+
+          <input type="submit" class="staticrypt-decrypt-button" value="/*[|template_button|]*/0" />
+
+          <div class="staticrypt-error" id="staticrypt-error"></div>
+        </form>
+
+        <div class="staticrypt-footer">MVGN Labs &mdash; Centro de Soporte Digital</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // StatiCrypt template variables
+    const staticryptInitiator = /*[|js_staticrypt|]*/0;
+    const templateError = "/*[|template_error|]*/0",
+      templateToggleAltShow = "/*[|template_toggle_show|]*/0",
+      templateToggleAltHide = "/*[|template_toggle_hide|]*/0",
+      isRememberEnabled = /*[|is_remember_enabled|]*/0,
+      staticryptConfig = /*[|staticrypt_config|]*/0;
+
+    const templateConfig = {
+      rememberExpirationKey: "staticrypt_expiration",
+      rememberPassphraseKey: "staticrypt_passphrase",
+      replaceHtmlCallback: null,
+      clearLocalStorageCallback: null,
+    };
+
+    const staticrypt = staticryptInitiator.init(staticryptConfig, templateConfig);
+
+    // Custom error display
+    function showError(msg) {
+      const el = document.getElementById('staticrypt-error');
+      const container = document.getElementById('staticrypt-password-container');
+      if (el) {
+        el.textContent = msg;
+        el.style.display = 'block';
+      }
+      if (container) container.classList.add('has-error');
+    }
+
+    function clearError() {
+      const el = document.getElementById('staticrypt-error');
+      const container = document.getElementById('staticrypt-password-container');
+      if (el) {
+        el.textContent = '';
+        el.style.display = 'none';
+      }
+      if (container) container.classList.remove('has-error');
+    }
+
+    window.onload = async function () {
+      const { isSuccessful } = await staticrypt.handleDecryptOnLoad();
+      if (!isSuccessful) {
+        document.getElementById("staticrypt_loading").classList.add("hidden");
+        document.getElementById("staticrypt_content").classList.remove("hidden");
+        document.getElementById("staticrypt-password").focus();
+        if (isRememberEnabled) {
+          document.getElementById("staticrypt-remember-label").classList.remove("hidden");
+        }
+      }
+    };
+
+    // Toggle password visibility
+    const toggleIcon = document.querySelector(".staticrypt-toggle-password-visibility");
+    const imgSrcEyeClosed = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NDAgNTEyIj48IS0tIUZvbnQgQXdlc29tZSBGcmVlIDYuNS4yIGJ5IEBmb250YXdlc29tZSAtIGh0dHBzOi8vZm9udGF3ZXNvbWUuY29tIExpY2Vuc2UgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbS9saWNlbnNlL2ZyZWUgQ29weXJpZ2h0IDIwMjQgRm9udGljb25zLCBJbmMuLS0+PHBhdGggZD0iTTM4LjggNS4xQzI4LjQtMy4xIDEzLjMtMS4yIDUuMSA5LjJTLTEuMiAzNC43IDkuMiA0Mi45bDU5MiA0NjRjMTAuNCA4LjIgMjUuNSA2LjMgMzMuNy00LjFzNi4zLTI1LjUtNC4xLTMzLjdMNTI1LjYgMzg2LjdjMzkuNi00MC42IDY2LjQtODYuMSA3OS45LTExOC40YzMuMy03LjkgMy4zLTE2LjcgMC0yNC42Yy0xNC45LTM1LjctNDYuMi04Ny43LTkzLTEzMS4xQzQ2NS41IDY4LjggNDAwLjggMzIgMzIwIDMyYy02OC4yIDAtMTI1IDI2LjMtMTY5LjMgNjAuOEwzOC44IDUuMXpNMjIzLjEgMTQ5LjVDMjQ4LjYgMTI2LjIgMjgyLjcgMTEyIDMyMCAxMTJjNzkuNSAwIDE0NCA2NC41IDE0NCAxNDRjMCAyNC45LTYuMyA0OC4zLTE3LjQgNjguN0w0MDggMjk0LjVjOC40LTE5LjMgMTAuNi00MS40IDQuOC02My4zYy0xMS4xLTQxLjUtNDcuOC02OS40LTg4LjYtNzEuMWMtNS44LS4yLTkuMiA2LjEtNy40IDExLjdjMi4xIDYuNCAzLjMgMTMuMiAzLjMgMjAuM2MwIDEwLjItMi40IDE5LjgtNi42IDI4LjNsLTkwLjMtNzAuOHpNMzczIDM4OS45Yy0xNi40IDYuNS0zNC4zIDEwLjEtNTMgMTAuMWMtNzkuNSAwLTE0NC02NC41LTE0NC0xNDRjMC02LjkgLjUtMTMuNiAxLjQtMjAuMkw4My4xIDE2MS41QzYwLjMgMTkxLjIgNDQgMjIwLjggMzQuNSAyNDMuN2MtMy4zIDcuOS0zLjMgMTYuNyAwIDI0LjZjMTQuOSAzNS43IDQ2LjIgODcuNyA5MyAxMzEuMUMxNzQuNSA0NDMuMiAyMzkuMiA0ODAgMzIwIDQ4MGM0Ny44IDAgODkuOS0xMi45IDEyNi4yLTMyLjVMMzczIDM4OS45eiIvPjwvc3ZnPg==";
+    const imgSrcEyeOpened = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1NzYgNTEyIj48IS0tIUZvbnQgQXdlc29tZSBGcmVlIDYuNS4yIGJ5IEBmb250YXdlc29tZSAtIGh0dHBzOi8vZm9udGF3ZXNvbWUuY29tIExpY2Vuc2UgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbS9saWNlbnNlL2ZyZWUgQ29weXJpZ2h0IDIwMjQgRm9udGljb25zLCBJbmMuLS0+PHBhdGggZD0iTTI4OCAzMmMtODAuOCAwLTE0NS41IDM2LjgtMTkyLjYgODAuNkM0OC42IDE1NiAxNy4zIDIwOCAyLjUgMjQzLjdjLTMuMyA3LjktMy4zIDE2LjcgMCAyNC42QzE3LjMgMzA0IDQ4LjYgMzU2IDk1LjQgMzk5LjRDMTQyLjUgNDQzLjIgMjA3LjIgNDgwIDI4OCA0ODBzMTQ1LjUtMzYuOCAxOTIuNi04MC42YzQ2LjgtNDMuNSA3OC4xLTk1LjQgOTMtMTMxLjFjMy4zLTcuOSAzLjMtMTYuNyAwLTI0LjZjLTE0LjktMzUuNy00Ni4yLTg3LjctOTMtMTMxLjFDNDMzLjUgNjguOCAzNjguOCAzMiAyODggMzJ6TTE0NCAyNTZhMTQ0IDE0NCAwIDEgMSAyODggMCAxNDQgMTQ0IDAgMSAxIC0yODggMHptMTQ0LTY0YzAgMzUuMy0yOC43IDY0LTY0IDY0Yy03LjEgMC0xMy45LTEuMi0yMC4zLTMuM2MtNS41LTEuOC0xMS45IDEuNi0xMS43IDcuNGMuMyA2LjkgMS4zIDEzLjggMy4yIDIwLjdjMTMuNyA1MS4yIDY2LjQgODEuNiAxMTcuNiA2Ny45czgxLjYtNjYuNCA2Ny45LTExNy42Yy0xMS4xLTQxLjUtNDcuOC02OS40LTg4LjYtNzEuMWMtNS44LS4yLTkuMiA2LjEtNy40IDExLjdjMi4xIDYuNCAzLjMgMTMuMiAzLjMgMjAuM3oiLz48L3N2Zz4=";
+
+    toggleIcon.addEventListener("click", function () {
+      const passwordInput = document.getElementById("staticrypt-password");
+      if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        toggleIcon.src = imgSrcEyeOpened;
+        toggleIcon.alt = templateToggleAltHide;
+        toggleIcon.title = templateToggleAltHide;
+      } else {
+        passwordInput.type = "password";
+        toggleIcon.src = imgSrcEyeClosed;
+        toggleIcon.alt = templateToggleAltShow;
+        toggleIcon.title = templateToggleAltShow;
+      }
+    });
+
+    // Handle form submission with custom error UI
+    document.getElementById("staticrypt-form").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      clearError();
+      const password = document.getElementById("staticrypt-password").value;
+      const isRememberChecked = document.getElementById("staticrypt-remember").checked;
+      const { isSuccessful } = await staticrypt.handleDecryptionOfPage(password, isRememberChecked);
+      if (!isSuccessful) {
+        showError(templateError);
+        document.getElementById("staticrypt-password").focus();
+      }
+    });
+
+    // Clear error on input
+    document.getElementById("staticrypt-password").addEventListener("input", clearError);
+  </script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+---
+// ══════════════════════════════════════════════════════════════
+// MVGN Labs — Footer Component
+// ══════════════════════════════════════════════════════════════
+---
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="footer-name">MVGN Labs</span>
+      <span class="footer-sep">·</span>
+      <span class="footer-tagline">Centro de Soporte Digital</span>
+    </div>
+    <div class="footer-links">
+      <a href="/faq" class="footer-link">FAQ</a>
+      <a href="/contact" class="footer-link">Contacto</a>
+      <a href="https://mvgn.vercel.app" target="_blank" rel="noopener noreferrer" class="footer-link">Web</a>
+    </div>
+  </div>
+</footer>
+
+<style is:global>
+  .footer {
+    padding: var(--space-8) var(--space-10);
+    border-top: 1px solid var(--color-border);
+    margin-top: auto;
+  }
+
+  .footer-inner {
+    max-width: var(--max-width-content);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .footer-name {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-text-primary);
+  }
+
+  .footer-sep {
+    color: var(--color-text-tertiary);
+  }
+
+  .footer-tagline {
+    font-size: var(--text-sm);
+    color: var(--color-text-tertiary);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: var(--space-5);
+  }
+
+  .footer-link {
+    font-size: var(--text-sm);
+    color: var(--color-text-tertiary);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .footer-link:hover {
+    color: var(--color-text-primary);
+  }
+
+  @media (max-width: 640px) {
+    .footer {
+      padding: var(--space-5) var(--space-4);
+    }
+
+    .footer-inner {
+      flex-direction: column;
+      gap: var(--space-3);
+      align-items: flex-start;
+    }
+
+    .footer-name {
+      font-size: var(--text-xs);
+    }
+
+    .footer-tagline {
+      font-size: var(--text-xs);
+    }
+
+    .footer-link {
+      font-size: var(--text-xs);
+    }
+  }
+</style>

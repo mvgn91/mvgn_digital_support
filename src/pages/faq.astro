@@ -1,0 +1,123 @@
+---
+// ══════════════════════════════════════════════════════════════
+// MVGN Labs — FAQ Page
+// ══════════════════════════════════════════════════════════════
+
+import DocsLayout from '../layouts/DocsLayout.astro';
+import FAQAccordion from '../components/FAQAccordion.astro';
+import SupportCard from '../components/SupportCard.astro';
+
+const faqItems = [
+  {
+    question: '¿Qué es MVGN Labs?',
+    answer: 'MVGN Labs proporciona servicios de configuración, documentación y asistencia técnica sobre aplicaciones y servicios desarrollados por terceros. Actuamos como facilitadores técnicos para que puedas aprovechar al máximo tu experiencia digital.',
+  },
+  {
+    question: '¿MVGN Labs desarrolla las aplicaciones que soporta?',
+    answer: 'No. MVGN Labs no es desarrollador, propietario, distribuidor oficial ni representante de las aplicaciones o servicios que soportamos. Brindamos asistencia técnica y guías de configuración para ayudarte a usar estos servicios.',
+  },
+  {
+    question: '¿Cómo instalo la aplicación en mi dispositivo?',
+    answer: 'Debes permitir la instalación de apps de fuentes desconocidas en Ajustes > Seguridad de tu dispositivo Android. Luego descarga el archivo de instalación y ábrelo para iniciar la instalación. Una vez instalado, inicia sesión con tu cuenta de Google.',
+  },
+  {
+    question: '¿La aplicación funciona en Smart TV?',
+    answer: 'Depende de la aplicación. Algunas son compatibles de forma nativa con Android TV. Para las que no, puedes usar la función Cast / Mirroring desde tu dispositivo Android para duplicar la pantalla en tu televisor.',
+  },
+  {
+    question: '¿Cómo activo los canales de TV en vivo?',
+    answer: 'Abre la aplicación, ve al panel "Más" en la barra inferior, ingresa a Addons y activa los módulos de streaming. Luego selecciona "TV en Directo" e ingresa la URL o código de activación proporcionado por soporte.',
+  },
+  {
+    question: '¿Qué hago si un addon aparece desactivado?',
+    answer: 'Actívalo manualmente desde el gestor de Addons y reinicia la aplicación. Si el problema persiste, contacta a soporte técnico.',
+  },
+  {
+    question: '¿Cómo puedo contactar a soporte?',
+    answer: 'Puedes contactarnos vía WhatsApp al 33 2262 1939, por correo a mvgnlabs@proton.me, o visitar mvgn.vercel.app.',
+  },
+  {
+    question: '¿El servicio tiene garantía de funcionamiento?',
+    answer: 'Cada implementación incluye soporte de por vida de MVGN Labs. Además, si adquieres el plan SOPORTE ACTIVO, obtienes 6 meses de cobertura durante los cuales nos aseguramos de proporcionar un método activo y estable para acceder a tu experiencia, con un costo distinto al plan LITE.',
+  },
+];
+---
+
+<DocsLayout title="Preguntas Frecuentes" description="Resolvemos tus dudas sobre instalación, configuración y soporte.">
+  <article class="faq-page">
+    <header class="faq-header">
+      <div class="faq-badge">FAQ</div>
+      <h1 class="faq-title">Preguntas Frecuentes</h1>
+      <p class="faq-desc">
+        Resolvemos tus dudas sobre instalación, configuración y soporte.
+      </p>
+    </header>
+
+    <section class="faq-list">
+      <FAQAccordion items={faqItems} />
+    </section>
+
+    <section class="faq-support">
+      <SupportCard />
+    </section>
+  </article>
+</DocsLayout>
+
+<style is:global>
+  .faq-page {
+    padding-bottom: var(--space-12);
+  }
+
+  .faq-header {
+    max-width: var(--max-width-content);
+  }
+
+  .faq-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .faq-badge {
+    display: inline-flex;
+    align-self: flex-start;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: var(--tracking-wider);
+    text-transform: uppercase;
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    background: var(--color-primary-subtle);
+    color: var(--color-primary);
+    border: 1px solid rgba(220, 38, 38, 0.15);
+  }
+
+  .faq-title {
+    font-size: var(--text-4xl);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+
+  .faq-desc {
+    font-size: var(--text-lg);
+    color: var(--color-text-secondary);
+    max-width: 500px;
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-top: var(--space-10);
+  }
+
+  .faq-support {
+    margin-top: var(--space-4);
+  }
+
+  @media (max-width: 640px) {
+    .faq-title {
+      font-size: var(--text-3xl);
+    }
+  }
+</style>

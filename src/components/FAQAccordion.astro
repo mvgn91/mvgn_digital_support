@@ -1,0 +1,126 @@
+---
+// ══════════════════════════════════════════════════════════════
+// MVGN Labs — FAQAccordion Component
+// ══════════════════════════════════════════════════════════════
+
+import ChevronRight from '@lucide/astro/icons/chevron-right';
+
+export interface Props {
+  items: {
+    question: string;
+    answer: string;
+  }[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="faq-accordion">
+  {items.map((item, index) => (
+    <details class="faq-item" name="faq">
+      <summary class="faq-question">
+        <span class="faq-q-text">{item.question}</span>
+        <span class="faq-chevron" aria-hidden="true">
+          <ChevronRight size={16} />
+        </span>
+      </summary>
+      <div class="faq-answer">
+        <p>{item.answer}</p>
+      </div>
+    </details>
+  ))}
+</div>
+
+<style is:global>
+  .faq-accordion {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .faq-item {
+    background: var(--glass-bg);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: all var(--transition-base);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+  }
+
+  .faq-item:hover {
+    border-color: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .faq-item[open] {
+    border-color: rgba(220, 38, 38, 0.2);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(220, 38, 38, 0.05);
+    background: var(--glass-bg-strong);
+  }
+
+  .faq-question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: var(--space-4) var(--space-5);
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .faq-question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-q-text {
+    font-size: var(--text-base);
+    font-weight: 500;
+    color: var(--color-text-primary);
+    line-height: var(--leading-snug);
+  }
+
+  .faq-chevron {
+    color: var(--color-text-tertiary);
+    flex-shrink: 0;
+    transition: transform var(--transition-base);
+    display: flex;
+    align-items: center;
+  }
+
+  .faq-item[open] .faq-chevron {
+    transform: rotate(90deg);
+    color: var(--color-primary);
+  }
+
+  .faq-answer {
+    padding: 0 var(--space-5) var(--space-5) var(--space-5);
+  }
+
+  .faq-answer p {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+    margin: 0;
+  }
+  @media (max-width: 640px) {
+    .faq-question {
+      padding: var(--space-3) var(--space-4);
+    }
+
+    .faq-q-text {
+      font-size: var(--text-sm);
+    }
+
+    .faq-answer {
+      padding: 0 var(--space-4) var(--space-4) var(--space-4);
+    }
+
+    .faq-answer p {
+      font-size: var(--text-xs);
+    }
+  }
+</style>

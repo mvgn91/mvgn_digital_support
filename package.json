@@ -1,0 +1,29 @@
+{
+  "name": "--typescript",
+  "type": "module",
+  "version": "1.7.0",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build && node scripts/protect-support.cjs",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^6.0.3",
+    "@astrojs/react": "^5.0.7",
+    "@lucide/astro": "^1.18.0",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "astro": "^6.4.7",
+    "framer-motion": "^12.40.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "react-dynamic-geometry": "^0.0.10"
+  },
+  "devDependencies": {
+    "staticrypt": "^3.5.4"
+  }
+}

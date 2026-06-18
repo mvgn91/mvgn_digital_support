@@ -1,0 +1,557 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Sidebar from '../components/Sidebar.astro';
+import Menu from '@lucide/astro/icons/menu';
+import MessageCircle from '@lucide/astro/icons/message-circle';
+import Sun from '@lucide/astro/icons/sun';
+import Moon from '@lucide/astro/icons/moon';
+
+export interface Props {
+  title: string;
+  description?: string;
+  currentApp?: string;
+}
+
+const { title, description, currentApp } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="docs-layout">
+    <!-- Background layers (matches index.astro) -->
+    <div class="docs-bg" aria-hidden="true">
+      <div class="docs-bg-ambient"></div>
+      <div class="docs-bg-glow-center"></div>
+      <div class="docs-bg-glow-right"></div>
+      <div class="docs-bg-glow-left"></div>
+      <div class="docs-bg-grid"></div>
+    </div>
+
+    <!-- Top bar (matches index.astro) -->
+    <nav class="docs-topbar">
+      <div class="docs-topbar-inner">
+        <div class="docs-topbar-brand">
+          <a href="/" class="docs-topbar-logo-link">
+            <img src="/favicon.png" alt="MVGN Labs" class="docs-topbar-logo-img" />
+            <span class="docs-topbar-name">MVGN Labs</span>
+          </a>
+          <span class="docs-topbar-sep"></span>
+          <span class="docs-topbar-tag">CENTRO DE SOPORTE</span>
+        </div>
+        <div class="docs-topbar-actions">
+          <button class="docs-theme-btn" id="docs-theme-btn" aria-label="Cambiar tema">
+            <Sun size={16} class="docs-theme-icon docs-theme-icon--sun" />
+            <Moon size={16} class="docs-theme-icon docs-theme-icon--moon" />
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Floating actions -->
+    <div class="docs-floating">
+      <a href="https://wa.me/523322621939" target="_blank" rel="noopener noreferrer" class="docs-floating-btn docs-floating-btn--wa" aria-label="WhatsApp">
+        <MessageCircle size={22} />
+      </a>
+      <button class="docs-floating-btn docs-floating-btn--top" id="docs-back-to-top" aria-label="Volver arriba">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+      </button>
+    </div>
+
+    <!-- Mobile menu toggle -->
+    <button class="docs-menu-btn" id="docs-menu-btn" aria-label="Abrir menú de navegación" type="button">
+      <Menu size={24} />
+    </button>
+
+    <!-- Mobile overlay -->
+    <div class="docs-overlay" id="docs-overlay" aria-hidden="true"></div>
+
+    <!-- Sidebar -->
+    <div class="docs-sidebar-wrap" id="docs-sidebar-wrap">
+      <Sidebar currentApp={currentApp || ''} />
+    </div>
+
+    <!-- Content -->
+    <div class="docs-content" id="docs-content">
+      <main class="docs-main">
+        <slot />
+      </main>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      // Shared refs
+      const sidebarWrap = document.getElementById('docs-sidebar-wrap');
+
+      // Mobile menu toggle
+      const menuBtn = document.getElementById('docs-menu-btn');
+      const overlay = document.getElementById('docs-overlay');
+
+      if (menuBtn && sidebarWrap && overlay) {
+        menuBtn.addEventListener('click', () => {
+          sidebarWrap.classList.toggle('open');
+          overlay.classList.toggle('open');
+          document.body.classList.toggle('nav-open');
+          const isOpen = sidebarWrap.classList.contains('open');
+          menuBtn.setAttribute('aria-label', isOpen ? 'Cerrar menú de navegación' : 'Abrir menú de navegación');
+        });
+
+        overlay.addEventListener('click', () => {
+          sidebarWrap.classList.remove('open');
+          overlay.classList.remove('open');
+          document.body.classList.remove('nav-open');
+          menuBtn.setAttribute('aria-label', 'Abrir menú de navegación');
+        });
+      }
+
+      // Sidebar toggle
+      const sidebarToggle = document.getElementById('docs-sidebar-toggle');
+      const sidebarEl = document.querySelector('.sidebar');
+      if (sidebarToggle && sidebarWrap) {
+        sidebarToggle.addEventListener('click', () => {
+          const collapsed = sidebarWrap.getAttribute('data-collapsed') === 'true';
+          const next = collapsed ? 'false' : 'true';
+          sidebarWrap.setAttribute('data-collapsed', next);
+          sidebarToggle.setAttribute('data-collapsed', next);
+          if (sidebarEl) sidebarEl.setAttribute('data-collapsed', next);
+          sidebarToggle.setAttribute('aria-label', collapsed ? 'Ocultar sidebar' : 'Mostrar sidebar');
+        });
+      }
+
+      // Back to top
+      const backBtn = document.getElementById('docs-back-to-top');
+      if (backBtn) {
+        window.addEventListener('scroll', () => {
+          if (window.scrollY > 600) {
+            backBtn.classList.add('visible');
+          } else {
+            backBtn.classList.remove('visible');
+          }
+        });
+        backBtn.addEventListener('click', () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
+
+      // Theme toggle
+      const themeBtn = document.getElementById('docs-theme-btn');
+      if (themeBtn) {
+        themeBtn.addEventListener('click', () => {
+          const html = document.documentElement;
+          const current = html.getAttribute('data-theme');
+          const next = current === 'dark' ? 'light' : 'dark';
+          html.setAttribute('data-theme', next);
+          localStorage.setItem('mvgn-theme', next);
+        });
+      }
+    })();
+  </script>
+</BaseLayout>
+
+<style is:global>
+  /* ── LAYOUT ── */
+  .docs-layout {
+    display: flex;
+    min-height: 100vh;
+    position: relative;
+    background: var(--color-bg);
+  }
+
+  @keyframes bg-drift {
+    0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+    25% { transform: translate(2%, 1%) rotate(0.8deg) scale(1.02); }
+    50% { transform: translate(-1%, 2.5%) rotate(-0.5deg) scale(0.98); }
+    75% { transform: translate(1.5%, -1%) rotate(0.6deg) scale(1.01); }
+  }
+
+  /* ── BACKGROUND LAYERS ── */
+  .docs-bg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .docs-bg-ambient {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 40% at 50% 0%, rgba(220, 38, 38, 0.25) 0%, transparent 50%),
+      radial-gradient(ellipse 80% 25% at 50% 100%, rgba(220, 38, 38, 0.08) 0%, transparent 50%);
+  }
+
+  [data-theme="light"] .docs-bg-ambient {
+    opacity: 0.35;
+  }
+
+  [data-theme="light"] .docs-bg-glow-center {
+    opacity: 0.4;
+  }
+
+  [data-theme="light"] .docs-bg-glow-right {
+    opacity: 0;
+  }
+
+  [data-theme="light"] .docs-bg-glow-left {
+    opacity: 0;
+  }
+
+  [data-theme="light"] .docs-bg-grid {
+    opacity: 0.3;
+  }
+
+  .docs-bg-glow-center {
+    position: absolute;
+    top: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 900px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(220, 38, 38, 0.18) 0%, rgba(220, 38, 38, 0.05) 40%, transparent 65%);
+    filter: blur(100px);
+    animation: bg-drift 25s ease-in-out infinite;
+  }
+
+  .docs-bg-glow-right {
+    display: none;
+  }
+
+  .docs-bg-glow-left {
+    display: none;
+  }
+
+  .docs-bg-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--glass-bg-subtle) 1px, transparent 1px),
+      linear-gradient(90deg, var(--glass-bg-subtle) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 65% 50% at 50% 0%, black 20%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse 65% 50% at 50% 0%, black 20%, transparent 70%);
+  }
+
+  /* ── TOP BAR ── */
+  .docs-topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    padding: 0 var(--space-6);
+    background: var(--glass-bg-subtle);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  }
+
+  .docs-topbar-inner {
+    max-width: var(--max-width-page);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .docs-topbar-brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .docs-topbar-logo-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    text-decoration: none;
+    overflow: hidden;
+  }
+
+  .docs-topbar-logo-img {
+    width: 20px;
+    height: 20px;
+    display: block;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+
+  .docs-topbar-name {
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--color-text-primary);
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+    max-width: 0;
+    opacity: 0;
+    transition: all var(--transition-base);
+    overflow: hidden;
+  }
+
+  .docs-topbar-logo-link:hover .docs-topbar-name {
+    max-width: 100px;
+    opacity: 1;
+  }
+
+  .docs-topbar-sep {
+    width: 1px;
+    height: 14px;
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .docs-topbar-tag {
+    font-size: var(--text-xs);
+    color: var(--color-text-tertiary);
+    font-weight: 400;
+  }
+
+  .docs-topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .docs-theme-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--glass-bg);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    color: var(--color-text-tertiary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .docs-theme-btn:hover {
+    color: var(--color-text-primary);
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .docs-theme-icon {
+    transition: opacity var(--transition-fast), transform var(--transition-fast);
+  }
+
+  [data-theme="dark"] .docs-theme-icon--sun {
+    display: block;
+  }
+
+  [data-theme="dark"] .docs-theme-icon--moon {
+    display: none;
+  }
+
+  [data-theme="light"] .docs-theme-icon--sun {
+    display: none;
+  }
+
+  [data-theme="light"] .docs-theme-icon--moon {
+    display: block;
+  }
+
+  /* ── FLOATING ACTIONS ── */
+  .docs-floating {
+    position: fixed;
+    bottom: var(--space-8);
+    right: var(--space-8);
+    z-index: 200;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: var(--space-3);
+    align-items: center;
+  }
+
+  .docs-floating-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all var(--transition-base);
+    position: relative;
+  }
+
+  .docs-floating-btn--wa {
+    background: rgba(16, 185, 129, 0.15);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(16, 185, 129, 0.15);
+    color: var(--color-green);
+    box-shadow: 0 4px 20px rgba(16, 185, 129, 0.1);
+  }
+
+  .docs-floating-btn--wa:hover {
+    background: rgba(16, 185, 129, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 28px rgba(16, 185, 129, 0.2);
+  }
+
+  .docs-floating-btn--top {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--color-text-tertiary);
+    opacity: 0;
+    transform: translateY(12px);
+    pointer-events: none;
+    transition: all var(--transition-base);
+  }
+
+  .docs-floating-btn--top.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .docs-floating-btn--top:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--color-text-primary);
+    transform: translateY(-2px);
+  }
+
+  /* ── MOBILE MENU ── */
+  .docs-menu-btn {
+    display: none;
+    position: fixed;
+    top: var(--space-3);
+    left: var(--space-3);
+    z-index: 200;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    color: var(--color-text-primary);
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--transition-fast);
+  }
+
+  .docs-menu-btn:hover {
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .docs-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 98;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition-slow);
+  }
+
+  .docs-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* ── SIDEBAR WRAP ── */
+  .docs-sidebar-wrap {
+    flex-shrink: 0;
+    width: var(--sidebar-width);
+    z-index: 101;
+    transition: width var(--transition-slow);
+  }
+
+  .docs-sidebar-wrap[data-collapsed="true"] {
+    width: 0;
+    overflow: visible;
+  }
+
+  /* ── CONTENT ── */
+  .docs-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    position: relative;
+    z-index: 1;
+    transition: all var(--transition-slow);
+  }
+
+  .docs-main {
+    flex: 1;
+    max-width: var(--max-width-content);
+    width: 100%;
+    padding: 80px var(--space-10) var(--space-8);
+    margin: 0 auto;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1024px) {
+    .docs-menu-btn {
+      display: flex;
+    }
+
+    .docs-overlay {
+      display: block;
+    }
+
+    .docs-content {
+      margin-left: 0;
+    }
+
+    .docs-main {
+      padding: 72px var(--space-6) var(--space-8);
+    }
+
+    .docs-sidebar-wrap {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      z-index: 99;
+      transform: translateX(-100%);
+      transition: transform var(--transition-slow);
+      width: var(--sidebar-width);
+      overflow: visible;
+    }
+
+    .docs-sidebar-wrap.open {
+      transform: translateX(0);
+    }
+
+    .docs-sidebar-wrap[data-collapsed="true"] {
+      width: var(--sidebar-width);
+      overflow: visible;
+    }
+
+    .docs-floating {
+      bottom: var(--space-4);
+      right: var(--space-4);
+    }
+
+    .docs-floating-btn {
+      width: 44px;
+      height: 44px;
+    }
+
+    .docs-topbar-tag {
+      font-size: 0.65rem;
+    }
+
+    .docs-main {
+      padding: 68px var(--space-5) var(--space-6);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .docs-main {
+      padding: 64px var(--space-5) var(--space-6);
+    }
+  }
+</style>
