@@ -10,9 +10,10 @@ export interface Props {
   title: string;
   description?: string;
   currentApp?: string;
+  hideMobileMenu?: boolean;
 }
 
-const { title, description, currentApp } = Astro.props;
+const { title, description, currentApp, hideMobileMenu } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description}>
@@ -57,12 +58,14 @@ const { title, description, currentApp } = Astro.props;
     </div>
 
     <!-- Mobile menu toggle -->
-    <button class="docs-menu-btn" id="docs-menu-btn" aria-label="Abrir menú de navegación" type="button">
-      <Menu size={24} />
-    </button>
-
-    <!-- Mobile overlay -->
-    <div class="docs-overlay" id="docs-overlay" aria-hidden="true"></div>
+    {!hideMobileMenu && (
+      <>
+        <button class="docs-menu-btn" id="docs-menu-btn" aria-label="Abrir menú de navegación" type="button">
+          <Menu size={24} />
+        </button>
+        <div class="docs-overlay" id="docs-overlay" aria-hidden="true"></div>
+      </>
+    )}
 
     <!-- Sidebar -->
     <div class="docs-sidebar-wrap" id="docs-sidebar-wrap">
@@ -141,6 +144,10 @@ const { title, description, currentApp } = Astro.props;
           const next = current === 'dark' ? 'light' : 'dark';
           html.setAttribute('data-theme', next);
           localStorage.setItem('mvgn-theme', next);
+          const themeColor = document.querySelector('meta[name="theme-color"]');
+          if (themeColor) {
+            themeColor.setAttribute('content', next === 'dark' ? '#0A0A0A' : '#F5F5F5');
+          }
         });
       }
     })();
@@ -544,6 +551,14 @@ const { title, description, currentApp } = Astro.props;
       font-size: 0.65rem;
     }
 
+    .docs-topbar {
+      left: var(--space-4);
+      right: var(--space-4);
+      width: auto;
+      border-radius: var(--radius-xl);
+      padding: 0 var(--space-4);
+    }
+
     .docs-main {
       padding: 68px var(--space-5) var(--space-6);
     }
@@ -552,6 +567,11 @@ const { title, description, currentApp } = Astro.props;
   @media (max-width: 640px) {
     .docs-main {
       padding: 64px var(--space-5) var(--space-6);
+    }
+
+    .docs-topbar {
+      left: var(--space-3);
+      right: var(--space-3);
     }
   }
 </style>

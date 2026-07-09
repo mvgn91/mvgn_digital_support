@@ -5,7 +5,8 @@
 
 import DocsLayout from '../layouts/DocsLayout.astro';
 import FAQAccordion from '../components/FAQAccordion.astro';
-import SupportCard from '../components/SupportCard.astro';
+import ArrowLeft from '@lucide/astro/icons/arrow-left';
+import ContactCard from '../components/ContactCard.astro';
 
 const faqItems = [
   {
@@ -43,8 +44,13 @@ const faqItems = [
 ];
 ---
 
-<DocsLayout title="Preguntas Frecuentes" description="Resolvemos tus dudas sobre instalación, configuración y soporte.">
+<DocsLayout title="Preguntas Frecuentes" description="Resolvemos tus dudas sobre instalación, configuración y soporte." hideMobileMenu={true}>
   <article class="faq-page">
+    <a href="/" class="faq-back">
+      <ArrowLeft size={16} />
+      Volver al inicio
+    </a>
+
     <header class="faq-header">
       <div class="faq-badge">FAQ</div>
       <h1 class="faq-title">Preguntas Frecuentes</h1>
@@ -57,8 +63,8 @@ const faqItems = [
       <FAQAccordion items={faqItems} />
     </section>
 
-    <section class="faq-support">
-      <SupportCard />
+    <section class="faq-contact">
+      <ContactCard />
     </section>
   </article>
 </DocsLayout>
@@ -66,6 +72,30 @@ const faqItems = [
 <style is:global>
   .faq-page {
     padding-bottom: var(--space-12);
+  }
+
+  .faq-back {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-full);
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border-strong);
+    margin-bottom: var(--space-6);
+    transition: all var(--transition-fast);
+  }
+
+  .faq-back:hover {
+    color: var(--color-text-primary);
+    background: var(--glass-bg-strong);
+    transform: translateX(-2px);
   }
 
   .faq-header {
@@ -111,8 +141,9 @@ const faqItems = [
     margin-top: var(--space-10);
   }
 
-  .faq-support {
-    margin-top: var(--space-4);
+  .faq-contact {
+    margin-top: var(--space-12);
+    max-width: 480px;
   }
 
   @media (max-width: 640px) {

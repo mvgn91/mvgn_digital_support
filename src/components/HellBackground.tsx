@@ -93,7 +93,6 @@ function HellBackground({
 
     const gl = canvas.getContext("webgl");
     if (!gl) {
-      console.error("WebGL not supported");
       return;
     }
 
@@ -103,7 +102,6 @@ function HellBackground({
       gl.shaderSource(shader, source);
       gl.compileShader(shader);
       if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-        console.error("Shader compilation error:", gl.getShaderInfoLog(shader));
         gl.deleteShader(shader);
         return null;
       }
@@ -121,7 +119,6 @@ function HellBackground({
     gl.linkProgram(program);
 
     if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-      console.error("Program linking error:", gl.getProgramInfoLog(program));
       return;
     }
 

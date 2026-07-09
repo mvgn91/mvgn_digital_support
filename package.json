@@ -1,5 +1,5 @@
 {
-  "name": "--typescript",
+  "name": "@mvgnlabs/epix-play",
   "type": "module",
   "version": "1.7.0",
   "engines": {
@@ -9,20 +9,25 @@
     "dev": "astro dev",
     "build": "astro build && node scripts/protect-support.cjs",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "typecheck": "astro check"
   },
   "dependencies": {
     "@astrojs/mdx": "^6.0.3",
     "@astrojs/react": "^5.0.7",
     "@lucide/astro": "^1.18.0",
-    "@types/react": "^19.2.17",
-    "@types/react-dom": "^19.2.3",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.6.1",
     "astro": "^6.4.7",
     "framer-motion": "^12.40.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7"
   },
   "devDependencies": {
-    "staticrypt": "^3.5.4"
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "staticrypt": "^3.5.4",
+    "@astrojs/check": "^0.9.0",
+    "typescript": "^5.7.0"
   }
 }

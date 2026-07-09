@@ -1,43 +1,82 @@
-# Astro Starter Kit: Minimal
+# MVGN Labs — Centro de Soporte Digital
 
-```sh
-npm create astro@latest -- --template minimal
+Sitio web estático de MVGN Labs: facilitación técnica y soporte para experiencias de entretenimiento digital en dispositivos Android.
+
+**Producción:** [mvgnlabs.vercel.app](https://mvgnlabs.vercel.app)
+
+---
+
+## Stack
+
+| | |
+|---|---|
+| Framework | **Astro v6** — Static Site Generation |
+| UI interactiva | **React 19** + **Framer Motion** |
+| Animaciones 3D | Three.js / React Three Fiber |
+| Contenido | **MDX** + Content Collections |
+| Estilos | CSS nativo con Design Tokens |
+| Protección | StatiCrypt (cifrado AES en build) |
+| Despliegue | Vercel (Git integration) |
+
+## Estructura
+
+```
+src/
+├── components/        # .astro + .tsx (React)
+│   ├── HellBackground.tsx      # Shader WebGL animado
+│   ├── CascadeMobileScreens.tsx # Teléfonos 3D en cascada
+│   ├── RotatingPhone.tsx       # Teléfono giratorio 3D
+│   ├── Sidebar.astro           # Navegación docs
+│   └── ...
+├── content/
+│   └── apps/          # Guías de soporte (MDX)
+│       ├── todo-en-uno.mdx
+│       └── biblioteca-personal.mdx
+├── layouts/
+│   ├── BaseLayout.astro        # HTML base + meta
+│   └── DocsLayout.astro        # Layout docs con sidebar
+├── pages/
+│   ├── index.astro              # Landing page
+│   ├── faq.astro                # Preguntas frecuentes
+│   ├── contact.astro            # Contacto
+│   └── support/[slug].astro     # Guías dinámicas
+└── styles/
+    ├── tokens.css               # Design tokens
+    ├── global.css               # Reset + base
+    └── utilities.css            # Clases utilitarias
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Rutas
 
-## 🚀 Project Structure
+| Ruta | Acceso |
+|---|---|
+| `/` | Público |
+| `/faq` | Público |
+| `/contact` | Público |
+| `/support/todo-en-uno` | Protegido |
+| `/support/biblioteca-personal` | Protegido |
 
-Inside of your Astro project, you'll see the following folders and files:
+## Comandos
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+| Comando | Acción |
+|---|---|
+| `npm install` | Instalar dependencias |
+| `npm run dev` | Servidor local `localhost:4321` |
+| `npm run build` | Build a `dist/` |
+| `npm run preview` | Vista previa del build |
+
+El build corre `scripts/protect-support.cjs` automáticamente para cifrar las guías de soporte con la contraseña definida en `.env`.
+
+## Variables de entorno
+
+```
+STATICRYPT_PASSWORD=tu-contraseña-aqui
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Roadmap
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+Ver [`ROADMAP.md`](./ROADMAP.md) para estado actual, mejoras planeadas y visión a largo plazo.
 
-Any static assets, like images, can be placed in the `public/` directory.
+---
 
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+© MVGN Labs — Contacto: [mvgnlabs@proton.me](mailto:mvgnlabs@proton.me) · WhatsApp: +52 332 262 1939

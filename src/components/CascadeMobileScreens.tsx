@@ -184,9 +184,9 @@ const CARDS: CardDef[] = [
     src: "",
     alt: "MVGN Streaming App",
     desktop: { x: 0, y: -12, z: 60, rotateY: 0, scale: 1.06 },
-    mobile: { x: 0, y: 0, z: 0, rotateY: 0, scale: 1 },
+    mobile: { x: 0, y: -55, z: 30, rotateY: 0, scale: 0.80 },
     floatAmp: 10,
-    floatDur: 7,
+    floatDur: 6,
     floatDelay: 0,
   },
   {
@@ -194,25 +194,25 @@ const CARDS: CardDef[] = [
     src: "",
     alt: "Audio Latino Add-on Installation",
     desktop: { x: -170, y: 35, z: -50, rotateY: 18, scale: 0.88 },
-    mobile: { x: 0, y: 50, z: 0, rotateY: -3, scale: 0.92 },
-    floatAmp: 7,
-    floatDur: 9,
-    floatDelay: 1.5,
+    mobile: { x: 24, y: 15, z: -15, rotateY: -8, scale: 0.65 },
+    floatAmp: 9,
+    floatDur: 8,
+    floatDelay: 1.2,
   },
   {
     key: "blog",
     src: "",
     alt: "MVGN Tech Blog",
     desktop: { x: 170, y: 50, z: -35, rotateY: -18, scale: 0.88 },
-    mobile: { x: 0, y: 90, z: 0, rotateY: 3, scale: 0.85 },
-    floatAmp: 8,
-    floatDur: 8,
-    floatDelay: 0.8,
+    mobile: { x: -24, y: 80, z: -30, rotateY: 8, scale: 0.52 },
+    floatAmp: 11,
+    floatDur: 7,
+    floatDelay: 0.6,
   },
 ];
 
 const PHONE_WIDTH = { desktop: 200, tablet: 170, mobile: 150 };
-const SCENE_HEIGHT = { desktop: 480, tablet: 430, mobile: 390 };
+const SCENE_HEIGHT = { desktop: 480, tablet: 430, mobile: 420 };
 
 export default function CascadeMobileScreens({
   images,
@@ -372,6 +372,7 @@ export default function CascadeMobileScreens({
                   style={{ y: pos.y }}
                   animate={{
                     y: [pos.y, pos.y + card.floatAmp, pos.y],
+                    x: [0, card.floatAmp * (isDesktop ? 0.15 : 0.35) * (i % 2 === 0 ? 1 : -1), 0],
                   }}
                   transition={{
                     duration: card.floatDur,

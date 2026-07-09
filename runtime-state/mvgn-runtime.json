@@ -1,0 +1,34 @@
+{
+  "runtime_version": "3.0.0",
+  "schema_version": "1.0.0",
+  "profile": "lite",
+  "capabilities": {
+    "telemetry": true,
+    "traceability": true,
+    "analytics": true,
+    "event_history": true
+  },
+  "actors": [
+    {
+      "id": "actor-codebuff",
+      "type": "ai",
+      "name": "Codebuff",
+      "provider": "deepseek",
+      "model": "deepseek-v4-flash",
+      "metadata": { "role": "executor" }
+    },
+    {
+      "id": "actor-ncape",
+      "type": "human",
+      "name": "Ncape",
+      "metadata": { "role": "decisor" }
+    }
+  ],
+  "skills": [],
+  "policies": {
+    "feature_cost": true,
+    "deprecation": true,
+    "context_budget_protection": true
+  },
+  "adapters": []
+}

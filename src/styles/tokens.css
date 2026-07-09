@@ -58,7 +58,9 @@
 
   /* ── Spacing (8-point system) ── */
   --space-1: 4px;
+  --space-1-5: 6px;
   --space-2: 8px;
+  --space-2-5: 10px;
   --space-3: 12px;
   --space-4: 16px;
   --space-5: 20px;
@@ -136,15 +138,15 @@
 
   --color-text-primary: #1A1A1A;
   --color-text-secondary: #4A4A4A;
-  --color-text-tertiary: #8A8A8A;
+  --color-text-tertiary: #6A6A6A;
   --color-text-inverse: #F5F5F5;
 
-  --glass-bg: rgba(252, 242, 242, 0.55);
-  --glass-bg-strong: rgba(252, 242, 242, 0.78);
-  --glass-bg-subtle: rgba(252, 242, 242, 0.25);
-  --glass-border: rgba(220, 38, 38, 0.08);
-  --glass-border-strong: rgba(220, 38, 38, 0.14);
-  --glass-backdrop: rgba(252, 242, 242, 0.65);
+  --glass-bg: rgba(255, 255, 255, 0.35);
+  --glass-bg-strong: rgba(255, 255, 255, 0.6);
+  --glass-bg-subtle: rgba(255, 255, 255, 0.15);
+  --glass-border: rgba(0, 0, 0, 0.12);
+  --glass-border-strong: rgba(0, 0, 0, 0.18);
+  --glass-backdrop: rgba(255, 255, 255, 0.45);
   --glass-shadow: rgba(0, 0, 0, 0.08);
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);

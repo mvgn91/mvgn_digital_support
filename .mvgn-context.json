@@ -1,0 +1,11 @@
+{
+  "timestamp": "2026-07-08T19:00:00-06:00",
+  "state": "IN_PROGRESS",
+  "active_task": null,
+  "progress": "15/15+",
+  "blockers": null,
+  "session_id": "ses-002",
+  "profile": "lite",
+  "mode": "FLOW",
+  "context_schema_version": "1.0.0"
+}

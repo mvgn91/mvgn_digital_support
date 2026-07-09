@@ -1,0 +1,361 @@
+---
+import MessageCircle from '@lucide/astro/icons/message-circle';
+import Mail from '@lucide/astro/icons/mail';
+import CircleQuestionMark from '@lucide/astro/icons/circle-question-mark';
+import ChevronRight from '@lucide/astro/icons/chevron-right';
+import ExternalLink from '@lucide/astro/icons/external-link';
+
+export interface Props {
+  compact?: boolean;
+}
+
+const { compact = false } = Astro.props;
+---
+
+<div class:list={{
+  'contact-card': true,
+  'contact-card--compact': compact,
+}}>
+  <div class="contact-card-accent" aria-hidden="true"></div>
+
+  <div class="contact-card-header">
+    <img src="/favicon.png" alt="" class="contact-card-logo" />
+    <div class="contact-card-header-text">
+      <h3 class="contact-card-title">MVGN Labs</h3>
+      <p class="contact-card-subtitle">Centro de Soporte Digital</p>
+    </div>
+  </div>
+
+  {!compact && (
+    <p class="contact-card-desc">
+      Implementación, documentación y soporte técnico para experiencias de entretenimiento digital.
+    </p>
+  )}
+
+  <div class="contact-card-channels">
+    <a href="https://wa.me/523322621939" target="_blank" rel="noopener noreferrer" class="contact-channel">
+      <span class="contact-channel-visual">
+        <MessageCircle size={16} />
+      </span>
+      <span class="contact-channel-label">WhatsApp</span>
+      <span class="contact-channel-value">+52 33 2262 1939</span>
+      <ChevronRight size={14} class="contact-channel-arrow" />
+    </a>
+
+    <a href="mailto:mvgnlabs@proton.me" class="contact-channel">
+      <span class="contact-channel-visual">
+        <Mail size={16} />
+      </span>
+      <span class="contact-channel-label">Correo</span>
+      <span class="contact-channel-value">mvgnlabs@proton.me</span>
+      <ChevronRight size={14} class="contact-channel-arrow" />
+    </a>
+
+    <a href="/faq" class="contact-channel">
+      <span class="contact-channel-visual">
+        <CircleQuestionMark size={16} />
+      </span>
+      <span class="contact-channel-label">FAQ</span>
+      <span class="contact-channel-value">Preguntas frecuentes</span>
+      <ChevronRight size={14} class="contact-channel-arrow" />
+    </a>
+  </div>
+
+  <div class="contact-card-footer">
+    <div class="contact-card-status">
+      <span class="contact-card-dot"></span>
+      <span>Conversemos sin compromiso</span>
+    </div>
+    <a href="https://mvgn.vercel.app" target="_blank" rel="noopener noreferrer" class="contact-card-link">
+      <span>Explorar proyectos</span>
+      <ExternalLink size={12} />
+    </a>
+  </div>
+</div>
+
+<style is:global>
+  .contact-card {
+    position: relative;
+    background: var(--glass-bg);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-xl);
+    box-shadow: 0 4px 32px var(--glass-shadow);
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    transition: all var(--transition-base);
+    overflow: hidden;
+  }
+
+  .contact-card:hover {
+    border-color: var(--glass-border-strong);
+    box-shadow: 0 12px 48px var(--glass-shadow);
+    transform: translateY(-2px);
+  }
+
+  .contact-card--compact {
+    padding: var(--space-4);
+    gap: var(--space-2);
+  }
+
+  /* ── Accent bar ── */
+  .contact-card-accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(220, 38, 38, 0.5), rgba(220, 38, 38, 0.15), transparent);
+    pointer-events: none;
+  }
+
+  /* ── Header ── */
+  .contact-card-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .contact-card-logo {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: block;
+    flex-shrink: 0;
+  }
+
+  .contact-card--compact .contact-card-logo {
+    width: 28px;
+    height: 28px;
+  }
+
+  .contact-card-header-text {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .contact-card-title {
+    font-size: var(--text-base);
+    font-weight: 700;
+    color: var(--color-text-primary);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  .contact-card-subtitle {
+    font-size: var(--text-xs);
+    color: var(--color-text-secondary);
+    font-weight: 400;
+    margin: 0;
+  }
+
+  /* ── Description ── */
+  .contact-card-desc {
+    font-size: var(--text-xs);
+    color: var(--color-text-tertiary);
+    line-height: var(--leading-relaxed);
+    margin: 0;
+    max-width: 320px;
+  }
+
+  .contact-card--compact .contact-card-desc {
+    display: none;
+  }
+
+  /* ── Channels ── */
+  .contact-card-channels {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: var(--space-1);
+  }
+
+  .contact-channel {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2-5);
+    padding: var(--space-2-5) var(--space-3);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    color: inherit;
+    position: relative;
+  }
+
+  .contact-channel:hover {
+    background: rgba(220, 38, 38, 0.04);
+  }
+
+  .contact-channel-visual {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary);
+    background: rgba(220, 38, 38, 0.06);
+    flex-shrink: 0;
+    transition: all var(--transition-fast);
+  }
+
+  .contact-channel:hover .contact-channel-visual {
+    background: rgba(220, 38, 38, 0.12);
+  }
+
+  .contact-channel-label {
+    font-size: var(--text-xs);
+    font-weight: 500;
+    color: var(--color-text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wider);
+    min-width: 56px;
+    flex-shrink: 0;
+  }
+
+  .contact-channel-value {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-text-primary);
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .contact-channel-arrow {
+    color: var(--color-text-tertiary);
+    opacity: 0.2;
+    flex-shrink: 0;
+    transition: all var(--transition-base);
+  }
+
+  .contact-channel:hover .contact-channel-arrow {
+    opacity: 0.6;
+    color: var(--color-primary);
+    transform: translateX(2px);
+  }
+
+  /* ── Footer ── */
+  .contact-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--glass-border);
+    margin-top: var(--space-1);
+  }
+
+  .contact-card--compact .contact-card-footer {
+    padding-top: var(--space-2);
+  }
+
+  .contact-card-status {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-xs);
+    color: var(--color-text-tertiary);
+    opacity: 0.5;
+    font-weight: 500;
+  }
+
+  .contact-card-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    opacity: 0.4;
+    flex-shrink: 0;
+  }
+
+  .contact-card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1-5);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--color-primary);
+    text-decoration: none;
+    opacity: 0.7;
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+  }
+
+  .contact-card-link:hover {
+    opacity: 1;
+    gap: var(--space-2);
+  }
+
+  .contact-card-link svg {
+    transition: transform var(--transition-fast);
+  }
+
+  .contact-card-link:hover svg {
+    transform: translate(2px, -1px);
+  }
+
+  /* ── Light theme ── */
+  [data-theme="light"] .contact-card {
+    background: rgba(255, 255, 255, 0.45);
+    border-color: rgba(0, 0, 0, 0.06);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  }
+
+  [data-theme="light"] .contact-card:hover {
+    border-color: rgba(0, 0, 0, 0.12);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .contact-card {
+      padding: var(--space-5);
+    }
+
+    .contact-card-logo {
+      width: 30px;
+      height: 30px;
+    }
+
+    .contact-card-title {
+      font-size: var(--text-sm);
+    }
+
+    .contact-channel {
+      padding: var(--space-2) var(--space-2-5);
+    }
+
+    .contact-channel-visual {
+      width: 28px;
+      height: 28px;
+    }
+
+    .contact-channel-visual svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .contact-channel-label {
+      min-width: 48px;
+      font-size: 0.65rem;
+    }
+
+    .contact-channel-value {
+      font-size: var(--text-xs);
+    }
+
+    .contact-card-footer {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-1-5);
+    }
+  }
+</style>

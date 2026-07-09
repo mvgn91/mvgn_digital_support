@@ -1,0 +1,13 @@
+{
+  "profile": "lite",
+  "project": "MVGN Digital Hub",
+  "state": "COMPLETED",
+  "active_layer": "engine",
+  "mode": "FAST",
+  "contract": "loaded",
+  "session": {
+    "started": "2026-07-08",
+    "session_id": "v2-narrative-restructuring",
+    "gates_completed": ["proposal-v1", "spec-v1", "tasks-v1", "apply-v1", "verify-v1", "v2-hero", "v2-manifesto", "v2-timeline", "v2-lab", "v2-services", "v2-philosophy", "v2-pillnav", "v2-css", "v2-responsive", "v2-build"]
+  }
+}
