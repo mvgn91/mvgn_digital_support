@@ -1,0 +1,638 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import ArrowLeft from '@lucide/astro/icons/arrow-left';
+import ArrowUpRight from '@lucide/astro/icons/arrow-up-right';
+
+const articulos = await getCollection('laboratorio');
+const sorted = articulos.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+const count = sorted.length;
+
+// Featured: first article with featured flag, or most recent
+const featured = sorted.find(a => a.data.featured) ?? sorted[0];
+const rest = sorted.filter(a => a.id !== featured.id);
+
+const dateStr = (d: Date) => d.toLocaleDateString('es-MX', {
+  year: 'numeric',
+  month: 'long',
+});
+---
+
+<BaseLayout
+  title="Laboratorio — MVGN Labs"
+  description="Reseñas, guías y tips de herramientas digitales. Curaduría editorial del taller MVGN."
+>
+  <div class="lab-page">
+
+    <div class="bg-layers" aria-hidden="true">
+      <div class="bg-ambient"></div>
+      <div class="bg-grid"></div>
+    </div>
+
+    <nav class="lab-nav">
+      <a href="/" class="lab-nav-link">
+        <ArrowLeft size={14} />
+        Inicio
+      </a>
+    </nav>
+
+    <!-- ═══ MASTHEAD ═══ -->
+    <header class="lab-masthead">
+      <div class="lab-masthead-tag">ARCHIVO MVGN · DIGITAL HUB</div>
+      <h1 class="lab-masthead-title">
+        El laboratorio
+      </h1>
+      <p class="lab-masthead-sub">
+        {count} publicaciones · herramientas, guías y apuntes del taller
+      </p>
+    </header>
+
+    <!-- ═══ FEATURED SPREAD ═══ -->
+    {featured && (
+      <section class="lab-featured">
+        <a href={`/laboratorio/${featured.id}/`} class="lab-featured-link">
+          <div class="lab-featured-body">
+            <div class="lab-featured-label">ARTÍCULO DESTACADO</div>
+            <h2 class="lab-featured-title">{featured.data.title}</h2>
+            <p class="lab-featured-desc">{featured.data.description}</p>
+            <div class="lab-featured-meta">
+              <span class="lab-featured-date">{dateStr(featured.data.pubDate)}</span>
+              <span class="lab-featured-sep" aria-hidden="true"></span>
+              <span class="lab-featured-tags">
+                {featured.data.tags.slice(0, 3).map(t => <span class="lab-featured-tag">{t}</span>)}
+              </span>
+              <span class="lab-featured-arrow">
+                Leer <ArrowUpRight size={14} />
+              </span>
+            </div>
+          </div>
+          <div class="lab-featured-visual" aria-hidden="true">
+            <div class="lab-featured-panel"></div>
+          </div>
+        </a>
+      </section>
+    )}
+
+    <!-- ═══ ARCHIVE LIST ═══ -->
+    {rest.length > 0 && (
+      <section class="lab-archive">
+        <div class="lab-archive-header">
+          <span class="lab-archive-line" aria-hidden="true"></span>
+          <span class="lab-archive-label">ARCHIVO</span>
+          <span class="lab-archive-line" aria-hidden="true"></span>
+        </div>
+
+        <div class="lab-archive-grid">
+          {rest.map((article, i) => {
+            const aDate = dateStr(article.data.pubDate);
+            return (
+              <a
+                href={`/laboratorio/${article.id}/`}
+                class="lab-entry"
+                style={`animation-delay: ${i * 60}ms`}
+              >
+                <div class="lab-entry-index">
+                  <span class="lab-entry-num">{String(i + 1).padStart(2, '0')}</span>
+                  <span class="lab-entry-line" aria-hidden="true"></span>
+                </div>
+                <div class="lab-entry-body">
+                  <h3 class="lab-entry-title">{article.data.title}</h3>
+                  <p class="lab-entry-excerpt">{article.data.description}</p>
+                  <div class="lab-entry-meta">
+                    <span class="lab-entry-date">{aDate}</span>
+                    <span class="lab-entry-sep" aria-hidden="true"></span>
+                    <span class="lab-entry-tags">{article.data.tags.slice(0, 2).join(' · ')}</span>
+                  </div>
+                </div>
+                <div class="lab-entry-arrow" aria-hidden="true">
+                  <ArrowUpRight size={16} />
+                </div>
+              </a>
+            );
+          })}
+        </div>
+      </section>
+    )}
+
+  </div>
+</BaseLayout>
+
+<style>
+  .lab-page {
+    position: relative;
+    min-height: 100vh;
+    padding: 100px var(--space-8) var(--space-24);
+  }
+
+  .bg-layers {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .bg-ambient {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 35% at 50% 0%, rgba(75, 163, 242, 0.12) 0%, transparent 50%);
+  }
+
+  .bg-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    background-size: 80px 80px;
+    opacity: 0.4;
+    mask-image: radial-gradient(ellipse 50% 35% at 50% 0%, black 15%, transparent 65%);
+    -webkit-mask-image: radial-gradient(ellipse 50% 35% at 50% 0%, black 15%, transparent 65%);
+  }
+
+  [data-theme="light"] .bg-ambient { opacity: 0.25; }
+  [data-theme="light"] .bg-grid { opacity: 0.25; }
+
+  .lab-nav {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 0 auto var(--space-12);
+  }
+
+  .lab-nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1-5);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-text-tertiary);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+    opacity: 0.5;
+  }
+
+  .lab-nav-link:hover {
+    opacity: 1;
+    color: var(--color-text-primary);
+  }
+
+  /* ══════════════════════════════════════════════════
+     MASTHEAD
+     ══════════════════════════════════════════════════ */
+  .lab-masthead {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 0 auto var(--space-20);
+  }
+
+  .lab-masthead-tag {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    color: var(--color-primary);
+    opacity: 0.6;
+    margin-bottom: var(--space-4);
+    text-transform: uppercase;
+  }
+
+  .lab-masthead-title {
+    font-family: var(--font-display);
+    font-variation-settings: 'SOFT' 50;
+    font-size: clamp(3rem, 6vw, 4.5rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-5);
+  }
+
+  .lab-masthead-sub {
+    font-size: var(--text-base);
+    color: var(--color-text-tertiary);
+    opacity: 0.5;
+    font-family: var(--font-mono);
+    letter-spacing: 0.02em;
+  }
+
+  /* ══════════════════════════════════════════════════
+     FEATURED SPREAD — Magazine Cover Story
+     ══════════════════════════════════════════════════ */
+  .lab-featured {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 0 auto var(--space-20);
+  }
+
+  .lab-featured-link {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-10);
+    text-decoration: none;
+    color: inherit;
+    align-items: center;
+  }
+
+  .lab-featured-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .lab-featured-label {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--color-primary);
+    opacity: 0.7;
+    text-transform: uppercase;
+  }
+
+  .lab-featured-title {
+    font-family: var(--font-display);
+    font-variation-settings: 'SOFT' 50;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.12;
+    color: var(--color-text-primary);
+    margin: 0;
+    transition: color var(--transition-fast);
+  }
+
+  .lab-featured-link:hover .lab-featured-title {
+    color: var(--color-primary);
+  }
+
+  .lab-featured-desc {
+    font-size: var(--text-base);
+    color: var(--color-text-tertiary);
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  .lab-featured-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-text-tertiary);
+    opacity: 0.7;
+  }
+
+  .lab-featured-date {
+    white-space: nowrap;
+  }
+
+  .lab-featured-sep {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--color-text-tertiary);
+    opacity: 0.3;
+    flex-shrink: 0;
+  }
+
+  .lab-featured-tags {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .lab-featured-tag {
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    background: rgba(75, 163, 242, 0.06);
+    border: 1px solid rgba(75, 163, 242, 0.08);
+    text-transform: lowercase;
+  }
+
+  .lab-featured-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1-5);
+    color: var(--color-primary);
+    opacity: 0;
+    transform: translateX(-6px);
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    font-size: 0.65rem;
+  }
+
+  .lab-featured-link:hover .lab-featured-arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .lab-featured-visual {
+    position: relative;
+    height: 100%;
+    min-height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lab-featured-panel {
+    width: 100%;
+    height: 100%;
+    min-height: 260px;
+    border-radius: var(--radius-xl);
+    background: linear-gradient(
+      135deg,
+      rgba(75, 163, 242, 0.08) 0%,
+      rgba(61, 139, 255, 0.04) 50%,
+      transparent 100%
+    );
+    border: 1px solid rgba(75, 163, 242, 0.06);
+    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .lab-featured-link:hover .lab-featured-panel {
+    border-color: rgba(75, 163, 242, 0.15);
+    background: linear-gradient(
+      135deg,
+      rgba(75, 163, 242, 0.12) 0%,
+      rgba(61, 139, 255, 0.06) 50%,
+      transparent 100%
+    );
+  }
+
+  /* ══════════════════════════════════════════════════
+     ARCHIVE — Magazine Table of Contents
+     ══════════════════════════════════════════════════ */
+  .lab-archive {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .lab-archive-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-10);
+  }
+
+  .lab-archive-line {
+    flex: 1;
+    height: 1px;
+    background: var(--glass-border);
+  }
+
+  .lab-archive-label {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--color-text-tertiary);
+    opacity: 0.4;
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+
+  .lab-archive-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .lab-entry {
+    display: grid;
+    grid-template-columns: 48px 1fr 32px;
+    gap: var(--space-5);
+    align-items: center;
+    padding: var(--space-5) var(--space-4);
+    text-decoration: none;
+    color: inherit;
+    border-bottom: 1px solid var(--glass-border);
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    position: relative;
+  }
+
+  .lab-entry:first-child {
+    border-top: 1px solid var(--glass-border);
+  }
+
+  .lab-entry:hover {
+    background: rgba(75, 163, 242, 0.02);
+    padding-left: var(--space-6);
+    border-color: rgba(75, 163, 242, 0.06);
+  }
+
+  .lab-entry:last-child {
+    border-bottom: none;
+  }
+
+  .lab-entry-index {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .lab-entry-num {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-text-tertiary);
+    opacity: 0.35;
+    transition: opacity var(--transition-fast);
+  }
+
+  .lab-entry:hover .lab-entry-num {
+    opacity: 0.7;
+    color: var(--color-primary);
+  }
+
+  .lab-entry-line {
+    width: 1px;
+    flex: 1;
+    min-height: 20px;
+    background: var(--glass-border);
+  }
+
+  .lab-entry:last-child .lab-entry-line {
+    display: none;
+  }
+
+  .lab-entry-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    min-width: 0;
+  }
+
+  .lab-entry-title {
+    font-family: var(--font-display);
+    font-variation-settings: 'SOFT' 50;
+    font-size: var(--text-lg);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: var(--leading-snug);
+    color: var(--color-text-primary);
+    margin: 0;
+    transition: color var(--transition-fast);
+  }
+
+  .lab-entry:hover .lab-entry-title {
+    color: var(--color-primary);
+  }
+
+  .lab-entry-excerpt {
+    font-size: var(--text-sm);
+    color: var(--color-text-tertiary);
+    line-height: 1.6;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .lab-entry-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--color-text-tertiary);
+    opacity: 0.45;
+  }
+
+  .lab-entry-date {
+    white-space: nowrap;
+  }
+
+  .lab-entry-sep {
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    background: var(--color-text-tertiary);
+    opacity: 0.3;
+    flex-shrink: 0;
+  }
+
+  .lab-entry-tags {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-transform: lowercase;
+  }
+
+  .lab-entry-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary);
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .lab-entry:hover .lab-entry-arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* ── Animations ── */
+  .lab-featured {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: labFadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.15s forwards;
+  }
+
+  @keyframes labFadeIn {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .lab-entry {
+    opacity: 0;
+    transform: translateY(12px);
+    animation: labEntryIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  @keyframes labEntryIn {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .lab-page {
+      padding: 90px var(--space-5) var(--space-16);
+    }
+
+    .lab-masthead {
+      margin-bottom: var(--space-14);
+    }
+
+    .lab-masthead-title {
+      font-size: clamp(2.2rem, 8vw, 3rem);
+    }
+
+    .lab-featured {
+      margin-bottom: var(--space-14);
+    }
+
+    .lab-featured-link {
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+
+    .lab-featured-visual {
+      min-height: 180px;
+    }
+
+    .lab-featured-panel {
+      min-height: 160px;
+    }
+
+    .lab-entry {
+      grid-template-columns: 36px 1fr 24px;
+      gap: var(--space-3);
+      padding: var(--space-4) var(--space-3);
+    }
+
+    .lab-entry-title {
+      font-size: var(--text-base);
+    }
+
+    .lab-entry-excerpt {
+      -webkit-line-clamp: 1;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .lab-page {
+      padding: 80px var(--space-4) var(--space-12);
+    }
+
+    .lab-entry {
+      grid-template-columns: 28px 1fr 20px;
+      gap: var(--space-2);
+      padding: var(--space-3) var(--space-2);
+    }
+
+    .lab-entry-num {
+      font-size: 0.65rem;
+    }
+
+    .lab-entry-title {
+      font-size: var(--text-sm);
+    }
+  }
+</style>

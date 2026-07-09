@@ -1,0 +1,955 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+import ArrowLeft from '@lucide/astro/icons/arrow-left';
+import ArticuloCard from '../../components/ArticuloCard.astro';
+
+export async function getStaticPaths() {
+  const articulos = await getCollection('laboratorio');
+  return articulos.map(article => ({
+    params: { slug: article.id },
+    props: { article },
+  }));
+}
+
+const { article } = Astro.props;
+const { Content } = await render(article);
+const { data } = article;
+
+const dateStr = new Date(data.pubDate).toLocaleDateString('es-MX', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+// ── Reading time (rough estimate: ~200 chars/min) ──
+const bodyText = typeof article.body === 'string' ? article.body : '';
+const readingTime = Math.max(1, Math.ceil(bodyText.length / 1000));
+
+// ── Related articles ──
+const todos = await getCollection('laboratorio');
+const otros = todos.filter(a => a.id !== article.id);
+
+// By shared tags (≥ 1 match), sorted descending by match count
+function countMatches(a: typeof otros[0]): number {
+  return a.data.tags.filter(t => data.tags.includes(t)).length;
+}
+const byTags = otros
+  .filter(a => countMatches(a) > 0)
+  .sort((a, b) => countMatches(b) - countMatches(a));
+
+// Fallback: most recent (excl. current)
+const byDate = otros
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+
+const relacionados = byTags.length >= 2 ? byTags.slice(0, 3) : byDate.slice(0, 3);
+---
+
+<BaseLayout
+  title={`${data.title} — MVGN Labs`}
+  description={data.description}
+>
+  <div class="article-page">
+
+    <div class="bg-layers" aria-hidden="true">
+      <div class="bg-ambient"></div>
+      <div class="bg-grid"></div>
+    </div>
+
+      <article class="article">
+        <nav class="article-nav">
+          <a href="/laboratorio/" class="article-nav-link">
+            <ArrowLeft size={16} />
+            Volver al laboratorio
+          </a>
+          <a href="/" class="article-nav-link article-nav-link--home">
+            Volver al inicio
+          </a>
+        </nav>
+
+        <header class="article-header">
+          <div class="article-header-meta">
+            <span class="article-header-archive">
+              <span class="archive-label">ARCHIVO</span>
+              <span class="archive-value">{article.id}</span>
+            </span>
+            <span class="meta-sep" aria-hidden="true"></span>
+            <span class="meta-item">{readingTime} MIN</span>
+            <span class="meta-sep" aria-hidden="true"></span>
+            <time class="meta-item" datetime={data.pubDate.toISOString()}>{dateStr}</time>
+          </div>
+          <h1 class="article-title">{data.title}</h1>
+          <p class="article-desc">{data.description}</p>
+          <div class="article-tags">
+            {data.tags.map(tag => <span class="article-tag">{tag}</span>)}
+          </div>
+        </header>
+
+        <div class="article-body">
+          <Content />
+        </div>
+
+        <footer class="article-footer">
+          <div class="article-footer-divider" aria-hidden="true"></div>
+          <div class="article-footer-signature">
+            <div class="signature-line"></div>
+            <p class="signature-text">
+              Este artículo fue investigado, escrito y revisado por el equipo de <strong>MVGN Labs</strong> como parte de nuestro laboratorio editorial. Cada herramienta que documentamos pasa por meses de uso real antes de llegar a esta página.
+            </p>
+            <div class="signature-author">
+              <span class="signature-name">A. Ibañez</span>
+              <span class="signature-role">Fundador · MVGN Labs</span>
+            </div>
+          </div>
+          <div class="article-footer-nav">
+            <a href="/laboratorio/" class="article-nav-link">
+              <ArrowLeft size={16} />
+              Volver al laboratorio
+            </a>
+            <a href="/" class="article-nav-link article-nav-link--home">
+              Volver al inicio
+            </a>
+          </div>
+        </footer>
+      </article>
+
+    <!-- ═══ RELATED ARTICLES ═══ -->
+    {relacionados.length > 0 && (
+      <section class="related-section">
+        <header class="related-header">
+          <h2 class="related-title">Artículos relacionados</h2>
+          <p class="related-desc">Sigue explorando el laboratorio</p>
+        </header>
+        <div class="related-grid">
+          {relacionados.map((rel, i) => (
+            <div
+              class="related-entry"
+              style={`animation-delay: ${i * 120}ms`}
+            >
+              <ArticuloCard article={rel} />
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+
+  </div>
+</BaseLayout>
+
+<style>
+  /* ═══════════════════════════════════════════════════════
+     ARTICLE PAGE — Editorial Magazine Layout
+     ═══════════════════════════════════════════════════════ */
+
+  .article-page {
+    position: relative;
+    min-height: 100vh;
+    padding: 120px var(--space-8) var(--space-20);
+  }
+
+  /* ── Background layers ── */
+  .bg-layers {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .bg-ambient {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 40% at 50% 0%, rgba(75, 163, 242, 0.12) 0%, transparent 50%);
+    mask-image: radial-gradient(ellipse 50% 40% at 50% 0%, black 20%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse 50% 40% at 50% 0%, black 20%, transparent 70%);
+  }
+
+  .bg-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+    opacity: 0.5;
+    mask-image: radial-gradient(ellipse 55% 40% at 50% 0%, black 20%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse 55% 40% at 50% 0%, black 20%, transparent 70%);
+  }
+
+  .article {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── Navigation ── */
+  .article-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    max-width: 740px;
+    margin: 0 auto var(--space-10);
+    animation: artFadeIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  .article-nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-text-tertiary);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .article-nav-link:hover {
+    color: var(--color-primary);
+  }
+
+  .article-nav-link--home {
+    margin-left: auto;
+    opacity: 0.6;
+    font-weight: 400;
+  }
+
+  .article-nav-link--home:hover {
+    opacity: 1;
+  }
+
+  /* ═══ HEADER — Editorial Masthead with subtle glass opening ═══ */
+  .article-header {
+    max-width: 740px;
+    margin: 0 auto var(--space-12);
+    animation: artFadeIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+  }
+
+  .article-header-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-5);
+    flex-wrap: wrap;
+  }
+
+  .article-header-archive {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    background: var(--color-primary-subtle);
+    border: 1px solid rgba(75, 163, 242, 0.15);
+    border-radius: var(--radius-full);
+    padding: 2px 10px 2px 8px;
+  }
+
+  .archive-label {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--color-primary);
+    text-transform: uppercase;
+  }
+
+  .archive-value {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--color-text-tertiary);
+  }
+
+  .meta-sep {
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    background: var(--color-text-tertiary);
+    opacity: 0.3;
+  }
+
+  .meta-item {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--color-text-tertiary);
+    text-transform: uppercase;
+  }
+
+  .article-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    font-variation-settings: 'SOFT' 50;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-4);
+  }
+
+  .article-desc {
+    font-size: var(--text-lg);
+    line-height: 1.7;
+    color: var(--color-text-tertiary);
+    font-weight: 400;
+    max-width: 90%;
+    margin-bottom: var(--space-5);
+  }
+
+  .article-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1-5);
+  }
+
+  .article-tag {
+    display: inline-flex;
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    padding: 3px 10px;
+    border-radius: var(--radius-full);
+    color: var(--color-text-tertiary);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--glass-border);
+    text-transform: lowercase;
+    transition: color var(--transition-fast), background var(--transition-fast);
+  }
+
+  .article-tag:hover {
+    color: var(--color-primary);
+    background: var(--color-primary-subtle);
+    border-color: rgba(75, 163, 242, 0.2);
+  }
+
+  /* ═══ BODY — Editorial Typography with Hierarchy ═══ */
+  .article-body {
+    max-width: 740px;
+    margin: 0 auto;
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--color-text-secondary);
+    animation: artFadeIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+  }
+
+  /* Reset all margins */
+  .article-body > * { margin: 0; }
+  .article-body > *:first-child { margin-top: 0; }
+
+  /* ═══ Hierarchy scale (margin-top only) ═══
+     Connected items are close; separated items are far.
+     ───
+     h2 ──80px── next element    (major section break)
+     h3 ──80px── next element    (sub-section break)
+     p  ──28px── next p          (paragraph spacing)
+     h3 ──24px── next p          (tight: heading owns its paragraph)
+     h2 ──48px── next p          (medium: h2 → body text)
+     img/screenshot ──48px──     (visual break)
+     li ──14px──                 (list density)
+  ═════════════════════════════════════ */
+
+  /* Major sections: h2 = 120px — very clear section break */
+  .article-body > h2 {
+    margin-top: 120px;
+  }
+
+  /* Sub-sections: h3 = 100px — slightly less but still distinct */
+  .article-body > h3 {
+    margin-top: 100px;
+  }
+
+  /* When h3 follows h2 directly: slightly tighter */
+  .article-body > h2 + h3 {
+    margin-top: 80px;
+  }
+
+  /* Base paragraph spacing (fallback for all cases) */
+  .article-body > p {
+    margin-top: var(--space-7);
+  }
+
+  /* Paragraphs after headings: tighter, showing connection */
+  .article-body > h3 + p {
+    margin-top: var(--space-5);
+  }
+
+  .article-body > h2 + p {
+    margin-top: var(--space-10);
+  }
+
+  /* Other block elements: base spacing */
+  .article-body > ul,
+  .article-body > ol,
+  .article-body > blockquote,
+  .article-body > .callout,
+  .article-body > pre,
+  .article-body > hr,
+  .article-body > table {
+    margin-top: var(--space-7);
+  }
+
+  /* Images, screenshots, figures: slightly more visual breathing */
+  .article-body > img,
+  .article-body > .ss-frame,
+  .article-body > figure:not(.screenshot-frame) {
+    margin-top: var(--space-12);
+  }
+
+  /* List items: tight, within the list */
+  .article-body li {
+    margin-top: 14px;
+  }
+  .article-body li:first-child {
+    margin-top: 0;
+  }
+
+  /* ── First paragraph gentle drop cap ── */
+  .article-body > p:first-of-type::first-letter {
+    font-family: var(--font-display);
+    font-size: 2.8em;
+    font-weight: 700;
+    font-variation-settings: 'SOFT' 50;
+    float: left;
+    line-height: 0.85;
+    margin-right: var(--space-2);
+    margin-top: 2px;
+    color: var(--color-primary);
+  }
+
+  /* ── Headings — clear size contrast ── */
+  .article-body h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+    font-weight: 700;
+    font-variation-settings: 'SOFT' 50;
+    color: var(--color-text-primary);
+    letter-spacing: -0.02em;
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--glass-border);
+    line-height: 1.2;
+  }
+
+  .article-body h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+
+  /* ── Paragraph typography ── */
+  .article-body p {
+    line-height: 1.65;
+  }
+
+  /* ── Lists ── */
+  .article-body ul,
+  .article-body ol {
+    padding-left: var(--space-6);
+  }
+
+  .article-body li {
+    line-height: 1.65;
+  }
+
+  .article-body li > ul,
+  .article-body li > ol {
+    padding-left: var(--space-6);
+    margin-top: var(--space-2);
+  }
+
+  .article-body strong {
+    color: var(--color-text-primary);
+    font-weight: 600;
+  }
+
+  .article-body a {
+    color: var(--color-primary-hover);
+    text-decoration: underline;
+    text-decoration-color: var(--color-primary-subtle);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    transition: color var(--transition-fast), text-decoration-color var(--transition-fast);
+  }
+
+  .article-body a:hover {
+    color: var(--color-primary);
+    text-decoration-color: var(--color-primary);
+  }
+
+  .article-body em {
+    font-style: italic;
+    color: var(--color-text-primary);
+    opacity: 0.92;
+  }
+
+  .article-body p code,
+  .article-body li code {
+    line-height: 1.4;
+  }
+
+  /* ── Tables ── */
+  .article-body table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: var(--glass-bg-subtle);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+  }
+
+  .article-body thead {
+    background: var(--glass-bg);
+  }
+
+  .article-body th {
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wider);
+    color: var(--color-text-primary);
+    padding: var(--space-3) var(--space-5);
+    border-bottom: 1px solid var(--glass-border);
+    white-space: nowrap;
+  }
+
+  .article-body td {
+    padding: var(--space-3) var(--space-5);
+    border-bottom: 1px solid var(--glass-border-light);
+    vertical-align: top;
+  }
+
+  .article-body tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .article-body tbody tr:hover {
+    background: var(--glass-backdrop);
+  }
+
+  /* ── Figures & Captions ── */
+  .article-body figcaption {
+    margin-top: var(--space-3);
+    font-size: 0.8rem;
+    color: var(--color-text-tertiary);
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  /* ── Horizontal rule ── */
+  .article-body hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--glass-border), transparent);
+  }
+
+  /* ── Blockquotes ── */
+  .article-body blockquote {
+    padding: var(--space-5) var(--space-7);
+    border-left: 3px solid var(--color-primary);
+    background: var(--glass-bg-subtle);
+    border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+    font-style: normal;
+  }
+
+  .article-body blockquote p {
+    line-height: 1.65;
+    color: var(--color-text-secondary);
+  }
+
+  .article-body blockquote > * {
+    margin: 0;
+  }
+
+  .article-body blockquote > *:first-child {
+    margin-top: 0;
+  }
+
+  .article-body blockquote > * + * {
+    margin-top: var(--space-4);
+  }
+
+  .article-body code {
+    font-size: 0.85em;
+    padding: 0.15em 0.5em;
+  }
+
+  .article-body pre {
+    padding: var(--space-6);
+    border-radius: var(--radius-lg);
+    line-height: 1.7;
+  }
+
+  /* ── Images & Screenshots ── */
+  .article-body img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+  }
+
+  .article-body .ss-frame--desktop .ss-image-wrap {
+    max-width: 100%;
+  }
+
+  /* ═══ FOOTER — Editorial Signature ═══ */
+  .article-footer {
+    max-width: 740px;
+    margin: var(--space-16) auto 0;
+    animation: artFadeIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+  }
+
+  .article-footer-divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--glass-border), transparent);
+    margin-bottom: var(--space-10);
+  }
+
+  .article-footer-signature {
+    position: relative;
+    padding-top: var(--space-6);
+    margin-bottom: var(--space-10);
+  }
+
+  .signature-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 60px;
+    height: 2px;
+    background: var(--color-primary);
+    border-radius: 1px;
+  }
+
+  .signature-text {
+    font-size: var(--text-sm);
+    line-height: 1.8;
+    color: var(--color-text-tertiary);
+    max-width: 85%;
+    margin-bottom: var(--space-4);
+  }
+
+  .signature-text strong {
+    color: var(--color-text-secondary);
+    font-weight: 600;
+  }
+
+  .signature-author {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .signature-name {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-weight: 600;
+    font-variation-settings: 'SOFT' 50;
+    color: var(--color-text-primary);
+  }
+
+  .signature-role {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+    opacity: 0.6;
+  }
+
+  .article-footer-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--glass-border);
+  }
+
+  .article-footer-nav .article-nav-link--home {
+    margin-left: auto;
+    opacity: 0.6;
+    font-weight: 400;
+  }
+
+  .article-footer-nav .article-nav-link--home:hover {
+    opacity: 1;
+  }
+
+  .article-footer .article-nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-text-tertiary);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .article-footer .article-nav-link:hover {
+    color: var(--color-primary);
+  }
+
+  /* ═══ RELATED ARTICLES SECTION ═══ */
+  .related-section {
+    position: relative;
+    z-index: 1;
+    max-width: 740px;
+    margin: var(--space-18) auto 0;
+    animation: artFadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.4s both;
+  }
+
+  .related-header {
+    margin-bottom: var(--space-8);
+  }
+
+  .related-title {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    font-variation-settings: 'SOFT' 50;
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-1);
+  }
+
+  .related-desc {
+    font-size: var(--text-sm);
+    color: var(--color-text-tertiary);
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-6);
+  }
+
+  .related-entry {
+    opacity: 0;
+    transform: translateY(16px);
+    animation: artEntryIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    height: 100%;
+  }
+
+  /* ═══ KEYFRAMES ═══ */
+  @keyframes artFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes artEntryIn {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* ═══ LIGHT MODE ═══ */
+  [data-theme="light"] .article-tag {
+    background: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.08);
+  }
+
+  [data-theme="light"] .article-tag:hover {
+    background: rgba(75, 163, 242, 0.08);
+    border-color: rgba(75, 163, 242, 0.2);
+  }
+
+  [data-theme="light"] .bg-ambient {
+    opacity: 0.35;
+  }
+
+  [data-theme="light"] .bg-grid {
+    opacity: 0.3;
+  }
+
+  [data-theme="light"] .article-header {
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+  [data-theme="light"] .article-header-archive {
+    background: rgba(75, 163, 242, 0.08);
+    border-color: rgba(75, 163, 242, 0.15);
+  }
+
+  [data-theme="light"] .article-body > p:first-of-type::first-letter {
+    color: var(--color-primary);
+  }
+
+  /* ═══ RESPONSIVE ═══ */
+  @media (max-width: 768px) {
+    .article-page {
+      padding: 100px var(--space-4) var(--space-12);
+    }
+
+    .article-header {
+      max-width: 100%;
+    }
+
+    .article-body {
+      max-width: 100%;
+    }
+
+    .article-body > h2 {
+      margin-top: var(--space-20);
+    }
+
+    .article-body > h3 {
+      margin-top: var(--space-16);
+    }
+
+    .article-body > h2 + h3 {
+      margin-top: var(--space-16);
+    }
+
+    .article-nav {
+      max-width: 100%;
+    }
+
+    .article-footer {
+      max-width: 100%;
+    }
+
+    .article-title {
+      font-size: var(--text-3xl);
+    }
+
+    .article-desc {
+      font-size: var(--text-base);
+      max-width: 100%;
+    }
+
+    .signature-text {
+      max-width: 100%;
+    }
+
+    .related-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .article-header-meta {
+      font-size: 0.6rem;
+    }
+
+    .article-body {
+      font-size: 1rem;
+      max-width: 100%;
+    }
+
+    .article-nav {
+      max-width: 100%;
+    }
+
+    .article-footer {
+      max-width: 100%;
+    }
+
+    .related-section {
+      max-width: 100%;
+    }
+  }
+</style>
+
+<style is:global>
+  /* ═══════════════════════════════════════════════════════
+     CALLOUT STYLES (global — required for MDX-rendered components)
+     ═══════════════════════════════════════════════════════ */
+
+  .article-body .callout {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-4);
+    padding: var(--space-5) var(--space-6);
+    border-radius: var(--radius-lg);
+    background: var(--glass-bg-subtle);
+    border: 1px solid var(--glass-border);
+    border-left-width: 3px;
+    border-left-style: solid;
+  }
+
+  .article-body .callout--info { border-left-color: var(--color-info); }
+  .article-body .callout--info .callout-icon { color: var(--color-info-text); }
+
+  .article-body .callout--tip { border-left-color: var(--color-success); }
+  .article-body .callout--tip .callout-icon { color: var(--color-success-text); }
+
+  .article-body .callout--warning { border-left-color: var(--color-warning); }
+  .article-body .callout--warning .callout-icon { color: var(--color-warning-text); }
+
+  .article-body .callout--danger { border-left-color: var(--color-danger); }
+  .article-body .callout--danger .callout-icon { color: var(--color-danger-text); }
+
+  .article-body .callout-icon {
+    flex-shrink: 0;
+    font-size: 1.1rem;
+    line-height: 1.4;
+  }
+
+  .article-body .callout-content { flex: 1; min-width: 0; }
+  .article-body .callout-content p { margin: 0; }
+  .article-body .callout-content > * + * { margin-top: var(--space-2); }
+
+  /* ═══ VERDICT GRID (MDX-rendered) ═══ */
+  .article-body .verdict-intro {
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-6);
+  }
+
+  .article-body .verdict-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .article-body .verdict-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-4) var(--space-5);
+    background: var(--glass-bg-subtle);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    line-height: 1.5;
+  }
+
+  .article-body .verdict-item svg {
+    flex-shrink: 0;
+    margin-top: 3px;
+  }
+
+  .article-body .verdict-item:nth-child(1) svg { color: var(--color-success); }
+  .article-body .verdict-item:nth-child(2) svg { color: var(--color-danger); }
+
+  .article-body .verdict-item strong {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .article-body .verdict-item span {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+  }
+</style>

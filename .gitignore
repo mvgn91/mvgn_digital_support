@@ -13,6 +13,12 @@ yarn-error.log*
 pnpm-debug.log*
 
 
+# MVGN telemetry
+.mvgn/telemetry.db
+.mvgn/telemetry.db-*
+**/mvgn-telemetry
+**/mvgn-telemetry.exe
+
 # environment variables
 .env
 .env.production

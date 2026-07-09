@@ -1,0 +1,110 @@
+---
+title: 'Bitwarden — Gestor de contraseñas que sí puedes controlar'
+pubDate: 2026-07-08
+description: 'Por qué migramos a Bitwarden, cómo configurarlo para uso diario y tips que pocos conocen para sacarle provecho real.'
+tags: ['seguridad', 'utilidades', 'multi-plataforma']
+icon: 'shield'
+featured: true
+---
+
+import ScreenshotFrame from '../../components/ScreenshotFrame.astro';
+import Callout from '../../components/Callout.astro';
+import CircleCheck from '@lucide/astro/icons/circle-check';
+import CircleX from '@lucide/astro/icons/circle-x';
+import Crosshair from '@lucide/astro/icons/crosshair';
+import Wallet from '@lucide/astro/icons/wallet';
+
+Llevaba años usando el gestor de contraseñas de turno. Funcionaba, pero cada vez me incomodaba más depender de un servicio donde el código no era público. Con Bitwarden fue distinto: es **open source**, se puede auditar, y si quieres puedes alojarlo tú mismo.
+
+Llevo usándolo desde marzo como gestor principal, después de migrar ~180 claves y documentos.
+
+## Lo que me convenció
+
+<ScreenshotFrame
+  src="https://placehold.co/800x480/1e1b4b/818cf8?text=Boveda+Bitwarden"
+  alt="Vista de la bóveda de Bitwarden en escritorio"
+  variant="desktop"
+  caption="Bóveda principal — todas tus contraseñas organizadas y al alcance"
+/>
+
+Bitwarden no inventa nada nuevo, pero lo que hace lo hace bien:
+
+- **Código abierto** — el código es público, auditable y revisado por la comunidad
+- **Cliente nativo para todo** — Android, iOS, desktop, extensiones de navegador y CLI
+- **Auto-alojable** — ejecutas Vaultwarden en tu servidor y tus datos nunca salen de ahí
+- **Compartir items** — útil para equipos o cuentas compartidas en casa
+
+<ScreenshotFrame
+  src="https://placehold.co/280x560/312e81/a5b4fc?text=Bitwarden+Android"
+  alt="Bitwarden en Android — autocompletado en acción"
+  variant="phone"
+  caption="Autocompletado en Android — rápido, sin depender del gestor del fabricante"
+/>
+
+<Callout variant="tip" title="Control total">
+  Bitwarden permite auto-alojamiento con Vaultwarden. Tus datos nunca tocan la nube de nadie. Es la opción más privada del mercado para gestores de contraseñas.
+</Callout>
+
+## Tips de uso
+
+### 1. Identificadores únicos
+
+Bitwarden permite asociar campos personalizados a cada item. Si guardas una tarjeta, agrega campos como `PIN` o `Número de contacto`. El autocompletado en Android los reconoce automáticamente.
+
+### 2. Verificación en dos pasos
+
+Bitwarden usa **TOTP** (códigos temporales) en vez de SMS. Escanea el QR con Aegis o cualquier authenticator. No depende de señal celular. Cada nuevo dispositivo pedirá el código.
+
+<Callout variant="warning" title="No la saltes">
+  Activar 2FA en Bitwarden es la capa más importante que puedes agregar. Sin ella, tu bóveda depende solo de tu contraseña maestra. Con 2FA, incluso si alguien obtiene tu contraseña, no puede acceder sin el código.
+</Callout>
+
+### 3. Exporta tu bóveda
+
+`Settings → Export`. Exporta a JSON y guárdalo en un lugar cifrado. No porque Bitwarden sea inseguro, sino por si mañana decides migrar. Tener los datos en formato estándar te da libertad.
+
+### 4. Sentido común
+
+Bitwarden tiene un generador integrado. Úsalo. Si te genera `j8@Kf3#mP9$L`, no lo cambies por algo más fácil. El gestor recuerda por ti.
+
+## Veredicto
+
+<div class="verdict-intro">
+Bitwarden resuelve el problema de las contraseñas sin crear otros nuevos. Es la herramienta más equilibrada del mercado: tan capaz como las soluciones empresariales, tan accesible como una app gratuita.
+</div>
+
+<div class="verdict-grid">
+  <div class="verdict-item">
+    <CircleCheck size={18} />
+    <div>
+      <strong>Pros</strong>
+      <span>Open source · Multiplataforma · Auto-alojable · Plan gratuito completo · TOTP integrado</span>
+    </div>
+  </div>
+  <div class="verdict-item">
+    <CircleX size={18} />
+    <div>
+      <strong>Contras</strong>
+      <span>Interfaz funcional sin mucho diseño · Autocompletado en iOS menos fluido que en Android</span>
+    </div>
+  </div>
+  <div class="verdict-item">
+    <Crosshair size={18} />
+    <div>
+      <strong>Para quién</strong>
+      <span>Cualquiera con más de 10 cuentas en línea que quiera dejar de recordar contraseñas</span>
+    </div>
+  </div>
+  <div class="verdict-item">
+    <Wallet size={18} />
+    <div>
+      <strong>Costo</strong>
+      <span>Individual: gratuito · Premium: ~$10/año · Familiar: ~$40/año para 6 personas</span>
+    </div>
+  </div>
+</div>
+
+<Callout variant="tip" title="¿Listo para migrar?">
+  El plan individual es gratuito. El premium cuesta lo que un café con leche al mes. No hay excusa para no usar un gestor de contraseñas.
+</Callout>
+

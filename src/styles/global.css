@@ -62,10 +62,19 @@ body {
 
 /* ── Typography Base ── */
 h1, h2, h3, h4, h5, h6 {
-  font-weight: 700;
   line-height: var(--leading-tight);
   color: var(--color-text-primary);
   letter-spacing: var(--tracking-tight);
+}
+
+h1, h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-variation-settings: 'SOFT' 50;
+}
+
+h3, h4, h5, h6 {
+  font-weight: 700;
 }
 
 h1 { font-size: var(--text-4xl); }

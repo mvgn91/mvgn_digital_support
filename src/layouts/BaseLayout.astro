@@ -27,8 +27,14 @@ import '../styles/tokens.css';
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-    <!-- Inter font -->
+    <!-- Inter font (UI) -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+
+    <!-- Fraunces (Display) -->
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700;9..144,800,50&display=swap" rel="stylesheet" />
+
+    <!-- IBM Plex Sans (Documentación) -->
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
     <!-- Open Graph -->
     <meta property="og:title" content={title} />
@@ -128,7 +134,7 @@ import '../styles/tokens.css';
     left: 10%;
     right: 10%;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(220, 38, 38, 0.4), rgba(220, 38, 38, 0.6), rgba(220, 38, 38, 0.4), transparent);
+    background: linear-gradient(90deg, transparent, rgba(75, 163, 242, 0.3), rgba(75, 163, 242, 0.5), rgba(75, 163, 242, 0.3), transparent);
     background-size: 200% 100%;
     animation: footer-gradient 8s ease-in-out infinite;
     pointer-events: none;
@@ -142,7 +148,7 @@ import '../styles/tokens.css';
     transform: translateX(-50%);
     width: 400px;
     height: 80px;
-    background: radial-gradient(ellipse, rgba(220, 38, 38, 0.08) 0%, transparent 70%);
+    background: radial-gradient(ellipse, rgba(75, 163, 242, 0.08) 0%, transparent 70%);
     filter: blur(40px);
     animation: footer-glow 6s ease-in-out infinite;
     pointer-events: none;

@@ -180,3 +180,139 @@ D-001 → D-002 → D-003 → D-004 → D-005 → D-006 → D-007
 - ✅ Mobile igual de cuidado que desktop
 - ✅ Adaptar efectos, no desactivarlos
 `[x] Completada — backdrop-filter adaptado (blur(8px) en lugar de none), pillnav labels visibles en mobile, hero padding mejorado, espaciado de secciones consistente. Build verificado.`
+
+---
+
+# Fase 3 — Rediseño SERVICE (Directiva v3.5)
+
+> **Basado en:** `docs/10_design_directive_v3.md`
+> **Perfil:** SERVICE
+> **Sistema:** Scientific Glass System v3 — Evolución Editorial
+> **Inicio:** 2026-07-09
+
+## Orden de implementación
+
+```
+D-101 → D-102 → D-103 → D-201 → D-202 → D-301 → D-302 → D-303 → D-304
+(foundation → atmosphere → components)
+```
+
+---
+
+## Fase 1 — Foundation (Design Tokens)
+
+### D-101 — Paleta cromática: Cerulean Blue
+**RF:** Directiva v3.5 § Identidad cromática
+**Archivo:** `src/styles/tokens.css`
+**Criterios:**
+- Reemplazar `--color-primary: #DC2626` → `#4BA3F2`
+- Establecer variantes hover, subtle, glow en Cerulean
+- Rojo permanece solo como `--color-danger` (estados críticos)
+- Actualizar shadow-glow-primary a tono azul
+- Actualizar light mode si aplica
+
+### D-102 — Sistema tipográfico SERVICE
+**RF:** Directiva v3.5 § Tipografía
+**Archivo:** `src/styles/tokens.css`, `src/styles/global.css`, `src/pages/index.astro`
+**Criterios:**
+- Agregar Fraunces como `--font-display`
+- Mantener Inter como `--font-sans`
+- Agregar IBM Plex Sans como `--font-docs`
+- Mantener JetBrains Mono como `--font-mono`
+- Aplicar Fraunces a títulos display (h1, .hero-title, .section-title)
+- Eliminar Playfair Display donde exista
+- Jerarquías construidas con tamaño/espaciado, no peso excesivo
+
+### D-103 — Glass UI evolucionado
+**RF:** Directiva v3.5 § Materiales
+**Archivo:** `src/styles/tokens.css`
+**Criterios:**
+- Reducir blur excesivo en glass tokens
+- Disminuir opacidad de brillos
+- Glass con tonos fríos (Cerulean tint, no rojo)
+- Glass organiza, no protagoniza
+
+---
+
+## Fase 2 — Atmosphere
+
+### D-201 — Fondos y atmósfera SERVICE
+**RF:** Directiva v3.5 § Identidad cromática, Materiales
+**Archivo:** `src/pages/index.astro` (CSS)
+**Criterios:**
+- bg-ambient: cambiar radial-gradients de rojo a Cerulean
+- bg-grid: mantener pero más sutil
+- Reducir opacidad de capas de fondo
+- Atmósfera más luminosa, tonos fríos
+
+### D-202 — Hero background y HellBackground
+**RF:** Directiva v3.5 § Hero
+**Archivo:** `src/pages/index.astro`, `src/components/HellBackground.tsx`
+**Criterios:**
+- HellBackground color a tono Cerulean frío (#4BA3F2 o similar)
+- Hero más arquitectónico, menos comercial
+- Mantener split layout pero con fondo más limpio
+
+---
+
+## Fase 3 — Componentes
+
+### D-301 — Botones SERVICE
+**RF:** Directiva v3.5 § Botones
+**Archivo:** `src/pages/index.astro` (CSS)
+**Criterios:**
+- Botón primary con Cerulean blue en vez de rojo
+- Más discretos, más elegantes
+- Sin sombras excesivas
+- No deben parecer anuncios
+
+### D-302 — Cards (Lab, Contact, etc.)
+**RF:** Directiva v3.5 § Cards
+**Archivo:** `src/pages/index.astro` (CSS)
+**Criterios:**
+- Más limpias, más espacio
+- Menos borde
+- Menos ruido visual
+- Acentos en Cerulean
+
+### D-303 — Header y navegación
+**RF:** Directiva v3.5 § Header
+**Archivo:** `src/pages/index.astro` (CSS)
+**Criterios:**
+- Más ligero
+- Siempre en vidrio
+- Navegación limpia
+
+### D-304 — Pillnav y floating actions
+**RF:** Directiva v3.5 § Componentes
+**Archivo:** `src/pages/index.astro` (CSS)
+**Criterios:**
+- Pillnav más sutil
+- Colores de acento actualizados a Cerulean
+- Menos saturación visual
+
+---
+
+# Sesión 003 — Overhaul de UI (Completada)
+
+> **Fecha:** 2026-07-08
+> **Sesión MVGN:** ses-003
+> **Archivos afectados:** `src/pages/index.astro`, `docs/04_changelog.md`, `docs/06_state_report.md`, `.mvgn-context.json`
+
+## Cambios realizados
+
+| Área | Qué se hizo |
+|------|------------|
+| **Contacto** | Rediseño completo: wireframe cards con Lucide icons, barra de acento hover. Sin 3D. |
+| **Manifiesto** | Pull-quote con acento rojo + glass stats + glow animado de fondo. |
+| **Proceso** | Timeline vertical → barra horizontal interactiva con hover/click. |
+| **Tipografía** | Jerarquía global corregida (section-tag, hero-sub, badges, etc.) |
+| **Sección Servicios** | Eliminada por completo (redundante con Planes). |
+| **Copy** | "Acompañamiento" → "Asistencia" / "Respaldo". |
+| **CurvedLoop** | Más lento y transparente (easter egg). |
+
+## Próximos pasos sugeridos
+
+- Revisar sección Planes standalone (ahora que Servicios no existe)
+- Deploy a producción
+- Evaluar si se requieren más ajustes de UI

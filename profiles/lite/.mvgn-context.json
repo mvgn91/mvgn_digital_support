@@ -1,0 +1,11 @@
+{
+  "timestamp": "2026-07-08T22:00:00-06:00",
+  "state": "IN_PROGRESS",
+  "profile": "lite",
+  "mode": "FLOW",
+  "active_profile": true,
+  "linked_to": "../.mvgn-context.json",
+  "last_sync": "ses-004",
+  "scope_version": "v5",
+  "description": "Lite profile for MVGN Digital Hub — Filosofía carta, Contacto glass, Laboratorio nav + layout tech blog"
+}

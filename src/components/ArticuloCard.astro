@@ -1,0 +1,306 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+export interface Props {
+  article: CollectionEntry<'laboratorio'>;
+  featured?: boolean;
+}
+
+const { article, featured = false } = Astro.props;
+const { data } = article;
+
+// Cerulean gradient for SERVICE profile
+const heroGradient = 'linear-gradient(135deg, rgba(75, 163, 242, 0.12) 0%, rgba(61, 139, 255, 0.06) 50%, rgba(75, 163, 242, 0.02) 100%)';
+
+const iconMap: Record<string, string> = {
+  shield: '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
+  settings: '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>',
+  link: '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>',
+  'circle-check': '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>',
+};
+
+const dateStr = new Date(data.pubDate).toLocaleDateString('es-MX', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<article class={`articulo-card ${featured ? 'articulo-card--featured' : ''}`}>
+  <a href={`/laboratorio/${article.id}/`} class="articulo-card-link">
+    <div class="articulo-card-hero" style={`background: ${heroGradient}`}>
+      <div class="articulo-card-hero-icon" set:html={iconMap[data.icon ?? 'settings'] ?? iconMap.settings} />
+
+      {featured && (
+        <div class="articulo-card-featured-badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Destacado
+        </div>
+      )}
+    </div>
+    <div class="articulo-card-body">
+      <h3 class="articulo-card-title">{data.title}</h3>
+      <p class="articulo-card-desc">{data.description}</p>
+      <div class="articulo-card-footer">
+        <div class="articulo-card-tags">
+          {data.tags.map(tag => <span class="articulo-card-tag">{tag}</span>)}
+        </div>
+        <div class="articulo-card-meta">
+          <span class="articulo-card-date">{dateStr}</span>
+          <span class="articulo-card-arrow">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+          </span>
+        </div>
+      </div>
+    </div>
+  </a>
+</article>
+
+<style>
+  .articulo-card {
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    background: var(--glass-bg);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid var(--glass-border);
+    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    position: relative;
+    height: 100%;
+  }
+
+  .articulo-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(75, 163, 242, 0.12);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  }
+
+  .articulo-card--featured {
+    border-color: rgba(75, 163, 242, 0.12);
+  }
+
+  .articulo-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .articulo-card-hero {
+    position: relative;
+    height: clamp(140px, 18vw, 180px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(75, 163, 242, 0.04);
+  }
+
+  .articulo-card--featured .articulo-card-hero {
+    height: clamp(180px, 24vw, 240px);
+  }
+
+  .articulo-card-hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 40%, rgba(0, 0, 0, 0.25) 100%);
+    pointer-events: none;
+  }
+
+  .articulo-card-hero-icon {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-lg);
+    background: rgba(75, 163, 242, 0.12);
+    color: rgba(75, 163, 242, 0.8);
+    position: relative;
+    z-index: 1;
+    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(75, 163, 242, 0.08);
+  }
+
+  .articulo-card-hero-icon :global(svg) {
+    width: 32px;
+    height: 32px;
+  }
+
+  .articulo-card:hover .articulo-card-hero-icon {
+    transform: scale(1.06);
+    background: rgba(75, 163, 242, 0.18);
+    color: rgba(75, 163, 242, 0.95);
+  }
+
+  .articulo-card-featured-badge {
+    position: absolute;
+    top: var(--space-4);
+    right: var(--space-4);
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1-5);
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    color: #D4A843;
+    background: rgba(212, 168, 67, 0.1);
+    border: 1px solid rgba(212, 168, 67, 0.15);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .articulo-card-body {
+    padding: var(--space-6) var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    flex: 1;
+  }
+
+  .articulo-card--featured .articulo-card-body {
+    padding: var(--space-8) var(--space-8);
+  }
+
+  .articulo-card-title {
+    font-size: var(--text-xl);
+    font-weight: 700;
+    color: var(--color-text-primary);
+    letter-spacing: -0.02em;
+    line-height: var(--leading-snug);
+    margin: 0;
+    font-family: var(--font-display);
+    font-variation-settings: 'SOFT' 50;
+  }
+
+  .articulo-card--featured .articulo-card-title {
+    font-size: var(--text-2xl);
+  }
+
+  .articulo-card-desc {
+    font-size: var(--text-base);
+    color: var(--color-text-tertiary);
+    line-height: 1.7;
+    margin: 0;
+    flex: 1;
+    font-family: var(--font-docs);
+  }
+
+  .articulo-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    padding-top: var(--space-4);
+    margin-top: var(--space-2);
+    border-top: 1px solid var(--glass-border);
+  }
+
+  .articulo-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1-5);
+  }
+
+  .articulo-card-tag {
+    display: inline-flex;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    padding: 3px 8px;
+    border-radius: var(--radius-full);
+    color: var(--color-text-tertiary);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--glass-border);
+    text-transform: lowercase;
+  }
+
+  .articulo-card-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-xs);
+    color: var(--color-text-tertiary);
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+
+  .articulo-card-date {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    opacity: 0.6;
+  }
+
+  .articulo-card-arrow {
+    display: flex;
+    align-items: center;
+    color: var(--color-primary);
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: all var(--transition-base);
+  }
+
+  .articulo-card:hover .articulo-card-arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* ── Light mode ── */
+  [data-theme="light"] .articulo-card-tag {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: rgba(0, 0, 0, 0.08);
+  }
+
+  [data-theme="light"] .articulo-card-hero-icon {
+    background: rgba(75, 163, 242, 0.1);
+    border-color: rgba(75, 163, 242, 0.06);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .articulo-card-hero {
+      height: 140px;
+    }
+
+    .articulo-card--featured .articulo-card-hero {
+      height: 180px;
+    }
+
+    .articulo-card-hero-icon {
+      width: 48px;
+      height: 48px;
+    }
+
+    .articulo-card-hero-icon :global(svg) {
+      width: 28px;
+      height: 28px;
+    }
+
+    .articulo-card-body {
+      padding: var(--space-5) var(--space-5);
+    }
+
+    .articulo-card--featured .articulo-card-body {
+      padding: var(--space-6) var(--space-6);
+    }
+
+    .articulo-card-title {
+      font-size: var(--text-lg);
+    }
+
+    .articulo-card--featured .articulo-card-title {
+      font-size: var(--text-xl);
+    }
+  }
+</style>

@@ -1,0 +1,126 @@
+---
+title: 'NewPipe, Vanced y YouTube Morphe — tres formas de ver YouTube sin anuncios'
+pubDate: 2026-07-08
+description: 'Tres aproximaciones distintas a un mismo problema: recuperar el control de cómo ves YouTube. NewPipe como solución ligera, Vanced como el clásico, YouTube Morphe como el relevo.'
+tags: ['android', 'privacidad', 'multimedia', 'youtube']
+icon: 'settings'
+featured: true
+---
+
+import ScreenshotFrame from '../../components/ScreenshotFrame.astro';
+
+La app oficial de YouTube pesa cada vez más, mete más anuncios y te empuja a YouTube Premium para funciones que antes eran gratuitas. Por suerte hay todo un ecosistema de alternativas. Acá van tres, cada una con su filosofía distinta.
+
+---
+
+## NewPipe — La solución ligera
+
+NewPipe no es un mod de YouTube. Es un **cliente independiente** escrito desde cero que usa su propio extractor para obtener los videos. No toca la app oficial, no la parchea, no la necesita.
+
+<ScreenshotFrame
+  src="https://placehold.co/280x560/292524/a78bfa?text=NewPipe+Player"
+  alt="NewPipe reproduciendo video"
+  variant="phone"
+  caption="NewPipe — interfaz propia, sin rastro de la app oficial"
+/>
+
+### Lo que ofrece
+
+- **Reproducción en segundo plano** — escuchas audio con la pantalla apagada
+- **Sin anuncios** — cero publicidad
+- **Modo pop-up** — el video flota sobre cualquier app
+- **Descarga de videos y audio** — sin herramientas externas
+- **Sin cuenta de Google** — no necesita inicio de sesión
+- **Código abierto** — todo el código es público y auditable
+
+### Para qué es ideal
+
+NewPipe es perfecto como **reproductor secundario**. No tiene tu historial, no tiene tus suscripciones sincronizadas, no puedes dar like ni comentar. Pero justamente por eso es tan ligero. Lo abres, buscas lo que quieres ver, y listo.
+
+**Lo mejor**: no requiere parchear nada, no requiere microG, no requiere mantenimiento. Instalas y usas.
+
+**Lo peor**: la interfaz es funcional pero fea. Y al no usar las APIs oficiales, a veces algunos videos fallan hasta que actualizan el extractor.
+
+---
+
+## Vanced — El clásico que lo cambió todo
+
+YouTube Vanced apareció en 2017 y literally **le partió la madre a Google**. Era la app oficial de YouTube pero modificada: sin anuncios, con reproducción en segundo plano, SponsorBlock integrado, tema AMOLED negro de verdad. Llegó a tener **50 millones de descargas** antes de que Google lo matara con un cese y desistimiento en 2022.
+
+<ScreenshotFrame
+  src="https://placehold.co/280x560/1e1b4b/818cf8?text=Vanced+YouTube"
+  alt="YouTube Vanced — la misma interfaz de YouTube pero sin anuncios"
+  variant="phone"
+  caption="Vanced se veía y sentía como YouTube, pero sin la basura"
+/>
+
+### Lo que ofrecía
+
+- **Sin anuncios** — cero publicidad en todos lados
+- **Reproducción en segundo plano** — nativa
+- **SponsorBlock** — saltaba automáticamente los segmentos patrocinados
+- **Tema AMOLED** — negro puro, no gris oscuro
+- **Picture-in-picture** — sin pagar Premium
+- **Sin cuenta de Google** — opcional
+
+El truco de Vanced es que **NO era un cliente independiente**. Era la app de YouTube modificada. Por eso se veía idéntica, por eso todo funcionaba igual — porque ERA la misma app, solo que libre de restricciones.
+
+### El precio de ser el primero
+
+Vanced murió porque distribuía APKs modificados de una app propiedad de Google. Eso lo hacía legalmente vulnerable. Pero su legado vive en **ReVanced**: un proyecto que hace lo mismo pero de forma más inteligente.
+
+En lugar de distribuir APKs modificados, ReVanced te da un **parcheador** — tú mismo modificas tu copia de YouTube. Es más legal, más actualizado, pero también más complejo de instalar.
+
+---
+
+## YouTube Morphe — El relevo moderno
+
+Y entonces llega [YouTube Morphe](https://morphe.software/). Si Vanced fue el pionero, Morphe es el que aprendió de todo lo que vino antes y construyó algo mejor.
+
+<ScreenshotFrame
+  src="https://placehold.co/280x560/292524/a78bfa?text=Morphe+YouTube"
+  alt="YouTube Morphe reproduciendo video en segundo plano"
+  variant="phone"
+  caption="YouTube Morphe — mismo concepto que Vanced pero sin necesidad de parchear"
+/>
+
+Al igual que Vanced, **YouTube Morphe** es una versión modificada de YouTube que elimina anuncios, activa la reproducción en segundo plano y te devuelve el control. Pero con una diferencia clave: Morphe es una **app independiente** que se instala directamente, sin necesidad de parchear la app oficial.
+
+### Lo que trae
+
+- **Sin anuncios** — como Vanced, pero sin depender de parches
+- **Reproducción en segundo plano** — nativa
+- **Descarga de videos y audio** — integrada
+- **Modo pop-up** — el video flota sobre cualquier app
+- **Actualizaciones automáticas** — se actualiza solo
+- **Sin microG, sin parches, sin complicaciones**
+
+Morphe resuelve el problema más grande de Vanced/ReVanced: **la fricción de instalación**. Con Vanced necesitabas el Manager + microG. Con ReVanced necesitas el CLI o el Manager + las releases de YouTube. Con Morphe descargas un APK, lo instalas y ya.
+
+### Cómo instalar YouTube Morphe
+
+1. Ve a [morphe.software](https://morphe.software/) desde tu navegador
+2. Descarga el APK de la última versión
+3. Permite instalación de orígenes desconocidos (una vez)
+4. Abre el APK e instala
+5. Listo — reproducción en segundo plano desde el primer segundo
+
+---
+
+## Comparativa rápida
+
+|  | NewPipe | Vanced | YouTube Morphe |
+|---|---|---|---|
+| Tipo | Cliente independiente | Mod de YouTube | Mod de YouTube |
+| Instalación | Directa (APK) | Manager + microG | Directa (APK) |
+| Interfaz | Propia | Igual a YouTube | Igual a YouTube |
+| Peso | Ligero (~20 MB) | Pesado (~80 MB) | Moderado |
+| Cuenta Google | No necesaria | Opcional | Opcional |
+| Actualizaciones | Manual | Manual (parche) | Automáticas |
+| SponsorBlock | No | Sí (integrado) | No |
+
+## Veredicto
+
+NewPipe es para el que quiere algo **ligero y sin complicaciones**. Vanced (hoy ReVanced) es para el que quiere **la experiencia completa de YouTube** y no le molesta parchear. YouTube Morphe es **el punto medio ideal**: tiene todo lo de Vanced pero se instala como NewPipe.
+
+Cada uno tiene su lugar. La buena noticia es que los tres existen y los tres funcionan.
