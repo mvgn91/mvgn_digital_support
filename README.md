@@ -2,7 +2,7 @@
 
 Sitio web editorial de MVGN Labs: facilitación técnica, compilaciones verificadas y soporte para entretenimiento digital en dispositivos Android.
 
-**Producción:** [mvgnlabs.vercel.app](https://mvgnlabs.vercel.app)
+**Producción:** [mvgn-digital-support-center.pages.dev](https://mvgn-digital-support-center.pages.dev)
 
 ---
 

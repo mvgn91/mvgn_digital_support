@@ -19,7 +19,7 @@
 ## Contexto del proyecto
 
 - **Stack:** Astro v6 + React 19 + Framer Motion + Lucide Icons
-- **Despliegue:** mvgnlabs.vercel.app (Vercel)
+- **Despliegue:** mvgn-digital-support-center.pages.dev (Cloudflare Pages)
 - **Propósito:** Centro de Soporte Digital — facilitación técnica y soporte para entretenimiento digital en Android
 
 ## MVGN Runtime
@@ -97,7 +97,7 @@
 ## Próximos pasos sugeridos
 
 1. Contenido editorial de artículos (en investigación / redacción)
-2. Deploy a producción (mvgnlabs.vercel.app)
+2. Deploy a producción (mvgn-digital-support-center.pages.dev)
 3. Artículo sobre XUPER TV / compilaciones en el laboratorio
 
 **Nota:** No hay archivos v2.3 preservados. MVGN 3.5 es la única fuente de verdad. Todo el legacy pre-3.5 fue eliminado o archivado en `_archive/`.

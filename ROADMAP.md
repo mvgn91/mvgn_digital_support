@@ -32,7 +32,7 @@
 #### Infraestructura
 - Build estático con Astro v6
 - Post-build: cifrado de páginas de soporte con StatiCrypt
-- Desplegado en Vercel (`mvgnlabs.vercel.app`)
+- Desplegado en Cloudflare Pages (`mvgn-digital-support-center.pages.dev`)
 - Integración React + Framer Motion para componentes interactivos
 
 ---
