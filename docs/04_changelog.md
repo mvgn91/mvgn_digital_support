@@ -5,6 +5,87 @@
 
 ---
 
+## 2026-07-10 — Sesión 018: Reformas estéticas + Planes
+
+### Metodología — Rediseño completo
+- **Barra de proceso** reemplazada por `process-grid` con diseño editorial
+- Números de paso: 0.7rem → 2.05rem, cambiados a `--font-mono` (JetBrains Mono)
+- Wrapper de número: 64px → 80px con hover glow + scale
+- Título de cada paso: 0.85rem → 1rem
+- Nuevos verbos descriptivos debajo de cada título
+- Flechas SVG conectoras entre pasos
+- Responsive: grid 1 columna con flex-row
+
+### Sección de Planes — Renovación completa
+- Título: "Probado y funcionando" con section-tag `ID: MVGN-HUB-004`
+- **Compilación ($400)** — builds TV + Mobile + guía PDF (sin soporte)
+- **Cobertura ($600/6 meses)** — respaldo continuo con items `[En desarrollo]` y `[Próximamente]`
+- Badge "Uso frecuente" reposicionado a la esquina (absolute)
+- Disclaimer card ahora full-width (sin max-width limitante)
+- Service info actualizado con "series, películas y canales de TV"
+
+### Limpieza técnica
+- Código CSS muerto eliminado (`.process-bar`, `.process-step`, etc.)
+- Clases responsive huérfanas reemplazadas
+
+### Archivos modificados
+- `src/pages/index.astro` — cambios principales
+- `.mvgn-context.json` — actualizado a ses-018
+- `docs/06_state_report.md` — actualizado
+- `docs/04_changelog.md` — este archivo
+
+---
+
+## 2026-07-10 — Sesión 017: Limpieza de legacy MVGN
+
+### Legacy eliminado
+- `.mvgn-v2.1-backup/` — backup completo de v2.1
+- `prompts/` — 5 archivos deprecados (bugfix, component, master, readme, task-execution)
+- `profiles/lite/prompts/` — lite-prompt.md deprecado
+- `profiles/lite/.mvgn-context.json.legacy`
+
+### Archivado en `_archive/docs/`
+- `AUDIT_REPORT.md` — auditoría de v2.2 (valor histórico)
+- `09_migration_v2.3_to_v3.0.md` — guía de migración (ya completada)
+
+### MVGN 3.5 como fuente de verdad
+- MVGN 3.5 declarado como única fuente de verdad
+- Todo el legacy pre-3.5 eliminado o archivado
+
+### Archivos modificados
+- `.mvgn-context.json` — actualizado a ses-017
+- `docs/06_state_report.md` — actualizado
+- `docs/04_changelog.md` — este archivo
+
+---
+
+## 2026-07-09 — Sesión 016: Corrección de lectura de artículos
+
+### Artículo [slug].astro — Causa raíz
+- Detectado bug de jerarquía: reglas de `h2`, `h3`, párrafos, listas y bloques MDX estaban en CSS scoped de Astro.
+- El contenido renderizado por `<Content />` no recibía ese scope, por eso los márgenes y tamaños definidos no se aplicaban realmente.
+- La tipografía editorial de `.article-body` se duplicó/movió a `<style is:global>` con selectores acotados a `.article-body`.
+
+### Jerarquía y ritmo
+- Columna de lectura: 740px → 800px.
+- Body: 1rem/1.65 → 18px/1.82 con `IBM Plex Sans`.
+- Primer párrafo: lead de 20px/1.8, sin drop cap.
+- `h2`: 36px, separador superior, margen real de 96px y padding superior de 32px.
+- `h3`: 23.2px, margen de 56px salvo cuando sigue directo a un `h2`.
+- Callouts, verdict grid, tablas, blockquotes, listas y screenshots ahora participan del ritmo vertical global.
+
+### Verificación
+- `npm run build` completado correctamente.
+- Verificación browser local en `/laboratorio/bitwarden/`.
+- Desktop: `.article-body` 800px, body 18px/32.76px, sin overflow horizontal.
+- Mobile 390px: `.article-body` 350px, body 17px, `h2` 28.8px, `h3` 20.8px, sin overflow horizontal.
+
+### Archivos modificados
+- `src/pages/laboratorio/[slug].astro`
+- `.mvgn-context.json`
+- `docs/06_state_report.md`
+- `docs/04_changelog.md`
+
 ## 2026-07-08 — Sesiones 008-015: Rediseño editorial + Overhaul artículos
 
 ### SERVICE Redesign — Paleta Cerulean

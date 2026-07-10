@@ -14,7 +14,11 @@ import Zap from '@lucide/astro/icons/zap';
 import CircleCheck from '@lucide/astro/icons/circle-check';
 ---
 
-<BaseLayout title="Contacto — MVGN Labs" description="Estamos aquí para ayudarte. Contáctanos por WhatsApp o correo electrónico.">
+<BaseLayout title="Contacto — MVGN Labs" description="Estamos aquí para ayudarte. Contáctanos por WhatsApp o correo electrónico." topbarTag="CENTRO DE SOPORTE">
+  <a href="/" slot="topbar-actions" class="topbar-back">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+    <span>Volver</span>
+  </a>
   <div class="contact-page">
 
     <!-- ═══ AMBIENT BACKGROUND ═══ -->
@@ -29,30 +33,6 @@ import CircleCheck from '@lucide/astro/icons/circle-check';
       <div class="contact-bg-grid"></div>
     </div>
 
-    <!-- ═══ TOP BAR ═══ -->
-    <nav class="contact-topbar">
-      <div class="contact-topbar-inner">
-        <div class="contact-topbar-brand">
-          <a href="/" class="contact-topbar-logo-link">
-            <img src="/favicon.png" alt="MVGN Labs" class="contact-topbar-logo" />
-            <span class="contact-topbar-name">MVGN Labs</span>
-          </a>
-          <span class="contact-topbar-sep"></span>
-          <span class="contact-topbar-tag">CENTRO DE SOPORTE</span>
-        </div>
-        <div class="contact-topbar-actions">
-          <a href="/" class="contact-topbar-back">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-            Volver
-          </a>
-          <button class="contact-theme-btn" id="contact-theme-btn" aria-label="Cambiar tema">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="contact-theme-icon contact-theme-icon--sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="contact-theme-icon contact-theme-icon--moon"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-          </button>
-        </div>
-      </div>
-    </nav>
-
     <!-- ═══ HERO ═══ -->
     <header class="contact-hero">
       <div class="contact-hero-inner">
@@ -62,13 +42,12 @@ import CircleCheck from '@lucide/astro/icons/circle-check';
         </div>
 
         <h1 class="contact-hero-title animate-once">
-          Hablemos.
-          <span class="contact-hero-accent">Sin vueltas.</span>
+          Contacto y Soporte Técnico
         </h1>
 
         <p class="contact-hero-desc animate-once">
-          Estamos aquí para orientarte, resolver tus dudas y ayudarte a elegir 
-          la mejor experiencia para ti. Sin compromisos, sin demoras.
+          MVGN Labs ofrece canales directos de atención para consultas técnicas, 
+          configuración de servicios y asistencia especializada.
         </p>
       </div>
 
@@ -96,7 +75,7 @@ import CircleCheck from '@lucide/astro/icons/circle-check';
             <div class="channel-card-body">
               <h2 class="channel-card-title">WhatsApp</h2>
               <p class="channel-card-desc">
-                El canal más rápido. Te respondemos <strong>en menos de 30 minutos</strong>.
+                Canal prioritario con el tiempo de respuesta más ágil. Se atiende en un promedio de <strong>30 minutos</strong>.
               </p>
               <span class="channel-card-meta">+52 33 2262 1939</span>
             </div>
@@ -117,7 +96,7 @@ import CircleCheck from '@lucide/astro/icons/circle-check';
             <div class="channel-card-body">
               <h2 class="channel-card-title">Correo Electrónico</h2>
               <p class="channel-card-desc">
-                Para consultas detalladas. Respondemos <strong>en menos de 2 horas</strong>.
+                Para solicitudes formales y documentación detallada. Se responde en un plazo máximo de <strong>2 horas</strong>.
               </p>
               <span class="channel-card-meta">mvgnlabs@proton.me</span>
             </div>
@@ -138,7 +117,7 @@ import CircleCheck from '@lucide/astro/icons/circle-check';
             <div class="channel-card-body">
               <h2 class="channel-card-title">Preguntas Frecuentes</h2>
               <p class="channel-card-desc">
-                Quizá tu pregunta ya tiene respuesta. Encuéntrala al instante en nuestro centro de ayuda.
+                Consulte el centro de ayuda antes de contactar. Es posible que su consulta ya esté resuelta.
               </p>
               <span class="channel-card-meta">Centro de ayuda</span>
             </div>
@@ -222,8 +201,8 @@ import CircleCheck from '@lucide/astro/icons/circle-check';
             <div class="status-banner">
               <div class="status-banner-dot"></div>
               <div class="status-banner-body">
-                <strong>Atención activa</strong>
-                <p>Estamos respondiendo consultas en este momento. No dudes en escribirnos.</p>
+                <strong>Disponibilidad inmediata</strong>
+                <p>El equipo de soporte se encuentra disponible para recibir y atender consultas técnicas.</p>
               </div>
             </div>
           </div>
@@ -237,9 +216,9 @@ import CircleCheck from '@lucide/astro/icons/circle-check';
       <div class="contact-cta-glow" aria-hidden="true"></div>
       <div class="contact-cta-inner">
         <div class="contact-cta-body">
-          <h2 class="contact-cta-title">¿No sabes por dónde empezar?</h2>
+          <h2 class="contact-cta-title">¿Requiere asistencia técnica?</h2>
           <p class="contact-cta-desc">
-            Escríbenos y te orientamos sin compromiso. Te ayudamos a elegir la experiencia ideal para ti.
+            Nuestro equipo está preparado para atender sus consultas y brindarle la solución que necesita.
           </p>
         </div>
         <div class="contact-cta-actions">
@@ -260,24 +239,7 @@ import CircleCheck from '@lucide/astro/icons/circle-check';
 </BaseLayout>
 
 <script>
-  (function() {
-    // ── Theme Toggle ──
-    const themeBtn = document.getElementById('contact-theme-btn');
-    if (themeBtn) {
-      themeBtn.addEventListener('click', () => {
-        const html = document.documentElement;
-        const current = html.getAttribute('data-theme');
-        const next = current === 'dark' ? 'light' : 'dark';
-        html.setAttribute('data-theme', next);
-        localStorage.setItem('mvgn-theme', next);
-        const themeColor = document.querySelector('meta[name="theme-color"]');
-        if (themeColor) {
-          themeColor.setAttribute('content', next === 'dark' ? '#0A0A0A' : '#F5F5F5');
-        }
-      });
-    }
-
-    // ── Scroll Animations ──
+  // ── Scroll Animations ──
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -290,7 +252,6 @@ import CircleCheck from '@lucide/astro/icons/circle-check';
     document.querySelectorAll('.animate-on-scroll').forEach(el => {
       observer.observe(el);
     });
-  })();
 </script>
 
 <style is:global>
@@ -405,137 +366,6 @@ import CircleCheck from '@lucide/astro/icons/circle-check';
     mask-image: radial-gradient(ellipse 60% 45% at 50% 0%, black 20%, transparent 70%);
     -webkit-mask-image: radial-gradient(ellipse 60% 45% at 50% 0%, black 20%, transparent 70%);
   }
-
-  /* ══════════════════════════════════════════════════════════
-     TOP BAR
-     ══════════════════════════════════════════════════════════ */
-  .contact-topbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 100;
-    height: 52px;
-    display: flex;
-    align-items: center;
-    padding: 0 var(--space-6);
-    background: var(--glass-bg-subtle);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-  }
-
-  .contact-topbar-inner {
-    max-width: var(--max-width-page);
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-  }
-
-  .contact-topbar-brand {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-  }
-
-  .contact-topbar-logo-link {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    text-decoration: none;
-    overflow: hidden;
-  }
-
-  .contact-topbar-logo {
-    width: 20px;
-    height: 20px;
-    display: block;
-    border-radius: 4px;
-    flex-shrink: 0;
-  }
-
-  .contact-topbar-name {
-    font-size: var(--text-sm);
-    font-weight: 700;
-    color: var(--color-text-primary);
-    letter-spacing: -0.02em;
-    white-space: nowrap;
-    max-width: 0;
-    opacity: 0;
-    transition: all var(--transition-base);
-    overflow: hidden;
-  }
-
-  .contact-topbar-logo-link:hover .contact-topbar-name {
-    max-width: 100px;
-    opacity: 1;
-  }
-
-  .contact-topbar-sep {
-    width: 1px;
-    height: 14px;
-    background: rgba(255, 255, 255, 0.06);
-  }
-
-  .contact-topbar-tag {
-    font-size: var(--text-xs);
-    color: var(--color-text-tertiary);
-    font-weight: 400;
-  }
-
-  .contact-topbar-actions {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-  }
-
-  .contact-topbar-back {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: var(--text-sm);
-    font-weight: 600;
-    color: var(--color-text-tertiary);
-    text-decoration: none;
-    padding: var(--space-1) var(--space-3);
-    border-radius: var(--radius-full);
-    transition: all var(--transition-fast);
-  }
-
-  .contact-topbar-back:hover {
-    color: var(--color-text-primary);
-    background: rgba(255, 255, 255, 0.04);
-  }
-
-  .contact-theme-btn {
-    width: 32px;
-    height: 32px;
-    border-radius: var(--radius-full);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--glass-bg);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    color: var(--color-text-tertiary);
-    cursor: pointer;
-    transition: all var(--transition-fast);
-  }
-
-  .contact-theme-btn:hover {
-    color: var(--color-text-primary);
-    background: rgba(255, 255, 255, 0.06);
-  }
-
-  .contact-theme-icon {
-    transition: opacity var(--transition-fast);
-  }
-
-  [data-theme="dark"] .contact-theme-icon--sun { display: block; }
-  [data-theme="dark"] .contact-theme-icon--moon { display: none; }
-  [data-theme="light"] .contact-theme-icon--sun { display: none; }
-  [data-theme="light"] .contact-theme-icon--moon { display: block; }
 
   /* ══════════════════════════════════════════════════════════
      HERO
@@ -1460,14 +1290,6 @@ import CircleCheck from '@lucide/astro/icons/circle-check';
     }
 
     .channel-card-arrow {
-      display: none;
-    }
-
-    .contact-topbar-tag {
-      font-size: 0.6rem;
-    }
-
-    .contact-topbar-back span {
       display: none;
     }
 

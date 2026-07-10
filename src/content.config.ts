@@ -8,6 +8,7 @@ const laboratorio = defineCollection({
     title: z.string(),
     pubDate: z.date(),
     description: z.string(),
+    heroImage: z.string().optional(),
     tags: z.array(z.string()),
     icon: z.string().optional(),
     featured: z.boolean().optional().default(false),

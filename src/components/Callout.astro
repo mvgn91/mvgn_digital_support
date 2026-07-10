@@ -7,8 +7,9 @@ import Info from '@lucide/astro/icons/info';
 import CircleCheck from '@lucide/astro/icons/circle-check';
 import CircleAlert from '@lucide/astro/icons/circle-alert';
 import CircleX from '@lucide/astro/icons/circle-x';
+import FileText from '@lucide/astro/icons/file-text';
 
-export type CalloutVariant = 'info' | 'tip' | 'warning' | 'danger';
+export type CalloutVariant = 'info' | 'tip' | 'warning' | 'danger' | 'editorial';
 
 export interface Props {
   variant?: CalloutVariant;
@@ -22,6 +23,7 @@ const config: Record<string, { icon: any; label: string }> = {
   tip: { icon: CircleCheck, label: 'Consejo' },
   warning: { icon: CircleAlert, label: 'Importante' },
   danger: { icon: CircleX, label: 'Advertencia' },
+  editorial: { icon: FileText, label: 'Nota editorial' },
 };
 
 const { icon: Icon, label } = config[variant];
@@ -136,5 +138,24 @@ const { icon: Icon, label } = config[variant];
   .callout--danger .callout-body,
   .callout--danger .callout-body p {
     color: var(--color-danger-text);
+  }
+
+  /* Editorial */
+  .callout--editorial {
+    background: var(--glass-bg-subtle);
+    border-color: var(--glass-border-strong);
+  }
+  .callout--editorial .callout-header {
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: var(--space-2);
+    margin-bottom: var(--space-2);
+  }
+  .callout--editorial .callout-icon,
+  .callout--editorial .callout-label {
+    color: var(--color-primary);
+  }
+  .callout--editorial .callout-body,
+  .callout--editorial .callout-body p {
+    color: var(--color-text-secondary);
   }
 </style>

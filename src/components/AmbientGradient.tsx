@@ -3,15 +3,35 @@ import { useEffect } from 'react';
 
 interface AmbientGradientProps {
   className?: string;
+  palette?: 'cerulean' | 'purple';
 }
 
-// Cerulean palette — slightly more presence for visible movement
-const COLORS = [
-  'rgba(75, 163, 242, 0.10)',
-  'rgba(61, 139, 255, 0.07)',
-  'rgba(93, 169, 255, 0.05)',
-  'rgba(75, 163, 242, 0.04)',
-];
+const PALETTES = {
+  cerulean: {
+    layers: [
+      'rgba(75, 163, 242, 0.10)',
+      'rgba(61, 139, 255, 0.07)',
+      'rgba(93, 169, 255, 0.05)',
+      'rgba(75, 163, 242, 0.04)',
+    ],
+    tentacles: [
+      'rgba(75, 163, 242, 0.12)',
+      'rgba(93, 169, 255, 0.09)',
+    ],
+  },
+  purple: {
+    layers: [
+      'rgba(167, 139, 250, 0.12)',
+      'rgba(139, 92, 246, 0.09)',
+      'rgba(192, 132, 252, 0.07)',
+      'rgba(167, 139, 250, 0.05)',
+    ],
+    tentacles: [
+      'rgba(167, 139, 250, 0.14)',
+      'rgba(192, 132, 252, 0.10)',
+    ],
+  },
+};
 
 function useGradientAnimation() {
   // Layer 1 — slow drift (core ambient)
@@ -29,6 +49,14 @@ function useGradientAnimation() {
 
   // Layer 4 — subtle base breathing
   const breathe = useMotionValue(1);
+
+  // Tentacle 1 — slow horizontal sway
+  const tx1 = useMotionValue(50);
+  const ty1 = useMotionValue(0);
+
+  // Tentacle 2 — counter-sway
+  const tx2 = useMotionValue(50);
+  const ty2 = useMotionValue(0);
 
   useEffect(() => {
     const controls = [
@@ -79,6 +107,30 @@ function useGradientAnimation() {
         repeat: Infinity,
         ease: 'easeInOut',
       }),
+
+      // Tentacle 1: Slow horizontal sway
+      animate(tx1, [50, 25, 60, 30, 55, 50], {
+        duration: 20,
+        repeat: Infinity,
+        ease: 'easeInOut',
+      }),
+      animate(ty1, [0, 15, -5, 10, 0], {
+        duration: 16,
+        repeat: Infinity,
+        ease: 'easeInOut',
+      }),
+
+      // Tentacle 2: Counter-sway
+      animate(tx2, [50, 70, 35, 65, 45, 50], {
+        duration: 22,
+        repeat: Infinity,
+        ease: 'easeInOut',
+      }),
+      animate(ty2, [0, -10, 8, -5, 0], {
+        duration: 18,
+        repeat: Infinity,
+        ease: 'easeInOut',
+      }),
     ];
 
     return () => controls.forEach(c => c.stop());
@@ -88,16 +140,17 @@ function useGradientAnimation() {
   const x1Scaled = useTransform(x1, v => v * 0.8 + 10);
   const y1Scaled = useTransform(y1, v => v * 0.8);
 
-  return { x1, y1, x2, y2, x3, y3, pulse, breathe, x1Scaled, y1Scaled };
+  return { x1, y1, x2, y2, x3, y3, pulse, breathe, x1Scaled, y1Scaled, tx1, ty1, tx2, ty2 };
 }
 
-export default function AmbientGradient({ className = '' }: AmbientGradientProps) {
-  const { x1, y1, x2, y2, x3, y3, pulse, breathe, x1Scaled, y1Scaled } = useGradientAnimation();
+export default function AmbientGradient({ className = '', palette = 'cerulean' }: AmbientGradientProps) {
+  const colors = PALETTES[palette];
+  const { x1, y1, x2, y2, x3, y3, pulse, breathe, x1Scaled, y1Scaled, tx1, ty1, tx2, ty2 } = useGradientAnimation();
 
   const grad1 = useMotionTemplate`
     radial-gradient(
       ellipse 65% 55% at ${x1}% ${y1}%,
-      ${COLORS[0]} 0%,
+      ${colors.layers[0]} 0%,
       transparent 65%
     )
   `;
@@ -105,7 +158,7 @@ export default function AmbientGradient({ className = '' }: AmbientGradientProps
   const grad2 = useMotionTemplate`
     radial-gradient(
       ellipse 55% 45% at ${x2}% ${y2}%,
-      ${COLORS[1]} 0%,
+      ${colors.layers[1]} 0%,
       transparent 60%
     )
   `;
@@ -113,7 +166,7 @@ export default function AmbientGradient({ className = '' }: AmbientGradientProps
   const grad3 = useMotionTemplate`
     radial-gradient(
       ellipse 45% 55% at ${x3}% ${y3}%,
-      ${COLORS[2]} 0%,
+      ${colors.layers[2]} 0%,
       transparent 55%
     )
   `;
@@ -121,8 +174,24 @@ export default function AmbientGradient({ className = '' }: AmbientGradientProps
   const grad4 = useMotionTemplate`
     radial-gradient(
       ellipse 60% 40% at ${x1Scaled}% ${y1Scaled}%,
-      ${COLORS[3]} 0%,
+      ${colors.layers[3]} 0%,
       transparent 70%
+    )
+  `;
+
+  const tentacle1 = useMotionTemplate`
+    radial-gradient(
+      ellipse 30% 120% at ${tx1}% ${ty1}%,
+      ${colors.tentacles[0]} 0%,
+      transparent 80%
+    )
+  `;
+
+  const tentacle2 = useMotionTemplate`
+    radial-gradient(
+      ellipse 25% 110% at ${tx2}% ${ty2}%,
+      ${colors.tentacles[1]} 0%,
+      transparent 80%
     )
   `;
 
@@ -169,6 +238,28 @@ export default function AmbientGradient({ className = '' }: AmbientGradientProps
           filter: 'blur(60px)',
           opacity: 0.8,
           scale: breathe,
+        }}
+      />
+
+      {/* Tentacle 1 — Ethereal tendril from hero, slow sway */}
+      <motion.div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: tentacle1,
+          filter: 'blur(100px)',
+          opacity: 0.85,
+        }}
+      />
+
+      {/* Tentacle 2 — Counter-sway tendril */}
+      <motion.div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: tentacle2,
+          filter: 'blur(90px)',
+          opacity: 0.65,
         }}
       />
     </div>

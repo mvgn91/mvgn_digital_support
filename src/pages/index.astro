@@ -23,7 +23,7 @@ const ultimosArticulos = articulos
  
 ---
 
-<BaseLayout title="MVGN Digital Hub — Laboratorio Editorial de Herramientas Digitales">
+<BaseLayout title="MVGN Digital Hub — Laboratorio Editorial de Herramientas Digitales" showWhatsApp={true}>
   <div class="page">
 
     <!-- ═══ GLOBAL BACKGROUND ═══ -->
@@ -31,26 +31,6 @@ const ultimosArticulos = articulos
       <div class="bg-ambient"></div>
       <div class="bg-grid"></div>
     </div>
-
-    <!-- ═══ NAV TOP BAR ═══ -->
-    <nav class="topbar">
-      <div class="topbar-inner">
-        <div class="topbar-brand">
-          <a href="/" class="topbar-logo-link">
-            <img src="/favicon.png" alt="MVGN Labs" class="topbar-logo-img" />
-            <span class="topbar-name">MVGN Labs</span>
-          </a>
-          <span class="topbar-sep"></span>
-          <span class="topbar-tag">MVGN DIGITAL HUB</span>
-        </div>
-        <div class="topbar-actions">
-          <button class="docs-theme-btn" id="index-theme-btn" aria-label="Cambiar tema">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="docs-theme-icon docs-theme-icon--sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="docs-theme-icon docs-theme-icon--moon"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-          </button>
-        </div>
-      </div>
-    </nav>
 
     <!-- ═══ FLOATING PILL NAV — macOS Tabs ═══ -->
     <nav class="pillnav" id="pillnav" aria-label="Secciones">
@@ -78,21 +58,10 @@ const ultimosArticulos = articulos
       </div>
     </nav>
 
-    <!-- ═══ FLOATING ACTIONS ═══ -->
-    <div class="floating-actions">
-      <a href="https://wa.me/523322621939" target="_blank" rel="noopener noreferrer" class="floating-btn floating-btn--wa" aria-label="WhatsApp">
-        <MessageCircle size={22} />
-      </a>
-      <button class="floating-btn floating-btn--top" id="back-to-top" aria-label="Volver arriba">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
-      </button>
-    </div>
-
     <script>
       (function() {
         const sections = ['proceso', 'laboratorio', 'planes', 'filosofia', 'contacto'];
         const pillnav = document.getElementById('pillnav');
-        const backBtn = document.getElementById('back-to-top');
 
         function setActive(id) {
           document.querySelectorAll('.pillnav-link').forEach(el => el.classList.remove('active'));
@@ -101,23 +70,13 @@ const ultimosArticulos = articulos
         }
 
         function update() {
-          const hero = document.getElementById('hero');
-          const heroBottom = hero ? hero.getBoundingClientRect().bottom : 0;
-          const pastHero = heroBottom < 0;
+          const pastHero = window.scrollY > window.innerHeight * 0.85;
 
           if (pillnav) {
             if (pastHero) {
               pillnav.classList.add('visible');
             } else {
               pillnav.classList.remove('visible');
-            }
-          }
-
-          if (backBtn) {
-            if (pastHero) {
-              backBtn.classList.add('visible');
-            } else {
-              backBtn.classList.remove('visible');
             }
           }
 
@@ -139,12 +98,6 @@ const ultimosArticulos = articulos
 
         window.addEventListener('scroll', update, { passive: true });
         setTimeout(update, 100);
-
-        if (backBtn) {
-          backBtn.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          });
-        }
 
         // Theme toggle
         const themeBtn = document.getElementById('index-theme-btn');
@@ -176,8 +129,8 @@ const ultimosArticulos = articulos
           animObserver.observe(el);
         });
 
-        // ── Process bar hover ──
-        const processSteps = document.querySelectorAll('.process-step');
+        // ── Process grid hover ──
+        const processSteps = document.querySelectorAll('.process-grid-step');
         const descEl = document.getElementById('process-desc-text');
         const descriptions = [
           'Investigamos el panorama. Encontramos lo que existe y lo que realmente funciona.',
@@ -230,7 +183,7 @@ const ultimosArticulos = articulos
     </script>
 
     <!-- ═══ HERO — Editorial / Architectural ═══ -->
-    <header class="hero" id="hero">
+    <header class="hero">
       <div class="hero-shader-bg" aria-hidden="true">
         <AmbientGradient client:load />
       </div>
@@ -245,13 +198,8 @@ const ultimosArticulos = articulos
 
       <div class="hero-content">
 
-        <div class="hero-badge animate-in in-view">
-          ID: MVGN-HUB-001 · ARCHIVO: Manifiesto
-        </div>
-
         <h1 class="hero-title animate-in in-view">
-          <span class="hero-title-line">Hay demasiado software</span>
-          <span class="hero-title-line">ahí afuera.</span>
+          <span class="hero-title-line">Hay demasiado software ahí afuera.</span>
           <span class="hero-title-accent">Nosotros lo filtramos.</span>
         </h1>
 
@@ -323,27 +271,64 @@ const ultimosArticulos = articulos
         </p>
       </div>
 
-      <!-- ── Process bar — horizontal ── -->
-      <div class="process-bar animate-in" id="process-bar">
-        <div class="process-step" data-step="0">
-          <span class="process-step-num">01</span>
-          <span class="process-step-title">Descubrir</span>
+      <!-- ── Process grid — editorial methodology table ── -->
+      <div class="process-grid animate-in" id="process-bar">
+        <div class="process-grid-step" data-step="0">
+          <div class="process-grid-num-wrap">
+            <span class="process-grid-num">01</span>
+          </div>
+          <div class="process-grid-step-body">
+            <span class="process-grid-title">Descubrir</span>
+            <span class="process-grid-verb">Investigar el panorama</span>
+          </div>
         </div>
-        <div class="process-step" data-step="1">
-          <span class="process-step-num">02</span>
-          <span class="process-step-title">Evaluar</span>
+        <div class="process-grid-arrow" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </div>
-        <div class="process-step" data-step="2">
-          <span class="process-step-num">03</span>
-          <span class="process-step-title">Documentar</span>
+        <div class="process-grid-step" data-step="1">
+          <div class="process-grid-num-wrap">
+            <span class="process-grid-num">02</span>
+          </div>
+          <div class="process-grid-step-body">
+            <span class="process-grid-title">Evaluar</span>
+            <span class="process-grid-verb">Probar en entorno real</span>
+          </div>
         </div>
-        <div class="process-step" data-step="3">
-          <span class="process-step-num">04</span>
-          <span class="process-step-title">Recomendar</span>
+        <div class="process-grid-arrow" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </div>
-        <div class="process-step" data-step="4">
-          <span class="process-step-num">05</span>
-          <span class="process-step-title">Apoyar</span>
+        <div class="process-grid-step" data-step="2">
+          <div class="process-grid-num-wrap">
+            <span class="process-grid-num">03</span>
+          </div>
+          <div class="process-grid-step-body">
+            <span class="process-grid-title">Documentar</span>
+            <span class="process-grid-verb">Escribir guías claras</span>
+          </div>
+        </div>
+        <div class="process-grid-arrow" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </div>
+        <div class="process-grid-step" data-step="3">
+          <div class="process-grid-num-wrap">
+            <span class="process-grid-num">04</span>
+          </div>
+          <div class="process-grid-step-body">
+            <span class="process-grid-title">Recomendar</span>
+            <span class="process-grid-verb">Publicar conclusiones</span>
+          </div>
+        </div>
+        <div class="process-grid-arrow" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </div>
+        <div class="process-grid-step" data-step="4">
+          <div class="process-grid-num-wrap">
+            <span class="process-grid-num">05</span>
+          </div>
+          <div class="process-grid-step-body">
+            <span class="process-grid-title">Apoyar</span>
+            <span class="process-grid-verb">Acompañar paso a paso</span>
+          </div>
         </div>
       </div>
 
@@ -379,34 +364,33 @@ const ultimosArticulos = articulos
       </div>
     </section>
 
-    <!-- ═══ ASISTENCIA ═══ -->
+    <!-- ═══ COMPILACIONES ═══ -->
     <section class="section section-planes" id="planes" style="scroll-margin-top: 110px;">
       <div class="section-header animate-in">
-        <h2 class="section-title">Herramientas listas, <span class="title-accent">tú solo úsalas</span></h2>
+        <span class="section-tag">ID: MVGN-HUB-004 · ARCHIVO: Compilaciones</span>
+        <h2 class="section-title">Probado y <span class="title-accent">funcionando</span></h2>
         <p class="section-desc">
-          Soporte técnico y configuración para los que quieren resultados, no complicaciones.
+          Compilaciones verificadas para Android. Dos pantallas. Una configuración. Guía incluida en cada entrega.
         </p>
       </div>
 
       <div class="plans-grid">
         <div class="plans-glow" aria-hidden="true"></div>
 
-        <!-- Lite -->
+        <!-- Compilación -->
         <article class="plan-card plan-card--lite animate-in">
           <div class="plan-card-content">
-            <div class="plan-card-badge">Lite</div>
+            <div class="plan-card-badge">Compilación</div>
             <div class="plan-card-price">
-              <span class="plan-amount">$300</span>
+              <span class="plan-amount">$400</span>
               <span class="plan-currency">MXN</span>
             </div>
-            <p class="plan-card-sub">Asistencia inicial sin compromiso recurrente</p>
+            <p class="plan-card-sub">Solo lo que necesitas</p>
 
             <ul class="plan-card-list">
-              <li><CircleCheck size={14} /> Aplicación para Android</li>
-              <li><CircleCheck size={14} /> Guía de instalación y configuración</li>
-              <li><CircleCheck size={14} /> Asesoría inicial</li>
-              <li><CircleCheck size={14} /> Acceso al Centro de Soporte Digital</li>
-              <li><CircleCheck size={14} /> Archivo de instalación incluido</li>
+              <li><CircleCheck size={14} /> Build verificado para Android TV</li>
+              <li><CircleCheck size={14} /> Build verificado para Mobile / Tablet</li>
+              <li><CircleCheck size={14} /> Guía PDF de instalación paso a paso</li>
             </ul>
 
             <a href="https://wa.me/523322621939" target="_blank" rel="noopener noreferrer" class="plan-card-btn">
@@ -415,32 +399,35 @@ const ultimosArticulos = articulos
             </a>
 
             <p class="plan-card-note">
-              Una sola configuración. Si con el tiempo la aplicación deja de ser viable, evaluamos alternativas por separado.
+              Para quien solo necesita los archivos. Una sola entrega, sin compromiso recurrente.
             </p>
           </div>
         </article>
 
-        <!-- Soporte Activo -->
+        <!-- Cobertura -->
         <article class="plan-card plan-card--active animate-in">
           <div class="plan-card-content">
             <span class="plan-card-popular">
               <Sparkles size={12} />
-              Para uso frecuente
+              Uso frecuente
             </span>
 
-            <div class="plan-card-badge">Soporte Activo</div>
+            <div class="plan-card-badge">Cobertura</div>
             <div class="plan-card-price">
-              <span class="plan-amount">$500</span>
+              <span class="plan-amount">$600</span>
               <span class="plan-currency">MXN</span>
             </div>
-            <p class="plan-card-sub">Asistencia continua · 6 meses de cobertura</p>
+            <p class="plan-card-sub">Respaldo continuo · 6 meses</p>
 
             <ul class="plan-card-list">
-              <li><CircleCheck size={14} /> Todo lo de Lite</li>
+              <li><CircleCheck size={14} /> Todo lo de Compilación</li>
               <li class="plan-card-list-divider" aria-hidden="true"></li>
-              <li><Shield size={14} /> Soporte prioritario por WhatsApp</li>
-              <li><Shield size={14} /> Seguimiento de alternativas disponibles</li>
-              <li><Shield size={14} /> Asistencia para migración durante el período</li>
+              <li><Shield size={14} /> Soporte por WhatsApp</li>
+              <li><Shield size={14} /> Nuevos builds ante cambios en las fuentes</li>
+              <li><Shield size={14} /> Migración a método alternativo si es necesario</li>
+              <li><Shield size={14} /> Canales de TV <span class="plan-card-tag">disponibilidad</span></li>
+              <li><Shield size={14} /> Dashboard de estado del servicio <span class="plan-card-tag plan-card-tag--dev">En desarrollo</span></li>
+              <li><Shield size={14} /> Notificaciones de actualización <span class="plan-card-tag plan-card-tag--dev">Próximamente</span></li>
             </ul>
 
             <a href="https://wa.me/523322621939" target="_blank" rel="noopener noreferrer" class="plan-card-btn plan-card-btn--primary">
@@ -449,7 +436,7 @@ const ultimosArticulos = articulos
             </a>
 
             <p class="plan-card-note">
-              Durante 6 meses cubrimos migración a una alternativa funcional si es necesario, sin costo adicional.
+              Para quien usa el servicio a diario y quiere estar cubierto ante cualquier cambio.
             </p>
           </div>
         </article>
@@ -460,7 +447,7 @@ const ultimosArticulos = articulos
         <div class="plan-info-card">
           <p class="plan-info-row">
             <svg class="plan-info-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
-            <strong>Incluye</strong> configuración de aplicación para Android, guía de instalación y documentación propia, asistencia técnica durante el período contratado y archivo de instalación.
+            <strong>Incluye</strong> software de entretenimiento para Android TV y dispositivos móviles con acceso a series, películas y canales de TV, guía de instalación y archivos verificados.
           </p>
           <p class="plan-info-row">
             <svg class="plan-info-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
@@ -468,7 +455,7 @@ const ultimosArticulos = articulos
           </p>
           <p class="plan-info-row">
             <svg class="plan-info-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
-            <strong>Notas</strong> — Servicio disponible solo en México. La compatibilidad puede variar según el modelo. No garantizamos el funcionamiento indefinido de una aplicación específica. No somos desarrolladores, propietarios ni representantes de las aplicaciones recomendadas.
+            <strong>Notas</strong> — Servicio disponible solo en México. La compatibilidad puede variar según el modelo y versión de Android. Los canales de TV están sujetos a disponibilidad del proveedor. No somos desarrolladores, propietarios ni representantes de las aplicaciones proporcionadas.
           </p>
         </div>
       </div>
@@ -602,7 +589,7 @@ const ultimosArticulos = articulos
   .manifesto-pullquote.animate-in,
   .manifesto-stats.animate-in { transition-delay: 0ms; }
 
-  .process-bar.animate-in { transition-delay: 0ms; }
+  .process-grid.animate-in { transition-delay: 0ms; }
   .process-desc-box.animate-in { transition-delay: 120ms; }
 
   /* Value & details stagger */
@@ -675,130 +662,6 @@ const ultimosArticulos = articulos
   /* ══════════════════════════════════════════════════
      NAV
      ══════════════════════════════════════════════════ */
-  /* ══════════════════════════════════════════════════
-     TOP BAR
-     ══════════════════════════════════════════════════ */
-  .topbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 100;
-    height: 52px;
-    display: flex;
-    align-items: center;
-    padding: 0 var(--space-6);
-    background: var(--glass-bg-subtle);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-  }
-
-  .topbar-inner {
-    max-width: var(--max-width-page);
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-  }
-
-  .topbar-brand {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-  }
-
-  .topbar-logo-link {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    text-decoration: none;
-    overflow: hidden;
-  }
-
-  .topbar-logo-img {
-    width: 20px;
-    height: 20px;
-    display: block;
-    border-radius: 4px;
-    flex-shrink: 0;
-  }
-
-  .topbar-name {
-    font-size: var(--text-sm);
-    font-weight: 700;
-    color: var(--color-text-primary);
-    letter-spacing: -0.02em;
-    white-space: nowrap;
-    max-width: 0;
-    opacity: 0;
-    transition: all var(--transition-base);
-    overflow: hidden;
-  }
-
-  .topbar-logo-link:hover .topbar-name {
-    max-width: 100px;
-    opacity: 1;
-  }
-
-  .topbar-sep {
-    width: 1px;
-    height: 14px;
-    background: rgba(255, 255, 255, 0.06);
-  }
-
-  .topbar-tag {
-    font-size: var(--text-xs);
-    color: var(--color-text-tertiary);
-    font-weight: 400;
-  }
-
-  .topbar-actions {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-  }
-
-  .docs-theme-btn {
-    width: 32px;
-    height: 32px;
-    border-radius: var(--radius-full);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--glass-bg);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    color: var(--color-text-tertiary);
-    cursor: pointer;
-    transition: all var(--transition-fast);
-  }
-
-  .docs-theme-btn:hover {
-    color: var(--color-text-primary);
-    background: rgba(255, 255, 255, 0.06);
-  }
-
-  .docs-theme-icon {
-    transition: opacity var(--transition-fast), transform var(--transition-fast);
-  }
-
-  [data-theme="dark"] .docs-theme-icon--sun {
-    display: block;
-  }
-
-  [data-theme="dark"] .docs-theme-icon--moon {
-    display: none;
-  }
-
-  [data-theme="light"] .docs-theme-icon--sun {
-    display: none;
-  }
-
-  [data-theme="light"] .docs-theme-icon--moon {
-    display: block;
-  }
-
   /* ══════════════════════════════════════════════════
      PILL NAV — macOS Tabs
      ══════════════════════════════════════════════════ */
@@ -873,73 +736,6 @@ const ultimosArticulos = articulos
 
   .pillnav-link.active .pillnav-icon {
     opacity: 1;
-  }
-
-  /* ══════════════════════════════════════════════════
-     FLOATING ACTIONS
-     ══════════════════════════════════════════════════ */
-  .floating-actions {
-    position: fixed;
-    bottom: var(--space-8);
-    right: var(--space-8);
-    z-index: 200;
-    display: flex;
-    flex-direction: column-reverse;
-    gap: var(--space-3);
-    align-items: center;
-  }
-
-  .floating-btn {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    cursor: pointer;
-    text-decoration: none;
-    transition: all var(--transition-base);
-    position: relative;
-  }
-
-  .floating-btn--wa {
-    background: rgba(16, 185, 129, 0.1);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(16, 185, 129, 0.08);
-    color: var(--color-green);
-  }
-
-  .floating-btn--wa:hover {
-    background: rgba(16, 185, 129, 0.15);
-    transform: translateY(-1px);
-  }
-
-  .floating-btn--top {
-    background: rgba(255, 255, 255, 0.04);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.03);
-    color: var(--color-text-tertiary);
-    opacity: 0;
-    transform: translateY(12px);
-    pointer-events: none;
-    transition: all var(--transition-base);
-    width: 40px;
-    height: 40px;
-  }
-
-  .floating-btn--top.visible {
-    opacity: 0.5;
-    transform: translateY(0);
-    pointer-events: auto;
-  }
-
-  .floating-btn--top:hover {
-    opacity: 1;
-    color: var(--color-text-primary);
-    transform: translateY(-2px);
   }
 
   /* ══════════════════════════════════════════════════
@@ -1345,90 +1141,135 @@ const ultimosArticulos = articulos
   }
 
   /* ══════════════════════════════════════════════════
-     PROCESS BAR — Horizontal stepper
+     PROCESS GRID — Editorial methodology table
      ══════════════════════════════════════════════════ */
   .section-timeline {
     position: relative;
-    max-width: 850px;
+    max-width: 960px;
   }
 
-  .process-bar {
-    display: flex;
-    align-items: stretch;
+  .process-grid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr auto 1fr;
+    align-items: center;
     width: 100%;
     background: var(--glass-bg-subtle);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
     border: 1px solid var(--glass-border);
     border-radius: var(--radius-xl);
-    overflow: hidden;
+    padding: var(--space-8) var(--space-6);
+    transition: border-color var(--transition-base);
   }
 
-  .process-step {
-    flex: 1;
+  .process-grid-step {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 4px;
-    padding: 18px 8px;
+    gap: var(--space-3);
+    padding: var(--space-5) var(--space-3);
     text-align: center;
-    cursor: default;
-    transition: all 0.25s ease;
+    cursor: pointer;
+    border-radius: var(--radius-lg);
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
     position: relative;
     background: transparent;
+    border: 1px solid transparent;
   }
 
-  .process-step::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 20%;
-    height: 60%;
-    width: 1px;
-    background: var(--glass-border);
-    transition: opacity 0.25s ease;
+  .process-grid-step:hover,
+  .process-grid-step.active {
+    background: rgba(75, 163, 242, 0.06);
+    border-color: rgba(75, 163, 242, 0.08);
+    transform: translateY(-3px);
   }
 
-  .process-step:last-child::after {
-    display: none;
+  .process-grid-num-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    border-radius: var(--radius-xl);
+    background: rgba(75, 163, 242, 0.06);
+    border: 1px solid rgba(75, 163, 242, 0.08);
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  .process-step:hover,
-  .process-step.active {
-    background: rgba(75, 163, 242, 0.04);
+  .process-grid-step:hover .process-grid-num-wrap,
+  .process-grid-step.active .process-grid-num-wrap {
+    background: rgba(75, 163, 242, 0.12);
+    border-color: rgba(75, 163, 242, 0.2);
+    box-shadow: 0 0 32px rgba(75, 163, 242, 0.12);
+    transform: scale(1.06);
   }
 
-  .process-step:hover::after,
-  .process-step.active::after {
-    opacity: 0;
-  }
-
-  .process-step-num {
-    font-size: 0.7rem;
+  .process-grid-num {
+    font-size: 2.05rem;
     font-weight: 700;
     color: var(--color-primary);
-    opacity: 0.4;
-    letter-spacing: 0.12em;
-    transition: all 0.25s ease;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    font-family: var(--font-mono);
   }
 
-  .process-step:hover .process-step-num,
-  .process-step.active .process-step-num {
-    opacity: 1;
+  .process-grid-step:hover .process-grid-num,
+  .process-grid-step.active .process-grid-num {
+    transform: scale(1.06);
   }
 
-  .process-step-title {
-    font-size: 0.9rem;
+  .process-grid-title {
+    font-size: 1rem;
     font-weight: 700;
     color: var(--color-text-primary);
     letter-spacing: -0.02em;
-    transition: all 0.25s ease;
+    line-height: 1.2;
+    transition: color 0.3s ease;
   }
 
-  .process-step:hover .process-step-title,
-  .process-step.active .process-step-title {
+  .process-grid-step:hover .process-grid-title,
+  .process-grid-step.active .process-grid-title {
     color: var(--color-primary);
+  }
+
+  .process-grid-step-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+  }
+
+  .process-grid-verb {
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--color-text-tertiary);
+    letter-spacing: 0.03em;
+    line-height: 1.35;
+    opacity: 0.65;
+    max-width: 12ch;
+    transition: opacity 0.3s ease;
+  }
+
+  .process-grid-step:hover .process-grid-verb,
+  .process-grid-step.active .process-grid-verb {
+    opacity: 1;
+  }
+
+  .process-grid-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-tertiary);
+    opacity: 0.25;
+    transition: opacity 0.3s ease;
+    flex-shrink: 0;
+    padding: 0 var(--space-1);
+  }
+
+  .process-grid-arrow svg {
+    display: block;
   }
 
   /* ── Description box ── */
@@ -1834,10 +1675,13 @@ const ultimosArticulos = articulos
   }
 
   .plan-card-popular {
+    position: absolute;
+    top: var(--space-3);
+    right: var(--space-3);
     display: inline-flex;
     align-items: center;
     gap: var(--space-1-5);
-    font-size: 0.7rem;
+    font-size: 0.6rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.1em;
@@ -1846,8 +1690,6 @@ const ultimosArticulos = articulos
     border-radius: var(--radius-full);
     background: rgba(75, 163, 242, 0.08);
     border: 1px solid rgba(75, 163, 242, 0.1);
-    align-self: flex-start;
-    margin-bottom: var(--space-1);
   }
 
   .plan-card-badge {
@@ -1960,6 +1802,28 @@ const ultimosArticulos = articulos
     transform: translateY(-1px);
   }
 
+  .plan-card-tag {
+    display: inline-block;
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 1px 6px;
+    border-radius: var(--radius-full);
+    color: var(--color-text-tertiary);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    margin-left: var(--space-1);
+    vertical-align: middle;
+    line-height: 1.4;
+  }
+
+  .plan-card-tag--dev {
+    color: rgba(75, 163, 242, 0.7);
+    background: rgba(75, 163, 242, 0.06);
+    border-color: rgba(75, 163, 242, 0.1);
+  }
+
   .plan-card-note {
     font-size: var(--text-xs);
     color: var(--color-text-tertiary);
@@ -1980,17 +1844,17 @@ const ultimosArticulos = articulos
     position: relative;
   }
 
+
+
   .plan-info {
-    margin-top: var(--space-8);
+    margin-top: var(--space-10);
     position: relative;
     z-index: 1;
   }
 
   .plan-info-card {
-    max-width: 780px;
-    margin: 0 auto;
-    padding: var(--space-5) var(--space-6);
-    border-radius: var(--radius-lg);
+    padding: var(--space-6) var(--space-8);
+    border-radius: var(--radius-xl);
     background: var(--glass-bg-subtle);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
@@ -2214,13 +2078,12 @@ const ultimosArticulos = articulos
 
   /* ── MOBILE: lighter backdrop-filter for performance, keep aesthetic ── */
   @media (max-width: 1023px) {
-    .topbar,
     .pillnav,
     .plan-card,
     .contact-card,
     .lab-card,
     .filosofia-carta,
-    .process-bar,
+    .process-grid,
     .process-desc-box,
     .doc-hero,
     .doc-content .step-section {
@@ -2231,22 +2094,6 @@ const ultimosArticulos = articulos
 
   /* ── MOBILE (480px - 767px) ── */
   @media (max-width: 767px) {
-    .topbar {
-      left: var(--space-4);
-      right: var(--space-4);
-      width: auto;
-      border-radius: var(--radius-xl);
-      padding: 0 var(--space-4);
-    }
-
-    .topbar-inner {
-      max-width: 100%;
-    }
-
-    .topbar-tag {
-      font-size: 0.65rem;
-    }
-
     .pillnav {
       top: auto;
       bottom: var(--space-4);
@@ -2286,16 +2133,6 @@ const ultimosArticulos = articulos
     .pillnav-icon {
       width: 16px;
       height: 16px;
-    }
-
-    .floating-actions {
-      bottom: calc(52px + var(--space-6));
-      right: var(--space-4);
-    }
-
-    .floating-btn {
-      width: 44px;
-      height: 44px;
     }
 
     .section {
@@ -2355,25 +2192,46 @@ const ultimosArticulos = articulos
       padding: var(--space-6);
     }
 
-    .process-bar {
-      flex-wrap: wrap;
+    .process-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-2);
+      padding: var(--space-5);
     }
 
-    .process-step {
-      flex: 1 1 33.33%;
-      padding: 14px 6px;
+    .process-grid-step {
+      flex-direction: row;
+      gap: var(--space-5);
+      padding: var(--space-3) var(--space-4);
+      text-align: left;
     }
 
-    .process-step::after {
+    .process-grid-num-wrap {
+      width: 56px;
+      height: 56px;
+      flex-shrink: 0;
+    }
+
+    .process-grid-num {
+      font-size: 1.4rem;
+    }
+
+    .process-grid-step-body {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .process-grid-title {
+      font-size: 0.95rem;
+    }
+
+    .process-grid-verb {
+      font-size: 0.7rem;
+      max-width: none;
+    }
+
+    .process-grid-arrow {
       display: none;
-    }
-
-    .process-step-num {
-      font-size: 0.65rem;
-    }
-
-    .process-step-title {
-      font-size: 0.82rem;
     }
 
     .process-desc-box {
@@ -2462,13 +2320,31 @@ const ultimosArticulos = articulos
       padding: var(--space-5);
     }
 
-    .process-step {
-      flex: 1 1 50%;
-      padding: 12px 6px;
+    .process-grid {
+      padding: var(--space-4);
+      gap: var(--space-2);
     }
 
-    .process-step-title {
+    .process-grid-step {
+      gap: var(--space-2);
+      padding: var(--space-2) var(--space-3);
+    }
+
+    .process-grid-num-wrap {
+      width: 44px;
+      height: 44px;
+    }
+
+    .process-grid-num {
+      font-size: 1.1rem;
+    }
+
+    .process-grid-title {
       font-size: 0.78rem;
+    }
+
+    .process-grid-verb {
+      font-size: 0.6rem;
     }
 
 
@@ -2492,11 +2368,6 @@ const ultimosArticulos = articulos
       padding: var(--space-2) var(--space-5);
     }
 
-    .floating-btn {
-      width: 40px;
-      height: 40px;
-    }
   }
-
 
 </style>

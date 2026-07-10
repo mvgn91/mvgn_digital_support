@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 import ArrowLeft from '@lucide/astro/icons/arrow-left';
 import ArrowUpRight from '@lucide/astro/icons/arrow-up-right';
+import AmbientGradient from '../../components/AmbientGradient';
 
 const articulos = await getCollection('laboratorio');
 const sorted = articulos.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
@@ -25,8 +26,7 @@ const dateStr = (d: Date) => d.toLocaleDateString('es-MX', {
   <div class="lab-page">
 
     <div class="bg-layers" aria-hidden="true">
-      <div class="bg-ambient"></div>
-      <div class="bg-grid"></div>
+      <AmbientGradient client:load palette="purple" />
     </div>
 
     <nav class="lab-nav">
@@ -125,33 +125,16 @@ const dateStr = (d: Date) => d.toLocaleDateString('es-MX', {
   }
 
   .bg-layers {
-    position: fixed;
+    position: absolute;
     inset: 0;
     z-index: 0;
     pointer-events: none;
+    opacity: 0.3;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 30%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 30%, transparent 70%);
   }
 
-  .bg-ambient {
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 60% 35% at 50% 0%, rgba(75, 163, 242, 0.12) 0%, transparent 50%);
-  }
-
-  .bg-grid {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-    background-size: 80px 80px;
-    opacity: 0.4;
-    mask-image: radial-gradient(ellipse 50% 35% at 50% 0%, black 15%, transparent 65%);
-    -webkit-mask-image: radial-gradient(ellipse 50% 35% at 50% 0%, black 15%, transparent 65%);
-  }
-
-  [data-theme="light"] .bg-ambient { opacity: 0.25; }
-  [data-theme="light"] .bg-grid { opacity: 0.25; }
+  [data-theme="light"] .bg-layers { opacity: 0.25; }
 
   .lab-nav {
     position: relative;

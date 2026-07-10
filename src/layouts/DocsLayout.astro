@@ -2,7 +2,6 @@
 import BaseLayout from './BaseLayout.astro';
 import Sidebar from '../components/Sidebar.astro';
 import Menu from '@lucide/astro/icons/menu';
-import MessageCircle from '@lucide/astro/icons/message-circle';
 import Sun from '@lucide/astro/icons/sun';
 import Moon from '@lucide/astro/icons/moon';
 
@@ -16,7 +15,7 @@ export interface Props {
 const { title, description, currentApp, hideMobileMenu } = Astro.props;
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} showWhatsApp={true}>
   <div class="docs-layout">
     <!-- Background layers (matches index.astro) -->
     <div class="docs-bg" aria-hidden="true">
@@ -46,16 +45,6 @@ const { title, description, currentApp, hideMobileMenu } = Astro.props;
         </div>
       </div>
     </nav>
-
-    <!-- Floating actions -->
-    <div class="docs-floating">
-      <a href="https://wa.me/523322621939" target="_blank" rel="noopener noreferrer" class="docs-floating-btn docs-floating-btn--wa" aria-label="WhatsApp">
-        <MessageCircle size={22} />
-      </a>
-      <button class="docs-floating-btn docs-floating-btn--top" id="docs-back-to-top" aria-label="Volver arriba">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
-      </button>
-    </div>
 
     <!-- Mobile menu toggle -->
     {!hideMobileMenu && (
@@ -121,20 +110,6 @@ const { title, description, currentApp, hideMobileMenu } = Astro.props;
       }
 
       // Back to top
-      const backBtn = document.getElementById('docs-back-to-top');
-      if (backBtn) {
-        window.addEventListener('scroll', () => {
-          if (window.scrollY > 600) {
-            backBtn.classList.add('visible');
-          } else {
-            backBtn.classList.remove('visible');
-          }
-        });
-        backBtn.addEventListener('click', () => {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-      }
-
       // Theme toggle
       const themeBtn = document.getElementById('docs-theme-btn');
       if (themeBtn) {
@@ -361,70 +336,6 @@ const { title, description, currentApp, hideMobileMenu } = Astro.props;
   }
 
   /* ── FLOATING ACTIONS ── */
-  .docs-floating {
-    position: fixed;
-    bottom: var(--space-8);
-    right: var(--space-8);
-    z-index: 200;
-    display: flex;
-    flex-direction: column-reverse;
-    gap: var(--space-3);
-    align-items: center;
-  }
-
-  .docs-floating-btn {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    cursor: pointer;
-    text-decoration: none;
-    transition: all var(--transition-base);
-    position: relative;
-  }
-
-  .docs-floating-btn--wa {
-    background: rgba(16, 185, 129, 0.15);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(16, 185, 129, 0.15);
-    color: var(--color-green);
-    box-shadow: 0 4px 20px rgba(16, 185, 129, 0.1);
-  }
-
-  .docs-floating-btn--wa:hover {
-    background: rgba(16, 185, 129, 0.25);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 28px rgba(16, 185, 129, 0.2);
-  }
-
-  .docs-floating-btn--top {
-    background: var(--glass-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    color: var(--color-text-tertiary);
-    opacity: 0;
-    transform: translateY(12px);
-    pointer-events: none;
-    transition: all var(--transition-base);
-  }
-
-  .docs-floating-btn--top.visible {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
-  }
-
-  .docs-floating-btn--top:hover {
-    background: rgba(255, 255, 255, 0.06);
-    color: var(--color-text-primary);
-    transform: translateY(-2px);
-  }
-
   /* ── MOBILE MENU ── */
   .docs-menu-btn {
     display: none;
@@ -496,6 +407,8 @@ const { title, description, currentApp, hideMobileMenu } = Astro.props;
     width: 100%;
     padding: 80px var(--space-10) var(--space-8);
     margin: 0 auto;
+    font-size: var(--text-lg);
+    line-height: 1.82;
   }
 
   /* ── RESPONSIVE ── */
@@ -535,16 +448,6 @@ const { title, description, currentApp, hideMobileMenu } = Astro.props;
     .docs-sidebar-wrap[data-collapsed="true"] {
       width: var(--sidebar-width);
       overflow: visible;
-    }
-
-    .docs-floating {
-      bottom: var(--space-4);
-      right: var(--space-4);
-    }
-
-    .docs-floating-btn {
-      width: 44px;
-      height: 44px;
     }
 
     .docs-topbar-tag {

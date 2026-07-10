@@ -2,6 +2,7 @@
 title: 'Bitwarden — Gestor de contraseñas que sí puedes controlar'
 pubDate: 2026-07-08
 description: 'Por qué migramos a Bitwarden, cómo configurarlo para uso diario y tips que pocos conocen para sacarle provecho real.'
+heroImage: 'https://placehold.co/560x315/1e1b4b/818cf8?text=Boveda+Bitwarden'
 tags: ['seguridad', 'utilidades', 'multi-plataforma']
 icon: 'shield'
 featured: true
@@ -16,9 +17,9 @@ import Wallet from '@lucide/astro/icons/wallet';
 
 Llevaba años usando el gestor de contraseñas de turno. Funcionaba, pero cada vez me incomodaba más depender de un servicio donde el código no era público. Con Bitwarden fue distinto: es **open source**, se puede auditar, y si quieres puedes alojarlo tú mismo.
 
-Llevo usándolo desde marzo como gestor principal, después de migrar ~180 claves y documentos.
+Lo llevo usando desde marzo como gestor principal, después de migrar cerca de 180 claves, notas seguras y documentos. Esta es la configuración que terminó quedándose.
 
-## Lo que me convenció
+## Por qué se quedó
 
 <ScreenshotFrame
   src="https://placehold.co/800x480/1e1b4b/818cf8?text=Boveda+Bitwarden"
@@ -27,7 +28,7 @@ Llevo usándolo desde marzo como gestor principal, después de migrar ~180 clave
   caption="Bóveda principal — todas tus contraseñas organizadas y al alcance"
 />
 
-Bitwarden no inventa nada nuevo, pero lo que hace lo hace bien:
+Bitwarden no inventa una categoría nueva. Su valor está en ejecutar muy bien lo esencial:
 
 - **Código abierto** — el código es público, auditable y revisado por la comunidad
 - **Cliente nativo para todo** — Android, iOS, desktop, extensiones de navegador y CLI
@@ -41,36 +42,36 @@ Bitwarden no inventa nada nuevo, pero lo que hace lo hace bien:
   caption="Autocompletado en Android — rápido, sin depender del gestor del fabricante"
 />
 
-<Callout variant="tip" title="Control total">
-  Bitwarden permite auto-alojamiento con Vaultwarden. Tus datos nunca tocan la nube de nadie. Es la opción más privada del mercado para gestores de contraseñas.
+<Callout variant="editorial" title="Auto-alojamiento (Vaultwarden)">
+  Bitwarden permite auto-alojarse mediante Vaultwarden, un fork liviano compatible con sus clientes oficiales. Tus datos se almacenan en tu propia infraestructura, sin depender de la nube de Bitwarden. A cambio, requiere mantener y actualizar un servidor propio.
 </Callout>
 
-## Tips de uso
+## Configuración recomendada
 
 ### 1. Identificadores únicos
 
-Bitwarden permite asociar campos personalizados a cada item. Si guardas una tarjeta, agrega campos como `PIN` o `Número de contacto`. El autocompletado en Android los reconoce automáticamente.
+Bitwarden permite asociar campos personalizados a cada item. Si guardas una tarjeta, agrega campos como `PIN` o `Número de contacto`. El autocompletado en Android los puede reconocer y rellenar cuando el formulario coincide.
 
 ### 2. Verificación en dos pasos
 
 Bitwarden usa **TOTP** (códigos temporales) en vez de SMS. Escanea el QR con Aegis o cualquier authenticator. No depende de señal celular. Cada nuevo dispositivo pedirá el código.
 
-<Callout variant="warning" title="No la saltes">
-  Activar 2FA en Bitwarden es la capa más importante que puedes agregar. Sin ella, tu bóveda depende solo de tu contraseña maestra. Con 2FA, incluso si alguien obtiene tu contraseña, no puede acceder sin el código.
+<Callout variant="editorial" title="2FA (TOTP)">
+  Bitwarden soporta autenticación de dos factores mediante TOTP. Con 2FA activado, el acceso requiere tanto la contraseña maestra como un código temporal de seis dígitos generado por una app como Aegis o Google Authenticator.
 </Callout>
 
 ### 3. Exporta tu bóveda
 
-`Settings → Export`. Exporta a JSON y guárdalo en un lugar cifrado. No porque Bitwarden sea inseguro, sino por si mañana decides migrar. Tener los datos en formato estándar te da libertad.
+`Settings → Export`. Exporta a JSON y guárdalo en un lugar cifrado. No porque Bitwarden sea inseguro, sino por si mañana decides migrar. Tener tus datos en un formato estándar te da salida.
 
 ### 4. Sentido común
 
-Bitwarden tiene un generador integrado. Úsalo. Si te genera `j8@Kf3#mP9$L`, no lo cambies por algo más fácil. El gestor recuerda por ti.
+Bitwarden tiene un generador integrado. Úsalo. Si te genera `j8@Kf3#mP9$L`, no lo cambies por algo más fácil. El punto del gestor es recordar por ti.
 
 ## Veredicto
 
 <div class="verdict-intro">
-Bitwarden resuelve el problema de las contraseñas sin crear otros nuevos. Es la herramienta más equilibrada del mercado: tan capaz como las soluciones empresariales, tan accesible como una app gratuita.
+Bitwarden resuelve el problema de las contraseñas sin crear otro problema encima. Es suficientemente serio para equipos, suficientemente simple para uso diario y suficientemente abierto para confiar en él.
 </div>
 
 <div class="verdict-grid">
@@ -104,7 +105,6 @@ Bitwarden resuelve el problema de las contraseñas sin crear otros nuevos. Es la
   </div>
 </div>
 
-<Callout variant="tip" title="¿Listo para migrar?">
-  El plan individual es gratuito. El premium cuesta lo que un café con leche al mes. No hay excusa para no usar un gestor de contraseñas.
+<Callout variant="editorial" title="Plan gratuito vs Premium">
+  Bitwarden ofrece un plan gratuito con todas las funcionalidades esenciales. El plan Premium ($10/año) agrega TOTP integrado, archivos adjuntos de hasta 100 MB y herramientas de reporte de seguridad. El plan Familiar ($40/año) extiende estos beneficios a 6 usuarios.
 </Callout>
-

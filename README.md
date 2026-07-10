@@ -1,6 +1,6 @@
-# MVGN Labs — Centro de Soporte Digital
+# MVGN Digital Hub — Laboratorio Editorial de Herramientas Digitales
 
-Sitio web estático de MVGN Labs: facilitación técnica y soporte para experiencias de entretenimiento digital en dispositivos Android.
+Sitio web editorial de MVGN Labs: facilitación técnica, compilaciones verificadas y soporte para entretenimiento digital en dispositivos Android.
 
 **Producción:** [mvgnlabs.vercel.app](https://mvgnlabs.vercel.app)
 
@@ -12,49 +12,62 @@ Sitio web estático de MVGN Labs: facilitación técnica y soporte para experien
 |---|---|
 | Framework | **Astro v6** — Static Site Generation |
 | UI interactiva | **React 19** + **Framer Motion** |
-| Animaciones 3D | Three.js / React Three Fiber |
 | Contenido | **MDX** + Content Collections |
-| Estilos | CSS nativo con Design Tokens |
-| Protección | StatiCrypt (cifrado AES en build) |
+| Estilos | CSS nativo con Design Tokens + Glass System |
+| Iconos | Lucide Icons |
+| Gestión | **MVGN v3.5** — Event-Driven AI Governance Runtime |
 | Despliegue | Vercel (Git integration) |
 
 ## Estructura
 
 ```
 src/
-├── components/        # .astro + .tsx (React)
-│   ├── HellBackground.tsx      # Shader WebGL animado
-│   ├── CascadeMobileScreens.tsx # Teléfonos 3D en cascada
-│   ├── RotatingPhone.tsx       # Teléfono giratorio 3D
+├── components/          # .astro + .tsx (React)
+│   ├── AmbientGradient.tsx     # Fondo animado con Framer Motion
+│   ├── CurvedLoop/             # Banda curva animada (easter egg)
+│   ├── ArticuloCard.astro      # Card de artículo editorial
+│   ├── Callout.astro           # Callouts (info, tip, warning, editorial)
+│   ├── FAQAccordion.astro      # Acordeón de preguntas
 │   ├── Sidebar.astro           # Navegación docs
+│   ├── ScreenshotFrame.astro   # Frame de screenshot
 │   └── ...
 ├── content/
-│   └── apps/          # Guías de soporte (MDX)
-│       ├── todo-en-uno.mdx
-│       └── biblioteca-personal.mdx
+│   └── laboratorio/   # Artículos editoriales (MDX)
+│       ├── bitwarden.mdx
+│       ├── newpipe.mdx
+│       └── vanced-revanced-morphe.mdx
 ├── layouts/
-│   ├── BaseLayout.astro        # HTML base + meta
+│   ├── BaseLayout.astro        # HTML base + topbar + theme toggle
 │   └── DocsLayout.astro        # Layout docs con sidebar
 ├── pages/
-│   ├── index.astro              # Landing page
+│   ├── index.astro              # Landing page (hero, manifiesto, proceso, laboratorio, planes, filosofía, contacto)
 │   ├── faq.astro                # Preguntas frecuentes
 │   ├── contact.astro            # Contacto
-│   └── support/[slug].astro     # Guías dinámicas
+│   ├── 404.astro                # Página no encontrada
+│   └── laboratorio/
+│       ├── index.astro          # Archivo del laboratorio
+│       └── [slug].astro         # Artículo dinámico
 └── styles/
-    ├── tokens.css               # Design tokens
+    ├── tokens.css               # Design tokens (paleta Cerulean + SERVICE)
     ├── global.css               # Reset + base
     └── utilities.css            # Clases utilitarias
 ```
 
-## Rutas
+## MVGN 3.5 Runtime
 
-| Ruta | Acceso |
-|---|---|
-| `/` | Público |
-| `/faq` | Público |
-| `/contact` | Público |
-| `/support/todo-en-uno` | Protegido |
-| `/support/biblioteca-personal` | Protegido |
+El proyecto está gobernado por **MVGN v3.5** (Lite, modo FLOW):
+
+| Componente | Archivo |
+|------------|---------|
+| Manifiesto | `runtime-state/mvgn-runtime.json` |
+| Estado vivo | `.mvgn-context.json` |
+| Entry point | `profiles/lite/NYX.md` |
+| Contract | `core/session-contract.md` |
+| Kernel | `core/kernel-spec.md` |
+| Rules | `profiles/lite/.mvgn/lite-rules.md` |
+| Engine | `profiles/lite/.mvgn/lite-engine.md` |
+| Recovery | `profiles/lite/.mvgn/lite-recovery.md` |
+| Event History | `events/2026-07-08.jsonl` (29 eventos) |
 
 ## Comandos
 
@@ -64,18 +77,6 @@ src/
 | `npm run dev` | Servidor local `localhost:4321` |
 | `npm run build` | Build a `dist/` |
 | `npm run preview` | Vista previa del build |
-
-El build corre `scripts/protect-support.cjs` automáticamente para cifrar las guías de soporte con la contraseña definida en `.env`.
-
-## Variables de entorno
-
-```
-STATICRYPT_PASSWORD=tu-contraseña-aqui
-```
-
-## Roadmap
-
-Ver [`ROADMAP.md`](./ROADMAP.md) para estado actual, mejoras planeadas y visión a largo plazo.
 
 ---
 

@@ -26,6 +26,7 @@ body {
   color: var(--color-text-primary);
   background: var(--color-bg);
   min-height: 100vh;
+  padding-top: 52px;
 }
 
 /* ── Selection ── */
