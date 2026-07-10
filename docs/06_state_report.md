@@ -10,11 +10,11 @@
 |-------|-------|
 | **Estado** | COMPLETED |
 | **Tarea activa** | — |
-| **Progreso** | 52/30+ |
-| **Última acción** | Sesión 018: reformas estéticas completadas. Metodología rediseñada (process-grid con números grandes en JetBrains Mono, flechas conectoras, verbos descriptivos). Planes renovados (Compilación $400 builds TV+Mobile, Cobertura $600/6 meses con tags de desarrollo). Disclaimer full-width. Section-tag MVGN-HUB-004 añadido. Código CSS legacy limpiado. Build verificado. |
-| **Siguiente acción** | Contenido editorial de artículos (en investigación). Deploy a producción. |
+| **Progreso** | 53/30+ |
+| **Última acción** | Sesión 019: deploy a Cloudflare Pages completado. URL de producción corregida. Documentación de deploy agregada al README. |
+| **Siguiente acción** | Contenido editorial de artículos (en investigación / redacción). Configurar dominio personalizado. |
 | **Bloqueos activos** | — |
-| **Última sesión** | ses-018 |
+| **Última sesión** | ses-019 |
 
 ## Contexto del proyecto
 
@@ -94,11 +94,21 @@
 | **Limpieza CSS** | Clases muertas (`.process-bar`, `.process-step`) reemplazadas |
 | **Build** | Verificado — 8 rutas sin errores |
 
+## Cambios de la sesión 019 — Deploy a Cloudflare Pages
+
+| Área | Cambio |
+|------|--------|
+| **astro.config.mjs** | site URL corregida de Vercel a Cloudflare Pages |
+| **README.md** | Sección de deploy agregada con instrucciones Git integration + Wrangler CLI |
+| **Despliegue** | Build + deploy exitoso en Cloudflare Pages |
+| **URL producción** | https://mvgn-digital-support-center.pages.dev |
+| **Git push** | Push a `main` exitoso — deploy automático habilitado |
+
 ## Próximos pasos sugeridos
 
 1. Contenido editorial de artículos (en investigación / redacción)
-2. Deploy a producción (mvgn-digital-support-center.pages.dev)
-3. Artículo sobre XUPER TV / compilaciones en el laboratorio
+2. Configurar dominio personalizado en Cloudflare Pages
+3. Artículo sobre compilaciones en el laboratorio
 
 **Nota:** No hay archivos v2.3 preservados. MVGN 3.5 es la única fuente de verdad. Todo el legacy pre-3.5 fue eliminado o archivado en `_archive/`.
 

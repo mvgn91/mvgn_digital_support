@@ -5,6 +5,34 @@
 
 ---
 
+## 2026-07-10 — Sesión 019: Deploy a Cloudflare Pages + Documentación
+
+### Despliegue
+- URL de `astro.config.mjs` corregida: `mvgnlabs.vercel.app` → `mvgn-digital-support-center.pages.dev`
+- Compilación y deploy exitoso via `npx wrangler pages deploy`
+- Sitio en producción: [mvgn-digital-support-center.pages.dev](https://mvgn-digital-support-center.pages.dev)
+- Build confirmado: 8 rutas, sin errores
+- Git push a `main` para deploy automático futuro
+
+### Documentación de deploy
+- `README.md`: instrucciones completas para Cloudflare Pages
+  - Requisitos (Node.js >= 22.12.0, cuenta Cloudflare, Wrangler)
+  - Opción 1: Git integration (automático con push a main)
+  - Opción 2: Wrangler CLI (manual)
+  - Configuración de build en Cloudflare Dashboard
+  - Tabla con datos del proyecto
+- Referencias a Vercel eliminadas de README, docs/06_state_report.md y ROADMAP.md
+
+### Archivos modificados
+- `astro.config.mjs` — site URL corregida
+- `README.md` — sección de deploy agregada
+- `docs/04_changelog.md` — este archivo
+- `docs/06_state_report.md` — actualizado
+- `ROADMAP.md` — URL corregida
+- `.mvgn-context.json` — actualizado a ses-019
+
+---
+
 ## 2026-07-10 — Sesión 018: Reformas estéticas + Planes
 
 ### Metodología — Rediseño completo
