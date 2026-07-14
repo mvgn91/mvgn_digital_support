@@ -6,14 +6,71 @@ heroImage: 'https://placehold.co/560x315/1e1b4b/818cf8?text=Boveda+Bitwarden'
 tags: ['seguridad', 'utilidades', 'multi-plataforma']
 icon: 'shield'
 featured: true
+
+# MVGN Evaluation Standard v1.0-rc
+expediente: EXP-2026-00001
+versionEstandar: v1.0-rc
+autor: A. Ibañez
+contextoUso: uso cotidiano
+alcanceCubre: 'Uso individual como gestor de contraseñas: almacenamiento, autocompletado, generación, exportación, migración desde otros gestores y verificación en dos pasos (TOTP). Incluye uso en Android, extensiones de navegador y escritorio.'
+alcanceNoCubre: 'Despliegue empresarial multi-usuario, integración con directorios activos (LDAP/SAML), funcionalidades avanzadas no evaluadas (Bitwarden Send, Secrets Manager), uso offline prolongado sin sincronización, ni evaluación comparativa con otros gestores.'
+veredictoParaQuienSi: 'Cualquiera con más de 10 cuentas en línea que quiera dejar de recordar contraseñas y prefiera una solución auditable y de código abierto.'
+veredictoParaQuienNo: 'Usuarios que priorizan el diseño visual sobre la funcionalidad, o quienes prefieren gestores integrados en el ecosistema del dispositivo (Apple Keychain, Google Password Manager) y no necesitan soporte multiplataforma.'
+veredictoProblema: 'Gestión segura, auditable y multiplataforma de contraseñas con control total sobre los datos, incluyendo opción de auto-alojamiento.'
+veredictoCoste: 'Gratuito (funcionalidad completa) · Premium ~$10 USD/año (~$180 MXN) · Familiar ~$40 USD/año (~$720 MXN) para 6 usuarios'
+veredictoLimites: 'Interfaz funcional sin mucho diseño · Autocompletado en iOS menos fluido que en Android · Auto-alojamiento requiere mantenimiento técnico continuo'
+veredictoConclusion: 'Bitwarden resuelve el problema de las contraseñas sin crear otro problema encima. Es suficientemente serio para equipos, suficientemente simple para uso diario y suficientemente abierto para confiar en él.'
+revisionFutura: '2027-01'
+
+# ── Observaciones (PEM-06) ──
+observacionesTexto: >-
+  <p><strong>OBS-001 — Código fuente público y auditable</strong><br>
+  El código de Bitwarden está publicado bajo licencia GPL. Es posible inspeccionar, auditar y compilar el cliente desde la fuente. La comunidad mantiene forks como Vaultwarden para auto-alojamiento.</p>
+  <p><strong>OBS-002 — Migración desde otro gestor completada</strong><br>
+  Se migraron aproximadamente 180 items (claves, notas seguras y documentos) desde el gestor anterior. La importación desde CSV y JSON funcionó sin pérdida de datos.</p>
+  <p><strong>OBS-003 — Disponibilidad nativa en múltiples plataformas</strong><br>
+  Bitwarden ofrece clientes nativos para Android, iOS, Windows, macOS, Linux, extensiones para todos los navegadores principales y CLI. Todas las plataformas comparten la misma bóveda mediante sincronización en la nube.</p>
+  <p><strong>OBS-004 — Auto-alojamiento posible mediante Vaultwarden</strong><br>
+  Vaultwarden es un fork liviano escrito en Rust, compatible con los clientes oficiales de Bitwarden. Permite almacenar todos los datos en infraestructura propia. A cambio, requiere mantener y actualizar un servidor.</p>
+  <p><strong>OBS-005 — Autocompletado funcional en Android</strong><br>
+  El autocompletado en Android reconoce campos de formulario y campos personalizados. Funciona independientemente del gestor de contraseñas del fabricante.</p>
+  <p><strong>OBS-006 — Exportación de datos disponible en formato estándar</strong><br>
+  La exportación de la bóveda completa a JSON o CSV está disponible desde Settings > Export. No requiere plan Premium.</p>
+  <p><strong>OBS-007 — TOTP soportado con apps de terceros</strong><br>
+  La verificación en dos pasos (2FA) mediante TOTP está soportada y puede configurarse con apps como Aegis o Google Authenticator.</p>
+  <p><strong>OBS-008 — Experiencia de uso en iOS menos fluida</strong><br>
+  El autocompletado en iOS no es tan consistente como en Android. En pruebas con Safari iOS, el autocompletado automático no siempre se activa.</p>
+# ── Evidencias (PEM-08) ──
+evidenciasTexto: >-
+  <table><thead><tr><th>#</th><th>Tipo</th><th>Descripción</th><th>Asociada</th></tr></thead><tbody>
+  <tr><td>EV-001</td><td>Captura</td><td>Bóveda principal en escritorio — vista general de items por carpeta</td><td>OBS-003</td></tr>
+  <tr><td>EV-002</td><td>Captura</td><td>Autocompletado en Android — menú de selección de credenciales</td><td>OBS-005</td></tr>
+  <tr><td>EV-003</td><td>Documentación</td><td>Repositorio oficial de Bitwarden en GitHub — licencia GPL, commits activos</td><td>OBS-001</td></tr>
+  <tr><td>EV-004</td><td>Configuración</td><td>Exportación de bóveda a JSON desde Settings > Export</td><td>OBS-006</td></tr>
+  </tbody></table>
+# ── Riesgos Conocidos (PEM-09) ──
+riesgosTexto: >-
+  <ol>
+  <li><strong>Dependencia de la contraseña maestra.</strong> Si se pierde u olvida, no hay recuperación posible. Bitwarden no puede acceder a tu bóveda por diseño.</li>
+  <li><strong>Auto-alojamiento requiere mantenimiento.</strong> Vaultwarden debe actualizarse periódicamente. Un servidor desatendido es un riesgo operativo.</li>
+  <li><strong>Autocompletado inconsistente en iOS.</strong> La experiencia en el ecosistema Apple no equivale a la de Android.</li>
+  <li><strong>Sin respaldo automático de bóveda.</strong> La exportación es manual. No hay backup automático en el plan gratuito.</li>
+  <li><strong>Dependencia de conectividad.</strong> La sincronización entre dispositivos requiere conexión a internet.</li>
+  </ol>
+enlaces:
+  - label: 'Sitio oficial de Bitwarden'
+    url: 'https://bitwarden.com'
+  - label: 'Planes y precios (Bitwarden)'
+    url: 'https://bitwarden.com/pricing'
+  - label: 'Repositorio GitHub'
+    url: 'https://github.com/bitwarden'
+  - label: 'Vaultwarden (auto-alojamiento)'
+    url: 'https://github.com/dani-garcia/vaultwarden'
 ---
 
 import ScreenshotFrame from '../../components/ScreenshotFrame.astro';
 import Callout from '../../components/Callout.astro';
-import CircleCheck from '@lucide/astro/icons/circle-check';
-import CircleX from '@lucide/astro/icons/circle-x';
-import Crosshair from '@lucide/astro/icons/crosshair';
-import Wallet from '@lucide/astro/icons/wallet';
+
 
 Llevaba años usando el gestor de contraseñas de turno. Funcionaba, pero cada vez me incomodaba más depender de un servicio donde el código no era público. Con Bitwarden fue distinto: es **open source**, se puede auditar, y si quieres puedes alojarlo tú mismo.
 
@@ -68,43 +125,4 @@ Bitwarden usa **TOTP** (códigos temporales) en vez de SMS. Escanea el QR con Ae
 
 Bitwarden tiene un generador integrado. Úsalo. Si te genera `j8@Kf3#mP9$L`, no lo cambies por algo más fácil. El punto del gestor es recordar por ti.
 
-## Veredicto
 
-<div class="verdict-intro">
-Bitwarden resuelve el problema de las contraseñas sin crear otro problema encima. Es suficientemente serio para equipos, suficientemente simple para uso diario y suficientemente abierto para confiar en él.
-</div>
-
-<div class="verdict-grid">
-  <div class="verdict-item">
-    <CircleCheck size={18} />
-    <div>
-      <strong>Pros</strong>
-      <span>Open source · Multiplataforma · Auto-alojable · Plan gratuito completo · TOTP integrado</span>
-    </div>
-  </div>
-  <div class="verdict-item">
-    <CircleX size={18} />
-    <div>
-      <strong>Contras</strong>
-      <span>Interfaz funcional sin mucho diseño · Autocompletado en iOS menos fluido que en Android</span>
-    </div>
-  </div>
-  <div class="verdict-item">
-    <Crosshair size={18} />
-    <div>
-      <strong>Para quién</strong>
-      <span>Cualquiera con más de 10 cuentas en línea que quiera dejar de recordar contraseñas</span>
-    </div>
-  </div>
-  <div class="verdict-item">
-    <Wallet size={18} />
-    <div>
-      <strong>Costo</strong>
-      <span>Individual: gratuito · Premium: ~$10/año · Familiar: ~$40/año para 6 personas</span>
-    </div>
-  </div>
-</div>
-
-<Callout variant="editorial" title="Plan gratuito vs Premium">
-  Bitwarden ofrece un plan gratuito con todas las funcionalidades esenciales. El plan Premium ($10/año) agrega TOTP integrado, archivos adjuntos de hasta 100 MB y herramientas de reporte de seguridad. El plan Familiar ($40/año) extiende estos beneficios a 6 usuarios.
-</Callout>

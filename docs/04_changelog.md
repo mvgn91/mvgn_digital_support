@@ -5,6 +5,65 @@
 
 ---
 
+## 2026-07-13 — Sesión 022: Pulido Editorial + Finalización MVGN
+
+### Correcciones editoriales
+- `src/content/laboratorio/bitwarden.mdx` — Campo `revision: Ncape` eliminado. La filosofía MVGN establece que autor = reviewer, por lo que `revision` es redundante cuando la autoría es de A. Ibañez.
+- `src/pages/laboratorio/[slug].astro` — Lógica de firma simplificada: cuando `revision` está ausente, el rol muestra "Fundador · MVGN Labs" en lugar de "Autor · Revisado por ...". Consistente con docs/07_filosofia.md.
+
+### Archivos modificados
+- `src/content/laboratorio/bitwarden.mdx` — `revision` removido
+- `src/pages/laboratorio/[slug].astro` — lógica de firma
+- `docs/04_changelog.md` — este archivo
+- `docs/05_lessons_learned.md` — LL-018, LL-019
+- `docs/06_state_report.md` — actualizado
+- `.mvgn-context.json` — actualizado a ses-022
+
+---
+
+## 2026-07-13 — Sesión 021: Estándar Editorial MVGN (ATHENEA) + Piloto Bitwarden
+
+### Documentación del estándar
+- `docs/08_editorial_standard.md` — Estándar de Evaluación MVGN v1.0 (RC) completo: 6 principios editoriales, 8 requisitos normativos, 11 protocolos PEM
+- `docs/01_prd.md` — Fase 5 agregada con RF-E01 a RF-E08
+- `docs/03_tasks.md` — Tareas R-101 a R-107 definidas
+
+### Schema Evolution
+- `src/content.config.ts` — 12+ campos opcionales del modelo Evaluation: `expediente`, `autor`, `revision`, `contextoUso`, `alcanceCubre/NoCubre`, veredicto*, `observacionesTexto`, `evidenciasTexto`, `riesgosTexto`, `enlaces[]`, `revisionFutura`
+
+### Layout de artículo
+- `src/pages/laboratorio/[slug].astro` — Reestructuración completa:
+  - Ficha MVGN (PEM-02) movida **después** del cuerpo editorial (antes estaba antes)
+  - Ficha colapsable contiene: metadata, alcance, marco, observaciones (OBS), evidencias (EV), riesgos
+  - Veredicto Técnico (PEM-10) renderizado desde frontmatter con grid de 5 cards
+  - Sección de Enlaces agregada al final
+  - Cierre Editorial (PEM-11) eliminado del layout visible
+  - Uso de `set:html` para contenido HTML del frontmatter
+  - CSS responsive para todas las nuevas secciones
+
+### Piloto Bitwarden (EXP-2026-00001)
+- `src/content/laboratorio/bitwarden.mdx` — Migración completa al estándar PEM:
+  - Frontmatter con expediente, autor, revisión, contexto de uso, alcance, veredicto completo
+  - Observaciones, evidencias y riesgos movidos del cuerpo MDX al frontmatter (HTML)
+  - Precios actualizados con conversión a MXN (~$180 MXN Premium, ~$720 MXN Familiar)
+  - Disclaimer de tipo de cambio (18 MXN/USD, julio 2026)
+  - "Nota sobre esta evaluación" eliminada
+  - Enlaces duplicados eliminados
+  - Contenido editorial principal intacto
+
+### Archivos modificados
+- `docs/08_editorial_standard.md` — nuevo
+- `docs/01_prd.md` — Fase 5
+- `docs/03_tasks.md` — R-101 a R-107
+- `docs/06_state_report.md` — actualizado
+- `docs/05_lessons_learned.md` — LL-010 a LL-017
+- `.mvgn-context.json` — ses-021
+- `src/content.config.ts` — schema evolution
+- `src/pages/laboratorio/[slug].astro` — PEM sections
+- `src/content/laboratorio/bitwarden.mdx` — piloto PEM
+
+---
+
 ## 2026-07-10 — Sesión 019: Deploy a Cloudflare Pages + Documentación
 
 ### Despliegue

@@ -2,7 +2,7 @@
 
 > Proyecto raíz · Sitio web de MVGN Labs — Centro de Soporte Digital
 > Framework: MVGN v3.5 (Lite, modo FLOW)
-> Última actualización: 2026-07-10
+> Última actualización: 2026-07-13
 
 ## Cabecera
 
@@ -10,11 +10,11 @@
 |-------|-------|
 | **Estado** | COMPLETED |
 | **Tarea activa** | — |
-| **Progreso** | 53/30+ |
-| **Última acción** | Sesión 019: deploy a Cloudflare Pages completado. URL de producción corregida. Documentación de deploy agregada al README. |
-| **Siguiente acción** | Contenido editorial de artículos (en investigación / redacción). Configurar dominio personalizado. |
+| **Progreso** | 68/30+ |
+| **Última acción** | Sesión 022: Pulido editorial — `revision` removido de bitwarden.mdx, firma de artículo alineada con filosofía MVGN (autor = reviewer). Finalización MVGN con actualización de documentación, commit y push. |
+| **Siguiente acción** | Esperando instrucciones del fundador. |
 | **Bloqueos activos** | — |
-| **Última sesión** | ses-019 |
+| **Última sesión** | ses-022 |
 
 ## Contexto del proyecto
 
@@ -104,11 +104,45 @@
 | **URL producción** | https://mvgn-digital-support-center.pages.dev |
 | **Git push** | Push a `main` exitoso — deploy automático habilitado |
 
+## Cambios de la sesión 020 — Responsive Overhaul
+
+| Área | Cambio |
+|------|--------|
+| **Navegación mobile** | Hamburger menu full-screen overlay con blur, links centrados, brand + X close. Sin sidebar drawer. |
+| **Topbar mobile** | Cambiado de floating pill (con border-radius y márgenes) a **full-width** (`left: 0; right: 0`). |
+| **Pillnav mobile** | Oculto completamente en ≤767px (`display: none`). Solo visible en desktop. |
+| **DocsLayout mobile** | Ahora usa el overlay de BaseLayout. Sidebar, hamburger y overlay propios ocultos en mobile. |
+| **Brand visibility** | `@media (hover: none)` agregado en BaseLayout y DocsLayout. "MVGN Labs" visible en touch devices sin hover. |
+| **Touch targets WCAG** | Floating buttons 44px, theme toggle 44px, docs menu btn 44px, pillnav links 44px. |
+| **Artículos responsive** | `.article-title` cambiado a `clamp(1.6rem, 5.5vw, 2.45rem)`. |
+| **Grids** | Stats grid 1-col en ≤479px. Lab grid con 2-col intermedio en tablet. |
+| **ADR-009** | Decisión de arquitectura: pillnav + hamburger coexistence (pillnav solo desktop). |
+| **Build** | Verificado — 8 rutas sin errores. |
+
+## Cambios de la sesión 021 — Estándar Editorial MVGN (ATHENEA)
+
+| Área | Cambio |
+|------|--------|
+| **Estándar editorial** | `docs/08_editorial_standard.md` creado — Estándar de Evaluación MVGN v1.0 (RC). 6 principios, 8 requisitos, 11 protocolos PEM. |
+| **PRD** | `docs/01_prd.md` — Fase 5 agregada con RF-E01 a RF-E08. |
+| **Tasks** | `docs/03_tasks.md` — Tareas R-101 a R-107 para implementación del estándar. |
+| **Schema** | `src/content.config.ts` — Campos del modelo Evaluation agregados (expediente, veredicto, alcance, contextoUso, etc.). Todos opcionales. |
+| **Layout artículo** | `src/pages/laboratorio/[slug].astro` — Secciones PEM: Ficha MVGN (colapsable), Veredicto Técnico (grid), Cierre Editorial. |
+| **Trazabilidad** | `.mvgn-context.json` — ses-021 registrada con telemetría completa. |
+
+## Cambios de la sesión 022 — Pulido Editorial + Finalización MVGN
+
+| Área | Cambio |
+|------|--------|
+| **Autoridad editorial** | `revision: Ncape` removido de `src/content/laboratorio/bitwarden.mdx`. docs/07_filosofia.md establece autor = reviewer. El campo `revision` contradecía este principio. |
+| **Lógica de firma** | `src/pages/laboratorio/[slug].astro` — Firma ahora muestra "Fundador · MVGN Labs" cuando `revision` está ausente, consistente con la autoría única de A. Ibañez. |
+| **Documentación MVGN** | `docs/04_changelog.md` — ses-022 agregada. `docs/05_lessons_learned.md` — LL-018, LL-019. `docs/06_state_report.md` — este archivo actualizado. `.mvgn-context.json` — actualizado a ses-022. |
+
 ## Próximos pasos sugeridos
 
-1. Contenido editorial de artículos (en investigación / redacción)
-2. Configurar dominio personalizado en Cloudflare Pages
-3. Artículo sobre compilaciones en el laboratorio
+1. Migrar artículo existente como piloto del estándar (bitwarden)
+2. Redactar nuevos artículos bajo protocolo PEM
+3. Configurar dominio personalizado en Cloudflare Pages
 
 **Nota:** No hay archivos v2.3 preservados. MVGN 3.5 es la única fuente de verdad. Todo el legacy pre-3.5 fue eliminado o archivado en `_archive/`.
 

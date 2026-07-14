@@ -278,6 +278,13 @@ const { title, description, currentApp, hideMobileMenu } = Astro.props;
     opacity: 1;
   }
 
+  @media (hover: none) {
+    .docs-topbar-name {
+      max-width: 80px;
+      opacity: 1;
+    }
+  }
+
   .docs-topbar-sep {
     width: 1px;
     height: 14px;
@@ -413,10 +420,6 @@ const { title, description, currentApp, hideMobileMenu } = Astro.props;
 
   /* ── RESPONSIVE ── */
   @media (max-width: 1024px) {
-    .docs-menu-btn {
-      display: flex;
-    }
-
     .docs-overlay {
       display: block;
     }
@@ -454,16 +457,30 @@ const { title, description, currentApp, hideMobileMenu } = Astro.props;
       font-size: 0.65rem;
     }
 
-    .docs-topbar {
-      left: var(--space-4);
-      right: var(--space-4);
-      width: auto;
-      border-radius: var(--radius-xl);
-      padding: 0 var(--space-4);
-    }
-
     .docs-main {
       padding: 68px var(--space-5) var(--space-6);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .docs-menu-btn {
+      display: none;
+    }
+
+    .docs-overlay {
+      display: none;
+    }
+
+    .docs-sidebar-wrap {
+      display: none;
+    }
+
+    .docs-topbar {
+      left: 0;
+      right: 0;
+      width: 100%;
+      border-radius: 0;
+      padding: 0 var(--space-4);
     }
   }
 
@@ -475,6 +492,11 @@ const { title, description, currentApp, hideMobileMenu } = Astro.props;
     .docs-topbar {
       left: var(--space-3);
       right: var(--space-3);
+    }
+
+    .docs-menu-btn {
+      width: 44px;
+      height: 44px;
     }
   }
 </style>

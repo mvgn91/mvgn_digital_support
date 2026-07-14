@@ -2,6 +2,13 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection, render } from 'astro:content';
 import ArrowLeft from '@lucide/astro/icons/arrow-left';
+import CircleCheck from '@lucide/astro/icons/circle-check';
+import CircleX from '@lucide/astro/icons/circle-x';
+import Crosshair from '@lucide/astro/icons/crosshair';
+import Wallet from '@lucide/astro/icons/wallet';
+import TriangleAlert from '@lucide/astro/icons/triangle-alert';
+import FileText from '@lucide/astro/icons/file-text';
+import ChevronDown from '@lucide/astro/icons/chevron-down';
 import ArticuloCard from '../../components/ArticuloCard.astro';
 import AmbientGradient from '../../components/AmbientGradient';
 
@@ -49,7 +56,17 @@ const byDate = otros
   .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 
 const relacionados = byTags.length >= 2 ? byTags.slice(0, 3) : byDate.slice(0, 3);
+
+// ── MVGN Evaluation Standard helpers ──
+const contextoLabels: Record<string, string> = {
+  'laboratorio': 'Entorno controlado de laboratorio',
+  'uso cotidiano': 'Uso diario como herramienta principal',
+  'homelab': 'Servidor doméstico / homelab',
+  'empresa': 'Entorno empresarial',
+  'equipo': 'Uso en equipo / grupo de trabajo',
+};
 ---
+
 
 <BaseLayout
   title={`${data.title} — MVGN Labs`}
@@ -73,36 +90,229 @@ const relacionados = byTags.length >= 2 ? byTags.slice(0, 3) : byDate.slice(0, 3
         </nav>
 
         <header class="article-header">
-          <div class="article-header-meta">
-            <span class="article-header-archive">
-              <span class="archive-label">ARCHIVO</span>
-              <span class="archive-value">{article.id}</span>
-            </span>
-            <span class="meta-sep" aria-hidden="true"></span>
-            <span class="meta-item">{readingTime} MIN</span>
-            <span class="meta-sep" aria-hidden="true"></span>
-            <time class="meta-item" datetime={data.pubDate.toISOString()}>{dateStr}</time>
-          </div>
-          <div class="article-hero-grid">
+          <div class="article-header-card">
+            <div class="article-header-meta">
+              <span class="article-header-archive">
+                <span class="archive-label">ARCHIVO</span>
+                <span class="archive-value">{article.id}</span>
+              </span>
+              <div class="article-header-meta-right">
+                <span class="meta-item">{readingTime} MIN</span>
+                <span class="meta-sep" aria-hidden="true"></span>
+                <time class="meta-item" datetime={data.pubDate.toISOString()}>{dateStr}</time>
+                {data.expediente && (
+                  <>
+                    <span class="meta-sep" aria-hidden="true"></span>
+                    <span class="meta-item meta-item--exp">{data.expediente}</span>
+                  </>
+                )}
+              </div>
+            </div>
+
             <h1 class="article-title">
               <span class="article-title-brand">{brandPart}</span>
               {descPart && <><span class="title-sep" aria-hidden="true">—</span><span class="article-title-desc">{descPart}</span></>}
             </h1>
-            <div class="article-hero-side">
+
+            <div class="article-lede">
               {data.heroImage && (
-                <img class="article-hero-thumb" src={data.heroImage} alt="" aria-hidden="true" loading="lazy" />
+                <div class="article-lede-thumb-wrap">
+                  <img class="article-lede-thumb" src={data.heroImage} alt="" aria-hidden="true" loading="lazy" />
+                </div>
               )}
               <p class="article-desc">{data.description}</p>
             </div>
-          </div>
-          <div class="article-tags">
-            {data.tags.map(tag => <span class="article-tag">{tag}</span>)}
+
+            <div class="article-tags">
+              {data.tags.map(tag => <span class="article-tag">{tag}</span>)}
+            </div>
           </div>
         </header>
 
         <div class="article-body">
           <Content />
         </div>
+
+        <!-- ═══ PEM-02: FICHA MVGN (después del editorial) ═══ -->
+        {data.expediente && (
+          <details class="pem-ficha">
+            <summary class="pem-ficha-summary">
+              <span class="pem-ficha-label">
+                <FileText size={14} />
+                Ficha técnica MVGN
+              </span>
+              <span class="pem-ficha-exp">{data.expediente}</span>
+              <ChevronDown size={14} class="pem-ficha-chevron" />
+            </summary>
+            <div class="pem-ficha-body">
+              <div class="pem-ficha-grid">
+                <div class="pem-ficha-col">
+                  <span class="pem-ficha-field">Expediente</span>
+                  <span class="pem-ficha-value">{data.expediente}</span>
+                </div>
+                {data.versionEstandar && (
+                  <div class="pem-ficha-col">
+                    <span class="pem-ficha-field">Estándar</span>
+                    <span class="pem-ficha-value">{data.versionEstandar}</span>
+                  </div>
+                )}
+                {data.autor && (
+                  <div class="pem-ficha-col">
+                    <span class="pem-ficha-field">Autor</span>
+                    <span class="pem-ficha-value">{data.autor}</span>
+                  </div>
+                )}
+                {data.revision && (
+                  <div class="pem-ficha-col">
+                    <span class="pem-ficha-field">Revisión</span>
+                    <span class="pem-ficha-value">{data.revision}</span>
+                  </div>
+                )}
+                {data.contextoUso && (
+                  <div class="pem-ficha-col">
+                    <span class="pem-ficha-field">Contexto de uso</span>
+                    <span class="pem-ficha-value">{contextoLabels[data.contextoUso] || data.contextoUso}</span>
+                  </div>
+                )}
+                <div class="pem-ficha-col">
+                  <span class="pem-ficha-field">Publicación</span>
+                  <span class="pem-ficha-value">{dateStr}</span>
+                </div>
+              </div>
+
+              <!-- PEM-03: Alcance -->
+              {(data.alcanceCubre || data.alcanceNoCubre) && (
+                <div class="pem-ficha-alcance">
+                  {data.alcanceCubre && (
+                    <div class="pem-ficha-alcance-block">
+                      <span class="pem-ficha-alcance-label">Cubre</span>
+                      <p class="pem-ficha-alcance-text">{data.alcanceCubre}</p>
+                    </div>
+                  )}
+                  {data.alcanceNoCubre && (
+                    <div class="pem-ficha-alcance-block">
+                      <span class="pem-ficha-alcance-label">No cubre</span>
+                      <p class="pem-ficha-alcance-text">{data.alcanceNoCubre}</p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              <!-- PEM-05: Marco de Evaluación -->
+              <div class="pem-ficha-marco">
+                <span class="pem-ficha-marco-label">Evaluado bajo el marco MVGN de 12 criterios</span>
+                <p class="pem-ficha-marco-text">
+                  Seguridad · Transparencia · Documentación · Implementación · Mantenibilidad ·
+                  Interoperabilidad · Portabilidad · Escalabilidad · Coste operativo ·
+                  Control de datos · Madurez · Continuidad
+                </p>
+              </div>
+
+              <!-- PEM-06: Observaciones -->
+              {data.observacionesTexto && (
+                <div class="pem-ficha-seccion">
+                  <span class="pem-ficha-seccion-label">Observaciones</span>
+                  <div class="pem-ficha-seccion-body" set:html={data.observacionesTexto} />
+                </div>
+              )}
+
+              <!-- PEM-08: Evidencias -->
+              {data.evidenciasTexto && (
+                <div class="pem-ficha-seccion">
+                  <span class="pem-ficha-seccion-label">Evidencias</span>
+                  <div class="pem-ficha-seccion-body" set:html={data.evidenciasTexto} />
+                </div>
+              )}
+
+              <!-- PEM-09: Riesgos Conocidos -->
+              {data.riesgosTexto && (
+                <div class="pem-ficha-seccion">
+                  <span class="pem-ficha-seccion-label">Riesgos conocidos</span>
+                  <div class="pem-ficha-seccion-body" set:html={data.riesgosTexto} />
+                </div>
+              )}
+            </div>
+          </details>
+        )}
+
+        <!-- ═══ PEM-10: VEREDICTO TÉCNICO ═══ -->
+        {data.veredictoConclusion && (
+          <section class="pem-veredicto">
+            <div class="pem-divider" aria-hidden="true"></div>
+            <h2 class="pem-veredicto-title">Veredicto técnico</h2>
+
+            <div class="pem-veredicto-grid">
+              {data.veredictoParaQuienSi && (
+                <div class="pem-veredicto-card pem-veredicto-card--pro">
+                  <CircleCheck size={20} />
+                  <div>
+                    <strong class="pem-veredicto-card-label">Para quién sí</strong>
+                    <span class="pem-veredicto-card-text">{data.veredictoParaQuienSi}</span>
+                  </div>
+                </div>
+              )}
+              {data.veredictoParaQuienNo && (
+                <div class="pem-veredicto-card pem-veredicto-card--con">
+                  <CircleX size={20} />
+                  <div>
+                    <strong class="pem-veredicto-card-label">Para quién no</strong>
+                    <span class="pem-veredicto-card-text">{data.veredictoParaQuienNo}</span>
+                  </div>
+                </div>
+              )}
+              {data.veredictoProblema && (
+                <div class="pem-veredicto-card pem-veredicto-card--neutral">
+                  <Crosshair size={20} />
+                  <div>
+                    <strong class="pem-veredicto-card-label">Qué problema resuelve</strong>
+                    <span class="pem-veredicto-card-text">{data.veredictoProblema}</span>
+                  </div>
+                </div>
+              )}
+              {data.veredictoCoste && (
+                <div class="pem-veredicto-card pem-veredicto-card--neutral">
+                  <Wallet size={20} />
+                  <div>
+                    <strong class="pem-veredicto-card-label">Coste operativo</strong>
+                    <span class="pem-veredicto-card-text">{data.veredictoCoste}</span>
+                  </div>
+                </div>
+              )}
+              {data.veredictoLimites && (
+                <div class="pem-veredicto-card pem-veredicto-card--warning">
+                  <TriangleAlert size={20} />
+                  <div>
+                    <strong class="pem-veredicto-card-label">Límites críticos</strong>
+                    <span class="pem-veredicto-card-text">{data.veredictoLimites}</span>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div class="pem-veredicto-conclusion">
+              <strong class="pem-veredicto-conclusion-label">Conclusión técnica</strong>
+              <p class="pem-veredicto-conclusion-text">{data.veredictoConclusion}</p>
+            </div>
+          </section>
+        )}
+
+        <!-- ═══ ENLACES (desde frontmatter) ═══ -->
+        {data.enlaces && data.enlaces.length > 0 && (
+          <section class="pem-enlaces">
+            <div class="pem-divider" aria-hidden="true"></div>
+            <h2 class="pem-enlaces-title">Enlaces</h2>
+            <ul class="pem-enlaces-list">
+              {data.enlaces.map(e => (
+                <li class="pem-enlaces-item">
+                  <a href={e.url} target="_blank" rel="noopener noreferrer" class="pem-enlaces-link">
+                    {e.label}
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
 
         <footer class="article-footer">
           <div class="article-footer-divider" aria-hidden="true"></div>
@@ -112,8 +322,8 @@ const relacionados = byTags.length >= 2 ? byTags.slice(0, 3) : byDate.slice(0, 3
               Este artículo fue investigado, escrito y revisado por el equipo de <strong>MVGN Labs</strong> como parte de nuestro laboratorio editorial. Cada herramienta que documentamos pasa por meses de uso real antes de llegar a esta página.
             </p>
             <div class="signature-author">
-              <span class="signature-name">A. Ibañez</span>
-              <span class="signature-role">Fundador · MVGN Labs</span>
+              <span class="signature-name">{data.autor || 'A. Ibañez'}</span>
+              <span class="signature-role">{data.revision ? `Autor · Revisado por ${data.revision}` : 'Fundador · MVGN Labs'}</span>
             </div>
           </div>
           <div class="article-footer-nav">
@@ -213,20 +423,38 @@ const relacionados = byTags.length >= 2 ? byTags.slice(0, 3) : byDate.slice(0, 3
     opacity: 1;
   }
 
-  /* ═══ HEADER — Editorial Masthead with subtle glass opening ═══ */
+  /* ═══ HEADER — Editorial Glass Masthead ═══ */
   .article-header {
     max-width: 860px;
     margin: 0 auto var(--space-18);
-    padding-bottom: var(--space-14);
-    border-bottom: 1px solid var(--glass-border);
     animation: artFadeIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+  }
+
+  .article-header-card {
+    padding: var(--space-8) var(--space-10) var(--space-10);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-xl);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 4px 32px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-7);
   }
 
   .article-header-meta {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
     gap: var(--space-2);
-    margin-bottom: var(--space-5);
+  }
+
+  .article-header-meta-right {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
     flex-wrap: wrap;
   }
 
@@ -274,38 +502,20 @@ const relacionados = byTags.length >= 2 ? byTags.slice(0, 3) : byDate.slice(0, 3
     text-transform: uppercase;
   }
 
-  .article-hero-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(280px, 0.58fr);
-    gap: var(--space-10);
-    align-items: end;
-    margin-bottom: var(--space-8);
-  }
-
-  .article-hero-side {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-5);
-  }
-
-  .article-hero-thumb {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--glass-border);
-    background: var(--glass-bg-subtle);
+  .meta-item--exp {
+    color: var(--color-primary);
+    font-weight: 600;
   }
 
   .article-title {
     font-family: var(--font-display);
-    font-size: 3.65rem;
+    font-size: 3rem;
     font-weight: 700;
     font-variation-settings: 'SOFT' 50;
-    letter-spacing: -0.01em;
-    line-height: 1.12;
+    letter-spacing: -0.015em;
+    line-height: 1.1;
     color: var(--color-text-primary);
-    max-width: 14ch;
+    max-width: 100%;
   }
 
   .article-title-brand {
@@ -332,23 +542,46 @@ const relacionados = byTags.length >= 2 ? byTags.slice(0, 3) : byDate.slice(0, 3
 
   .article-title-desc {
     display: block;
-    font-size: 0.65em;
+    font-size: 0.45em;
     font-weight: 500;
     color: var(--color-text-tertiary);
-    line-height: 1.3;
+    line-height: 1.35;
     letter-spacing: var(--tracking-normal);
-    max-width: 36ch;
+    max-width: 40ch;
     font-variation-settings: 'SOFT' 70;
+  }
+
+  .article-lede {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-8);
+  }
+
+  .article-lede-thumb-wrap {
+    flex-shrink: 0;
+    width: 200px;
+  }
+
+  .article-lede-thumb {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg-subtle);
   }
 
   .article-desc {
     font-size: var(--text-lg);
-    line-height: 1.72;
-    color: var(--color-text-secondary);
-    font-weight: 400;
-    max-width: 420px;
-    padding-left: var(--space-6);
-    border-left: 1px solid var(--glass-border);
+    line-height: 1.75;
+    font-weight: 450;
+    max-width: 520px;
+    background: linear-gradient(135deg, var(--color-primary), #99d6ff, var(--color-primary-deep), #a78bfa);
+    background-size: 300% 300%;
+    animation: brandShimmer 5s ease-in-out infinite;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   .article-tags {
@@ -380,7 +613,7 @@ const relacionados = byTags.length >= 2 ? byTags.slice(0, 3) : byDate.slice(0, 3
   /* ═══ BODY — Editorial Typography with Hierarchy ═══ */
   .article-body {
     max-width: 800px;
-    margin: 0 auto;
+    margin: 0 auto var(--space-16);
     font-family: var(--font-docs);
     font-size: 1.125rem;
     line-height: 1.82;
@@ -390,11 +623,468 @@ const relacionados = byTags.length >= 2 ? byTags.slice(0, 3) : byDate.slice(0, 3
 
   /* MDX descendants are styled in the global block below. */
 
+  /* ═══════════════════════════════════════════════════
+     PEM-02: FICHA MVGN — Collapsible Technical Summary
+     ═══════════════════════════════════════════════════ */
+
+  .pem-ficha {
+    max-width: 800px;
+    margin: 0 auto var(--space-14);
+    animation: artFadeIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+  }
+
+  .pem-ficha-summary {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-5) var(--space-6);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    list-style: none;
+    transition: border-color var(--transition-fast), background var(--transition-fast);
+    user-select: none;
+  }
+
+  .pem-ficha-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .pem-ficha-summary:hover {
+    border-color: var(--color-primary-subtle);
+    background: var(--glass-bg-strong);
+  }
+
+  .pem-ficha-label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+  }
+
+  .pem-ficha-exp {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--color-text-tertiary);
+    margin-left: auto;
+  }
+
+  .pem-ficha-chevron {
+    color: var(--color-text-tertiary);
+    opacity: 0.4;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    flex-shrink: 0;
+  }
+
+  .pem-ficha[open] .pem-ficha-chevron {
+    transform: rotate(180deg);
+  }
+
+  .pem-ficha-body {
+    padding: var(--space-8) var(--space-6);
+    background: var(--glass-bg-subtle);
+    border: 1px solid var(--glass-border);
+    border-top: none;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    animation: pemSlideDown 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  @keyframes pemSlideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .pem-ficha-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--space-5);
+  }
+
+  .pem-ficha-col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .pem-ficha-field {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+    opacity: 0.55;
+  }
+
+  .pem-ficha-value {
+    font-size: var(--text-base);
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    line-height: 1.55;
+  }
+
+  .pem-ficha-alcance {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--glass-border);
+  }
+
+  .pem-ficha-alcance-block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1-5);
+  }
+
+  .pem-ficha-alcance-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    opacity: 0.75;
+  }
+
+  .pem-ficha-alcance-text {
+    font-size: var(--text-base);
+    color: var(--color-text-tertiary);
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  .pem-ficha-marco {
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--glass-border);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1-5);
+  }
+
+  .pem-ficha-marco-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    opacity: 0.75;
+  }
+
+  .pem-ficha-marco-text {
+    font-size: var(--text-sm);
+    color: var(--color-text-tertiary);
+    opacity: 0.65;
+    line-height: 1.65;
+    margin: 0;
+    max-width: 60ch;
+  }
+
+  /* PEM-06/08/09: Secciones internas de la ficha */
+  .pem-ficha-seccion {
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--glass-border);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .pem-ficha-seccion-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    opacity: 0.75;
+  }
+
+  .pem-ficha-seccion-body {
+    font-size: var(--text-base);
+    color: var(--color-text-tertiary);
+    line-height: 1.75;
+  }
+
+  .pem-ficha-seccion-body p {
+    margin: 0;
+  }
+
+  .pem-ficha-seccion-body p + p {
+    margin-top: var(--space-4);
+  }
+
+  .pem-ficha-seccion-body strong {
+    color: var(--color-text-secondary);
+    font-weight: 600;
+  }
+
+  .pem-ficha-seccion-body table {
+    width: 100%;
+    font-size: 0.85rem;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: var(--space-2);
+  }
+
+  .pem-ficha-seccion-body th {
+    text-align: left;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--glass-border);
+    white-space: nowrap;
+  }
+
+  .pem-ficha-seccion-body td {
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--glass-border-light);
+    vertical-align: top;
+  }
+
+  .pem-ficha-seccion-body tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  /* ═══ ENLACES ═══ */
+  .pem-enlaces {
+    max-width: 800px;
+    margin: var(--space-12) auto 0;
+    animation: artFadeIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+  }
+
+  .pem-enlaces-title {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: 700;
+    font-variation-settings: 'SOFT' 50;
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-5);
+  }
+
+  .pem-enlaces-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .pem-enlaces-item {
+    margin: 0;
+    padding: 0;
+  }
+
+  .pem-enlaces-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-primary-hover);
+    text-decoration: none;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+    border: 1px solid transparent;
+  }
+
+  .pem-enlaces-link:hover {
+    color: var(--color-primary);
+    background: var(--color-primary-subtle);
+    border-color: rgba(75, 163, 242, 0.12);
+  }
+
+  .pem-enlaces-link svg {
+    opacity: 0.4;
+    transition: opacity var(--transition-fast);
+  }
+
+  .pem-enlaces-link:hover svg {
+    opacity: 1;
+  }
+
+  /* ═══════════════════════════════════════════════════
+     PEM-10: VEREDICTO TÉCNICO
+     ═══════════════════════════════════════════════════ */
+
+  .pem-veredicto {
+    max-width: 800px;
+    margin: var(--space-16) auto 0;
+    animation: artFadeIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
+  }
+
+  .pem-divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--glass-border), transparent);
+    margin-bottom: var(--space-8);
+  }
+
+  .pem-veredicto-title {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    font-variation-settings: 'SOFT' 50;
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-8);
+  }
+
+  .pem-veredicto-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-4);
+    margin-bottom: var(--space-8);
+  }
+
+  .pem-veredicto-card {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-5) var(--space-6);
+    background: var(--glass-bg-subtle);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    line-height: 1.65;
+  }
+
+  .pem-veredicto-card svg {
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .pem-veredicto-card--pro svg { color: var(--color-success-text); }
+  .pem-veredicto-card--con svg { color: var(--color-danger); }
+  .pem-veredicto-card--warning svg { color: var(--color-warning-text); }
+  .pem-veredicto-card--neutral svg { color: var(--color-primary); }
+
+  .pem-veredicto-card-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-1);
+  }
+
+  .pem-veredicto-card-text {
+    display: block;
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    line-height: 1.65;
+  }
+
+  .pem-veredicto-conclusion {
+    padding: var(--space-6) var(--space-7);
+    background: var(--glass-bg-subtle);
+    border: 1px solid var(--glass-border);
+    border-left: 3px solid var(--color-primary);
+    border-radius: var(--radius-md);
+  }
+
+  .pem-veredicto-conclusion-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    margin-bottom: var(--space-2);
+  }
+
+  .pem-veredicto-conclusion-text {
+    font-size: var(--text-base);
+    color: var(--color-text-secondary);
+    line-height: 1.75;
+    margin: 0;
+    max-width: 60ch;
+  }
+
+  /* ═══════════════════════════════════════════════════
+     PEM-11: CIERRE EDITORIAL
+     ═══════════════════════════════════════════════════ */
+
+  .pem-cierre {
+    max-width: 800px;
+    margin: var(--space-12) auto 0;
+    animation: artFadeIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+  }
+
+  .pem-cierre-body {
+    padding: var(--space-6) var(--space-7);
+    background: var(--glass-bg-subtle);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+  }
+
+  .pem-cierre-text {
+    font-size: var(--text-sm);
+    line-height: 1.75;
+    color: var(--color-text-tertiary);
+    margin: 0 0 var(--space-5);
+    max-width: 68ch;
+  }
+
+  .pem-cierre-text strong {
+    color: var(--color-text-secondary);
+    font-weight: 600;
+  }
+
+  .pem-cierre-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-5);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--glass-border);
+  }
+
+  .pem-cierre-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .pem-cierre-meta-label {
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+    opacity: 0.4;
+  }
+
+  .pem-cierre-meta-value {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+  }
+
   /* ═══ FOOTER — Editorial Signature ═══ */
   .article-footer {
     max-width: 800px;
     margin: var(--space-18) auto 0;
-    animation: artFadeIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+    animation: artFadeIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both;
   }
 
   .article-footer-divider {
@@ -575,6 +1265,10 @@ const relacionados = byTags.length >= 2 ? byTags.slice(0, 3) : byDate.slice(0, 3
     border-color: rgba(75, 163, 242, 0.15);
   }
 
+  [data-theme="light"] .pem-ficha-summary:hover {
+    border-color: rgba(75, 163, 242, 0.2);
+  }
+
   /* ═══ RESPONSIVE ═══ */
   @media (max-width: 768px) {
     .article-page {
@@ -584,7 +1278,12 @@ const relacionados = byTags.length >= 2 ? byTags.slice(0, 3) : byDate.slice(0, 3
     .article-header {
       max-width: 100%;
       margin-bottom: var(--space-14);
-      padding-bottom: var(--space-10);
+    }
+
+    .article-header-card {
+      padding: var(--space-6) var(--space-5) var(--space-8);
+      border-radius: var(--radius-lg);
+      gap: var(--space-6);
     }
 
     .article-body {
@@ -600,7 +1299,7 @@ const relacionados = byTags.length >= 2 ? byTags.slice(0, 3) : byDate.slice(0, 3
     }
 
     .article-title {
-      font-size: 2.45rem;
+      font-size: clamp(1.8rem, 6vw, 3rem);
       line-height: 1.1;
       max-width: 100%;
     }
@@ -623,22 +1322,20 @@ const relacionados = byTags.length >= 2 ? byTags.slice(0, 3) : byDate.slice(0, 3
       margin: 0 var(--space-2);
     }
 
-    .article-hero-grid {
-      grid-template-columns: 1fr;
+    .article-lede {
+      flex-direction: column;
       gap: var(--space-5);
-      margin-bottom: var(--space-7);
     }
 
-    .article-hero-thumb {
-      display: none;
+    .article-lede-thumb-wrap {
+      width: 100%;
+      max-width: 320px;
     }
 
     .article-desc {
       font-size: var(--text-base);
       line-height: 1.7;
       max-width: 100%;
-      padding-left: 0;
-      border-left: none;
     }
 
     .signature-text {
@@ -648,6 +1345,27 @@ const relacionados = byTags.length >= 2 ? byTags.slice(0, 3) : byDate.slice(0, 3
     .related-grid {
       grid-template-columns: 1fr;
       gap: var(--space-4);
+    }
+
+    /* PEM responsive */
+    .pem-ficha,
+    .pem-veredicto,
+    .pem-cierre {
+      max-width: 100%;
+    }
+
+    .pem-ficha-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-3);
+    }
+
+    .pem-veredicto-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+    }
+
+    .pem-cierre-meta {
+      gap: var(--space-3);
     }
   }
 
@@ -672,6 +1390,10 @@ const relacionados = byTags.length >= 2 ? byTags.slice(0, 3) : byDate.slice(0, 3
     .related-section {
       max-width: 100%;
       margin-top: var(--space-12);
+    }
+
+    .pem-ficha-grid {
+      grid-template-columns: 1fr;
     }
   }
 </style>
@@ -735,7 +1457,7 @@ const relacionados = byTags.length >= 2 ? byTags.slice(0, 3) : byDate.slice(0, 3
   }
 
   .article-body > p:first-of-type {
-    font-size: var(--text-xl);
+    font-size: 1.35rem;
     line-height: 1.8;
     color: var(--color-text-primary);
     margin-top: 0;
@@ -743,23 +1465,23 @@ const relacionados = byTags.length >= 2 ? byTags.slice(0, 3) : byDate.slice(0, 3
 
   .article-body h2 {
     font-family: var(--font-display);
-    font-size: 2.15rem;
+    font-size: 2.25rem;
     font-weight: 700;
     font-variation-settings: 'SOFT' 50;
     color: var(--color-text-primary);
-    letter-spacing: 0;
+    letter-spacing: -0.012em;
     padding-top: var(--space-7);
     border-top: 1px solid var(--glass-border);
-    line-height: 1.12;
+    line-height: 1.15;
   }
 
   .article-body h3 {
     font-family: var(--font-display);
-    font-size: 1.45rem;
-    font-weight: 700;
+    font-size: 1.5rem;
+    font-weight: 650;
     color: var(--color-text-primary);
-    letter-spacing: 0;
-    line-height: 1.22;
+    letter-spacing: -0.005em;
+    line-height: 1.28;
   }
 
   .article-body p {
@@ -981,16 +1703,16 @@ const relacionados = byTags.length >= 2 ? byTags.slice(0, 3) : byDate.slice(0, 3
     }
 
     .article-body > p:first-of-type {
-      font-size: var(--text-lg);
+      font-size: 1.25rem;
     }
 
     .article-body h2 {
-      font-size: 1.8rem;
+      font-size: 1.75rem;
       padding-top: var(--space-6);
     }
 
     .article-body h3 {
-      font-size: 1.3rem;
+      font-size: 1.25rem;
     }
 
     .article-body .ss-frame--phone .ss-image-wrap {
@@ -1103,5 +1825,14 @@ const relacionados = byTags.length >= 2 ? byTags.slice(0, 3) : byDate.slice(0, 3
     .article-body .verdict-item {
       min-height: auto;
     }
+  }
+
+  /* ═══ PEM global overrides for light mode ═══ */
+  [data-theme="light"] .pem-ficha-summary {
+    background: rgba(0, 0, 0, 0.02);
+  }
+
+  [data-theme="light"] .pem-ficha-body {
+    background: rgba(0, 0, 0, 0.02);
   }
 </style>

@@ -9,9 +9,10 @@ export interface Props {
   ogImage?: string;
   topbarTag?: string;
   showWhatsApp?: boolean;
+  hideMobileNav?: boolean;
 }
 
-const { title, description = 'MVGN Digital Hub — Curaduría digital, guías prácticas y soporte técnico. Un laboratorio editorial de herramientas digitales.', ogImage, topbarTag = 'MVGN DIGITAL HUB', showWhatsApp = false } = Astro.props;
+const { title, description = 'MVGN Digital Hub — Curaduría digital, guías prácticas y soporte técnico. Un laboratorio editorial de herramientas digitales.', ogImage, topbarTag = 'MVGN DIGITAL HUB', showWhatsApp = false, hideMobileNav = false } = Astro.props;
 
 // Import styles so Astro bundles them
 import '../styles/global.css';
@@ -77,6 +78,11 @@ import MessageCircle from '@lucide/astro/icons/message-circle';
   <body>
     <nav class="topbar">
       <div class="topbar-inner">
+        {!hideMobileNav && (
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Abrir menú" type="button">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+        </button>
+        )}
         <div class="topbar-brand">
           <a href="/" class="topbar-logo-link">
             <img src="/favicon.png" alt="MVGN Labs" class="topbar-logo-img" />
@@ -94,6 +100,40 @@ import MessageCircle from '@lucide/astro/icons/message-circle';
         </div>
       </div>
     </nav>
+
+    {!hideMobileNav && (
+    <div class="mobile-menu-overlay" id="mobile-menu-overlay" role="dialog" aria-modal="true" aria-label="Navegación">
+      <div class="mobile-menu-panel">
+        <div class="mobile-menu-top">
+          <div class="mobile-menu-brand">
+            <img src="/favicon.png" alt="" class="mobile-menu-logo" />
+            <span class="mobile-menu-brand-name">MVGN Labs</span>
+          </div>
+          <button class="mobile-menu-close" id="mobile-menu-close" aria-label="Cerrar menú" type="button">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
+        </div>
+        <nav class="mobile-menu-nav">
+          <a href="/" class="mobile-menu-link">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span>Inicio</span>
+          </a>
+          <a href="/faq" class="mobile-menu-link">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+            <span>Preguntas Frecuentes</span>
+          </a>
+          <a href="/contact" class="mobile-menu-link">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            <span>Contacto</span>
+          </a>
+          <a href="/laboratorio" class="mobile-menu-link">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+            <span>Laboratorio</span>
+          </a>
+        </nav>
+      </div>
+    </div>
+    )}
 
     <slot />
 
@@ -207,6 +247,13 @@ import MessageCircle from '@lucide/astro/icons/message-circle';
   .topbar-logo-link:hover .topbar-name {
     max-width: 100px;
     opacity: 1;
+  }
+
+  @media (hover: none) {
+    .topbar-name {
+      max-width: 80px;
+      opacity: 1;
+    }
   }
 
   .topbar-sep {
@@ -484,6 +531,155 @@ import MessageCircle from '@lucide/astro/icons/message-circle';
     transform: translateY(-2px);
   }
 
+  /* ═══ MOBILE MENU BUTTON ═══ */
+  .mobile-menu-btn {
+    display: none;
+    width: 44px;
+    height: 44px;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    border-radius: var(--radius-md);
+    transition: background var(--transition-fast), color var(--transition-fast);
+    flex-shrink: 0;
+    margin-left: calc(-1 * var(--space-2));
+  }
+
+  .mobile-menu-btn:hover {
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--color-text-primary);
+  }
+
+  [data-theme="light"] .mobile-menu-btn:hover {
+    background: rgba(0, 0, 0, 0.04);
+  }
+
+  /* ═══ MOBILE MENU — Full-screen overlay ═══ */
+  .mobile-menu-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    background: rgba(10, 10, 10, 0.92);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+
+  .mobile-menu-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  [data-theme="light"] .mobile-menu-overlay {
+    background: rgba(245, 245, 245, 0.95);
+  }
+
+  .mobile-menu-panel {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: var(--space-6) var(--space-6) var(--space-12);
+  }
+
+  .mobile-menu-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-12);
+  }
+
+  .mobile-menu-brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .mobile-menu-logo {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    display: block;
+    flex-shrink: 0;
+  }
+
+  .mobile-menu-brand-name {
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: var(--color-text-primary);
+    letter-spacing: -0.02em;
+  }
+
+  .mobile-menu-close {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    color: var(--color-text-tertiary);
+    cursor: pointer;
+    border-radius: var(--radius-full);
+    transition: background var(--transition-fast), color var(--transition-fast);
+  }
+
+  .mobile-menu-close:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--color-text-primary);
+  }
+
+  [data-theme="light"] .mobile-menu-close:hover {
+    background: rgba(0, 0, 0, 0.06);
+  }
+
+  /* ═══ MOBILE MENU NAV ═══ */
+  .mobile-menu-nav {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    flex: 1;
+    justify-content: center;
+  }
+
+  .mobile-menu-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-4) var(--space-4);
+    border-radius: var(--radius-lg);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-size: var(--text-xl);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    transition: all var(--transition-fast);
+    min-height: 56px;
+  }
+
+  .mobile-menu-link:hover {
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--color-text-primary);
+  }
+
+  .mobile-menu-link svg {
+    flex-shrink: 0;
+    opacity: 0.4;
+  }
+
+  .mobile-menu-link:hover svg {
+    opacity: 0.8;
+  }
+
+  [data-theme="light"] .mobile-menu-link:hover {
+    background: rgba(0, 0, 0, 0.04);
+  }
+
   @media (max-width: 1023px) {
     .floating-actions {
       bottom: calc(52px + var(--space-6));
@@ -497,17 +693,35 @@ import MessageCircle from '@lucide/astro/icons/message-circle';
   }
 
   @media (max-width: 767px) {
+    .mobile-menu-btn {
+      display: flex;
+    }
+
+    .mobile-menu-overlay {
+      display: block;
+    }
+
+    .mobile-menu-drawer {
+      display: flex;
+    }
+
     .floating-btn {
-      width: 40px;
-      height: 40px;
+      width: 44px;
+      height: 44px;
+    }
+
+    .docs-theme-btn {
+      width: 44px;
+      height: 44px;
     }
 
     .topbar {
-      left: var(--space-4);
-      right: var(--space-4);
-      width: auto;
-      border-radius: var(--radius-xl);
+      left: 0;
+      right: 0;
+      width: 100%;
+      border-radius: 0;
       padding: 0 var(--space-4);
+      gap: var(--space-2);
     }
 
     .topbar-inner {
@@ -592,5 +806,54 @@ import MessageCircle from '@lucide/astro/icons/message-circle';
         window.scrollTo({ top: 0, behavior: 'smooth' });
       });
     }
+
+    // ═══ MOBILE MENU — Full-screen overlay ═══
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const closeBtn = document.getElementById('mobile-menu-close');
+    const overlay = document.getElementById('mobile-menu-overlay');
+
+    function openMenu() {
+      if (overlay) {
+        overlay.classList.add('open');
+        document.body.classList.add('nav-open');
+        if (menuBtn) menuBtn.setAttribute('aria-label', 'Cerrar menú');
+      }
+    }
+
+    function closeMenu() {
+      if (overlay) {
+        overlay.classList.remove('open');
+        document.body.classList.remove('nav-open');
+        if (menuBtn) menuBtn.setAttribute('aria-label', 'Abrir menú');
+      }
+    }
+
+    if (menuBtn) {
+      menuBtn.addEventListener('click', openMenu);
+    }
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', closeMenu);
+    }
+
+    if (overlay) {
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) closeMenu();
+      });
+    }
+
+    // Close on nav link click
+    if (overlay) {
+      overlay.querySelectorAll('.mobile-menu-link').forEach(link => {
+        link.addEventListener('click', closeMenu);
+      });
+    }
+
+    // Close on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && overlay && overlay.classList.contains('open')) {
+        closeMenu();
+      }
+    });
   })();
 </script>

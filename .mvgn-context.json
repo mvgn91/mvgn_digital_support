@@ -1,12 +1,41 @@
 {
-  "timestamp": "2026-07-10T00:00:00-06:00",
+  "timestamp": "2026-07-13T23:00:00-06:00",
   "state": "COMPLETED",
   "active_task": null,
-  "progress": "53/30+",
+  "progress": "68/30+",
   "blockers": null,
-  "session_id": "ses-019",
+  "session_id": "ses-022",
   "profile": "lite",
   "mode": "FLOW",
   "context_schema_version": "1.1.0",
-  "last_session_summary": "Sesión 019: Deploy a Cloudflare Pages completado. URL de producción corregida a mvgn-digital-support-center.pages.dev. Documentación de deploy agregada al README con instrucciones Git integration y Wrangler CLI. Estado MVGN actualizado a ses-019."
+  "last_session_summary": "Sesión 022 — PULIDO EDITORIAL. `revision:Ncape` removido de bitwarden.mdx (autor=reviewer por filosofía). Firma en [slug].astro ahora muestra 'Fundador · MVGN Labs' sin revision. Build: 8 páginas, 0 errores.",
+  "telemetry": {
+    "session_id": "ses-022",
+    "actor": "agent-buffy",
+    "model": "deepseek-v4-flash",
+    "provider": "Deepseek",
+    "timestamp": "2026-07-13T23:00:00-06:00",
+    "duration_min": 30,
+    "files_changed": [
+      "src/content/laboratorio/bitwarden.mdx",
+      "src/pages/laboratorio/[slug].astro",
+      "docs/04_changelog.md",
+      "docs/05_lessons_learned.md",
+      "docs/06_state_report.md",
+      ".mvgn-context.json"
+    ],
+    "rfs_covered": 0,
+    "tasks_completed": 0,
+    "adrs_created": 0,
+    "lessons_learned": 2,
+    "editorial_standard": "v1.0-rc",
+    "pilot_article": "EXP-2026-00001",
+    "build_status": {
+      "pages": 8,
+      "errors": 0,
+      "warnings": 0,
+      "duration_s": 12.08,
+      "baseline_clean": true
+    }
+  }
 }

@@ -1,56 +1,62 @@
-﻿{
-    "runtime_version":  "3.5.0",
-    "schema_version":  "1.1.0",
-    "profile":  "lite",
-    "capabilities":  {
-                         "telemetry":  true,
-                         "traceability":  true,
-                         "analytics":  true,
-                         "event_history":  true
-                     },
-    "actors":  [
-                   {
-                       "provider":  "deepseek",
-                       "model":  "deepseek-v4-flash",
-                       "id":  "agent-opencode",
-                       "type":  "ai",
-                       "name":  "OpenCode"
-                   },
-                   {
-                       "provider":  "deepseek",
-                       "model":  "deepseek-v4-flash",
-                       "name":  "Buffy",
-                       "id":  "agent-buffy",
-                       "type":  "ai"
-                   },
-                   {
-                       "id":  "actor-codebuff",
-                       "type":  "ai",
-                       "name":  "Codebuff",
-                       "provider":  "deepseek",
-                       "model":  "deepseek-v4-flash",
-                       "metadata":  {
-                                        "role":  "executor"
-                                    }
-                   },
-                   {
-                       "id":  "actor-ncape",
-                       "type":  "human",
-                       "name":  "Ncape",
-                       "metadata":  {
-                                        "role":  "decisor"
-                                    }
-                   }
-               ],
-    "skills":  [
-
-               ],
-    "policies":  {
-                     "feature_cost":  true,
-                     "deprecation":  true,
-                     "context_budget_protection":  true
-                 },
-    "adapters":  [
-
-                 ]
+{
+  "runtime_version": "3.5.0",
+  "schema_version": "1.1.0",
+  "profile": "lite",
+  "capabilities": {
+    "telemetry": true,
+    "traceability": true,
+    "analytics": true,
+    "event_history": true
+  },
+  "actors": [
+    {
+      "id": "agent-kimchi",
+      "type": "ai",
+      "name": "Kimchi",
+      "model": "minimax-m3",
+      "provider": "MiniMax",
+      "metadata": {
+        "role": "executor"
+      }
+    },
+    {
+      "type": "ai",
+      "id": "agent-opencode",
+      "model": "deepseek-v4-flash",
+      "provider": "deepseek",
+      "name": "OpenCode"
+    },
+    {
+      "provider": "Deepseek",
+      "model": "deepseek-v4-flash",
+      "name": "Buffy",
+      "id": "agent-buffy",
+      "type": "ai"
+    },
+    {
+      "id": "actor-codebuff",
+      "type": "ai",
+      "name": "Codebuff",
+      "provider": "deepseek",
+      "model": "deepseek-v4-flash",
+      "metadata": {
+        "role": "executor"
+      }
+    },
+    {
+      "id": "actor-ncape",
+      "type": "human",
+      "name": "Ncape",
+      "metadata": {
+        "role": "decisor"
+      }
+    }
+  ],
+  "skills": [],
+  "policies": {
+    "feature_cost": true,
+    "deprecation": true,
+    "context_budget_protection": true
+  },
+  "adapters": []
 }

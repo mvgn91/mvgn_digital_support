@@ -531,6 +531,64 @@ Actor (IA / Humano / Automation / CI/CD)
 
 ---
 
+## ADR-009: Mobile Navigation — Pillnav + Hamburger Coexistencia
+
+**Estado:** ✅ Aprobado
+**Fecha de aprobación:** 2026-07-13
+**Decisor:** Ncape [✓]
+
+### Contexto
+
+El sitio MVGN Digital Hub tenía dos problemas de navegación mobile detectados en la auditoría de responsividad (Sesión 020):
+
+1. **Sin navegación entre páginas en mobile.** La topbar solo mostraba brand + theme toggle. Los únicos links a FAQ y Contacto estaban en el footer. En landing page, no había forma de llegar a otras páginas sin scrollear hasta el final.
+2. **Pillnav con labels ilegibles.** En mobile, el pillnav (navegación on-page entre secciones) se movía al bottom con labels de 0.6rem (9.6px) y touch targets por debajo de 44px WCAG.
+
+Además, el nombre "MVGN Labs" era invisible en dispositivos touch porque solo se revelaba en hover.
+
+### Decisión
+
+**Mantener el pillnav como bottom navigation + agregar hamburger menu en el topbar. No reemplazar uno por el otro.**
+
+Razones:
+- **Pillnav y hamburger resuelven problemas distintos.** El pillnav es navegación on-page (scroll-spy entre secciones del index). El hamburger es navegación global (entre páginas: Inicio, FAQ, Contacto, Laboratorio). No hay overlap funcional.
+- **El pillnav es un identificador visual del sitio.** Es el elemento más distintivo de la UI. Removerlo rompe la identidad del proyecto.
+- **El hamburger llena un gap real.** Hoy no existe navegación global en mobile. El footer es el único camino. Esto es una deficiencia de UX comprobada.
+- **Bottom navigation es thumb-friendly.** El pillnav en bottom sigue el patrón de tab bars nativas (iOS/Android). Es más ergonómico que un hamburger para cambiar entre secciones de una misma página.
+
+### Alternativas consideradas
+
+| Alternativa | Veredicto | Razón |
+|-------------|-----------|-------|
+| Solo hamburger (remover pillnav) | ❌ Rechazado | Pierde scroll-spy, pierde identidad visual, añade fricción a navegación on-page |
+| Solo pillnav (sin hamburger) | ❌ Rechazado | No resuelve el gap de navegación entre páginas |
+| Pillnav convertido en navegación global | ❌ Rechazado | Mezcla concerns (on-page anchors + page links), confunde al usuario |
+| **Pillnav + hamburger** | ✅ **Elegido** | Cada uno resuelve su concern. La topbar gana el hamburger; el index conserva el pillnav |
+
+### Impacto
+
+| Área | Afectado |
+|------|----------|
+| BaseLayout.astro | ✅ Nuevo: hamburger menu + drawer |
+| DocsLayout.astro | ✅ Ajuste: coexistencia con sidebar hamburger existente |
+| index.astro | ✅ Ajuste: pillnav labels + touch targets |
+| Otras páginas | ❌ No afectado |
+| Desktop layout | ❌ Sin cambios (solo visible en ≤767px) |
+
+### Tradeoffs
+
+- **Overhead de mantener dos sistemas de navegación.** El pillnav tiene su propio JS (scroll-spy, active state). El hamburger tendrá su propio toggle. Son independientes, pero hay que asegurar que no conflictúen (ej: ambos abiertos simultáneamente).
+- **Bottom pillnav compite con floating actions.** Hay que ajustar `bottom` del pillnav para no solaparse con back-to-top y WhatsApp.
+
+### Verificación
+
+- Build pasa con 0 errores
+- Pillnav sigue funcionando con scroll-spy en desktop y mobile
+- Hamburger abre/cierra correctamente
+- Sin regresión visual en desktop
+
+---
+
 ## ADRs Registrados
 
 | ADR | Título | Estado |
@@ -543,9 +601,11 @@ Actor (IA / Humano / Automation / CI/CD)
 | ADR-006 | Session Manager | ✅ Aprobado |
 | ADR-007 | Runtime Manifest | ✅ Aprobado |
 | ADR-008 | Context Budget Protection | ✅ Aprobado |
+| **ADR-009** | **Mobile Navigation — Pillnav + Hamburger Coexistencia** | **✅ Aprobado** |
 
 ---
 
 **Historial:**
+- 2026-07-13: ADR-009 incorporado — Mobile Navigation: Pillnav + Hamburger Coexistencia
 - 2026-07-08: Actualización mayor — ADR-001 revisado, ADR-002 a ADR-008 incorporados, regla ADR como contrato, Actor Identity, Session Manager, Event Bus, Runtime Manifest, Context Budget Protection
 - 2026-07-08: Creación inicial — ADR-001 + Arquitectura propuesta para v3.0

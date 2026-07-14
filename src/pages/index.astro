@@ -2016,7 +2016,7 @@ const ultimosArticulos = articulos
   /* Tablet */
   @media (max-width: 1024px) {
     .lab-grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(2, 1fr);
     }
 
     .plans-grid {
@@ -2095,44 +2095,7 @@ const ultimosArticulos = articulos
   /* ── MOBILE (480px - 767px) ── */
   @media (max-width: 767px) {
     .pillnav {
-      top: auto;
-      bottom: var(--space-4);
-      left: var(--space-4);
-      right: var(--space-4);
-      transform: none;
-      width: auto;
-      border-radius: var(--radius-xl);
-      padding: 4px 6px;
-      background: rgba(30, 30, 30, 0.85);
-      backdrop-filter: blur(32px);
-      -webkit-backdrop-filter: blur(32px);
-      box-shadow: 0 4px 32px rgba(0, 0, 0, 0.35);
-    }
-
-    [data-theme="light"] .pillnav {
-      background: rgba(240, 240, 240, 0.9);
-    }
-
-    .pillnav.visible {
-      transform: none;
-    }
-
-    .pillnav-link {
-      padding: var(--space-1) var(--space-3);
-      gap: 4px;
-    }
-
-    .pillnav-label {
-      font-size: 0.6rem;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      font-weight: 600;
-      color: inherit;
-    }
-
-    .pillnav-icon {
-      width: 16px;
-      height: 16px;
+      display: none;
     }
 
     .section {
@@ -2313,6 +2276,10 @@ const ultimosArticulos = articulos
     }
 
     .lab-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .manifesto-stats {
       grid-template-columns: 1fr;
     }
 
