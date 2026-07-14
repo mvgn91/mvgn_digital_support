@@ -1,10 +1,22 @@
-# MVGN Digital Hub — Laboratorio Editorial de Herramientas Digitales
+# MVGN Digital Hub — Soporte Técnico y Compilaciones para Android
 
-Sitio web editorial de MVGN Labs: facilitación técnica, compilaciones verificadas y soporte para entretenimiento digital en dispositivos Android.
+Centro de asistencia técnica especializado en entretenimiento digital para Android. Compilaciones verificadas, soporte continuo y análisis transparentes de herramientas digitales.
 
 **Producción:** [mvgn-digital-support-center.pages.dev](https://mvgn-digital-support-center.pages.dev)
 
 ---
+
+## Propósito
+
+MVGN Digital Hub existe para cerrar la brecha entre el software disponible y el software que funciona. No somos una tienda ni una revista — somos un **taller técnico** con frente editorial.
+
+| Capa | Qué es | Para qué |
+|------|--------|----------|
+| **Laboratorio** | Blog técnico con análisis de herramientas | Generar confianza, demostrar conocimiento, atraer tráfico |
+| **Compilaciones** | APKs preparados y probados (TV + Mobile) | Entregar software listo para instalar |
+| **Soporte** | Asistencia continua 6 meses | Resolver problemas post-instalación |
+
+El laboratorio editorial es el gancho. Las compilaciones y el soporte son el servicio.
 
 ## Stack
 
@@ -25,14 +37,14 @@ src/
 ├── components/          # .astro + .tsx (React)
 │   ├── AmbientGradient.tsx     # Fondo animado con Framer Motion
 │   ├── CurvedLoop/             # Banda curva animada (easter egg)
-│   ├── ArticuloCard.astro      # Card de artículo editorial
+│   ├── ArticuloCard.astro      # Card de artículo técnico
 │   ├── Callout.astro           # Callouts (info, tip, warning, editorial)
 │   ├── FAQAccordion.astro      # Acordeón de preguntas
 │   ├── Sidebar.astro           # Navegación docs
 │   ├── ScreenshotFrame.astro   # Frame de screenshot
 │   └── ...
 ├── content/
-│   └── laboratorio/   # Artículos editoriales (MDX)
+│   └── laboratorio/   # Artículos del taller técnico (MDX)
 │       ├── bitwarden.mdx
 │       ├── newpipe.mdx
 │       └── vanced-revanced-morphe.mdx
