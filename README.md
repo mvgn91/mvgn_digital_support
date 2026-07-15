@@ -171,6 +171,4 @@ npx wrangler pages deploy dist/ --project-name mvgn-digital-support-center --bra
 - El build incluye un paso de cifrado (`scripts/protect-support.cjs`) que protege ciertas rutas.
 - Para ver los logs de build: Cloudflare Dashboard → Pages → `mvgn-digital-support-center` → Deployments.
 
----
 
-© MVGN Labs — Contacto: [mvgnlabs@proton.me](mailto:mvgnlabs@proton.me) · WhatsApp: +52 332 262 1939
