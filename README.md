@@ -1,5 +1,12 @@
 # MVGN Digital Hub — Soporte Técnico y Compilaciones para Android
 
+![Astro](https://img.shields.io/badge/Astro-v6-BC52EE?logo=astro)
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)
+![MVGN](https://img.shields.io/badge/MVGN-v4.0-4BA3F2)
+![Build](https://img.shields.io/badge/build-8_pages,_0_errors-22c55e)
+![Cloudflare Pages](https://img.shields.io/badge/Cloudflare_Pages-deployed-F38020?logo=cloudflarepages)
+![License](https://img.shields.io/badge/license-UNLICENSED-808080)
+
 Centro de asistencia técnica especializado en entretenimiento digital para Android. Compilaciones verificadas, soporte continuo y análisis transparentes de herramientas digitales.
 
 **Producción:** [mvgn-digital-support-center.pages.dev](https://mvgn-digital-support-center.pages.dev)
