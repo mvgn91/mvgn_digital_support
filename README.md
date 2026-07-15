@@ -6,6 +6,16 @@ Centro de asistencia técnica especializado en entretenimiento digital para Andr
 
 ---
 
+## Batches de Conversión PEM
+
+Los artículos del laboratorio se convierten al **Estándar de Evaluación MVGN v1.0-rc** (11 protocolos PEM) en batches:
+
+| Batch | Artículos | EXP | Sesión | Estado |
+|-------|-----------|-----|--------|--------|
+| 1 | Bitwarden | EXP-2026-00001 | ses-021 | ✅ Publicado |
+| 2 | NewPipe, Vanced+ReVanced+Morphe | EXP-2026-00002, EXP-2026-00003 | ses-023 | ✅ Publicado |
+| 3–5 | Próximos artículos | — | — | 🔲 Pendiente (2–7 para v1.0 Stable) |
+
 ## Propósito
 
 MVGN Digital Hub existe para cerrar la brecha entre el software disponible y el software que funciona. No somos una tienda ni una revista — somos un **taller técnico** con frente editorial.
@@ -27,7 +37,7 @@ El laboratorio editorial es el gancho. Las compilaciones y el soporte son el ser
 | Contenido | **MDX** + Content Collections |
 | Estilos | CSS nativo con Design Tokens + Glass System |
 | Iconos | Lucide Icons |
-| Gestión | **MVGN v3.5** — Event-Driven AI Governance Runtime |
+| Gestión | **MVGN v4.0** — Multi-Agent Governance Runtime |
 | Despliegue | Cloudflare Pages (Git integration + Wrangler CLI) |
 
 ## Estructura
@@ -45,9 +55,9 @@ src/
 │   └── ...
 ├── content/
 │   └── laboratorio/   # Artículos del taller técnico (MDX)
-│       ├── bitwarden.mdx
-│       ├── newpipe.mdx
-│       └── vanced-revanced-morphe.mdx
+│       ├── bitwarden.mdx                   # EXP-2026-00001 — ✅ PEM
+│       ├── newpipe.mdx                     # EXP-2026-00002 — ✅ PEM
+│       └── vanced-revanced-morphe.mdx      # EXP-2026-00003 — ✅ PEM
 ├── layouts/
 │   ├── BaseLayout.astro        # HTML base + topbar + theme toggle
 │   └── DocsLayout.astro        # Layout docs con sidebar
@@ -65,21 +75,34 @@ src/
     └── utilities.css            # Clases utilitarias
 ```
 
-## MVGN 3.5 Runtime
+## MVGN v4.0 Runtime
 
-El proyecto está gobernado por **MVGN v3.5** (Lite, modo FLOW):
+El proyecto está gobernado por **MVGN v4.0** (Lite, modo NORMAL):
 
 | Componente | Archivo |
 |------------|---------|
 | Manifiesto | `runtime-state/mvgn-runtime.json` |
 | Estado vivo | `.mvgn-context.json` |
-| Entry point | `profiles/lite/NYX.md` |
-| Contract | `core/session-contract.md` |
-| Kernel | `core/kernel-spec.md` |
-| Rules | `profiles/lite/.mvgn/lite-rules.md` |
-| Engine | `profiles/lite/.mvgn/lite-engine.md` |
-| Recovery | `profiles/lite/.mvgn/lite-recovery.md` |
-| Event History | `events/2026-07-08.jsonl` (29 eventos) |
+| Entry point | `mvgnlabs-starter-kit/NYX.md` |
+| Contract | `mvgnlabs-starter-kit/.mvgn/session-contract.md` |
+| Kernel | `mvgnlabs-starter-kit/.mvgn/kernel-spec.md` |
+| Lite Rules | `mvgnlabs-starter-kit/profiles/lite/.mvgn/lite-rules.md` |
+| Lite Engine | `mvgnlabs-starter-kit/profiles/lite/.mvgn/lite-engine.md` |
+| Lite Recovery | `mvgnlabs-starter-kit/profiles/lite/.mvgn/lite-recovery.md` |
+| Event History | `events/2026-07-08.jsonl` |
+
+### Especificaciones v4.0
+
+| # | Documento | Propósito |
+|---|-----------|-----------|
+| 10 | `docs/10_agent_roles.md` | Roles de agentes (Executor, Reviewer, Architect, etc.) |
+| 11 | `docs/11_review_pipeline.md` | Pipeline opcional de revisión multi-agente |
+| 12 | `docs/12_execution_modes.md` | Modos: NORMAL, SUPERVISED, COLLABORATIVE |
+| 13 | `docs/13_review_reports.md` | Formato estándar de reportes de revisión |
+| 14 | `docs/14_agent_registry.md` | Registro de agentes con ID, modelo, rol, estado |
+| 15 | `docs/15_review_metrics.md` | Métricas de revisión y calidad |
+| 16 | `docs/16_conflict_resolution.md` | Protocolo de resolución de conflictos entre agentes |
+| 17 | `docs/17_migration_v3.5_to_v4.0.md` | Guía de migración v3.5 → v4.0 |
 
 ## Comandos
 
@@ -133,6 +156,7 @@ npx wrangler pages deploy dist/ --project-name mvgn-digital-support-center --bra
 | **Nombre proyecto** | `mvgn-digital-support-center` |
 | **Repositorio** | GitHub (push a `main` → deploy automático) |
 | **Dominio personalizado** | Pendiente de configurar |
+| **Último deploy** | 2026-07-15 (ses-023) |
 
 ### Notas
 
