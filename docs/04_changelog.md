@@ -5,6 +5,40 @@
 
 ---
 
+## 2026-07-15 — Sesión 023: Migración PEM de artículos + Upgrade MVGN v4.0
+
+### Artículos migrados al estándar editorial
+- `src/content/laboratorio/newpipe.mdx` — EXP-2026-00002. Migración completa al estándar PEM:
+  - Frontmatter con expediente, alcance, veredicto, contexto de uso
+  - 8 observaciones (OBS-001 a OBS-008): independencia de NewPipe, historia de Vanced, instalación de Morphe, SponsorBlock, cobertura de ReVanced
+  - 6 evidencias vinculadas a observaciones
+  - 4 riesgos documentados (dependencia de mantenedores, inestabilidad post-actualización, instalación fuera de Play Store, continuidad)
+  - Cuerpo editorial intacto — contenido narrativo preservado
+- `src/content/laboratorio/vanced-revanced-morphe.mdx` — EXP-2026-00003. Migración completa al estándar PEM:
+  - 8 observaciones (OBS-001 a OBS-008): funcionamiento de Vanced Manager, muerte por cese/desistimiento, parches modulares de ReVanced, microG, proceso técnico de parcheo
+  - 6 evidencias vinculadas a observaciones
+  - 4 riesgos documentados (legal, seguridad del parche, dependencia de comunidad, incompatibilidad por actualizaciones)
+  - Cuerpo editorial intacto
+
+### Upgrade MVGN v4.0
+- Ejecutado upgrade automático desde v3.5 a v4.0 via NYX.md
+- `runtime-state/mvgn-runtime.json` — runtime_version 4.0, schema 2.0.0, multi_agent capabilities
+- `.mvgn-context.json` — schema v2.0.0, execution_mode NORMAL
+- `docs/07_runtime_spec.md` — v2.0.0 con Agent Events domain (9 eventos)
+- `docs/10_agent_roles.md` a `docs/17_migration_v3.5_to_v4.0.md` — nuevas specs v4.0
+
+### Archivos modificados
+- `src/content/laboratorio/newpipe.mdx` — migración PEM
+- `src/content/laboratorio/vanced-revanced-morphe.mdx` — migración PEM
+- `docs/04_changelog.md` — este archivo
+- `docs/05_lessons_learned.md` — LL-020, LL-021
+- `docs/06_state_report.md` — actualizado
+- `.mvgn-context.json` — actualizado a ses-023
+- `runtime-state/mvgn-runtime.json` — upgrade v4.0
+- `docs/07_runtime_spec.md` — Agent Events
+
+---
+
 ## 2026-07-13 — Sesión 022: Pulido Editorial + Finalización MVGN
 
 ### Correcciones editoriales

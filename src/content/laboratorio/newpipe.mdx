@@ -6,6 +6,65 @@ heroImage: 'https://placehold.co/560x315/292524/a78bfa?text=Alternativas+YouTube
 tags: ['android', 'privacidad', 'multimedia', 'youtube']
 icon: 'settings'
 featured: true
+
+# MVGN Evaluation Standard v1.0-rc
+expediente: EXP-2026-00002
+versionEstandar: v1.0-rc
+autor: A. Ibañez
+contextoUso: uso cotidiano
+alcanceCubre: 'Evaluación de tres alternativas a YouTube para Android: NewPipe (cliente independiente), YouTube Vanced/ReVanced (mods con parcheo) y YouTube Morphe (app modificada independiente). Incluye instalación, funcionalidades (reproducción en segundo plano, sin anuncios, descargas), experiencia de uso diario y comparación entre las tres opciones.'
+alcanceNoCubre: 'Evaluación comparativa con YouTube Premium, análisis de rendimiento o consumo de batería, uso en iOS, ni revisión de otras plataformas de modding fuera de las mencionadas.'
+veredictoParaQuienSi: 'Usuarios de Android que quieran ver YouTube sin anuncios sin pagar Premium. La opción depende del perfil: NewPipe para quien prioriza ligereza y no necesita cuenta, Morphe para quien quiere la experiencia completa sin complicación técnica, ReVanced para quien prefiere control granular.'
+veredictoParaQuienNo: 'Usuarios que dependen de YouTube Premium para descargas offline legales, quienes necesitan YouTube Music integrado, o quienes prefieren no instalar apps fuera de Google Play Store.'
+veredictoProblema: 'Recuperar el control de la experiencia YouTube en Android: eliminar anuncios, habilitar reproducción en segundo plano y descarga de videos sin pagar suscripción mensual.'
+veredictoCoste: 'NewPipe: gratuito · Vanced/ReVanced: gratuito · Morphe: gratuito. Ninguno requiere suscripción. Todos requieren instalar APK fuera de Play Store.'
+veredictoLimites: 'Funcionalidades pueden romperse al actualizar YouTube (ReVanced) o el extractor (NewPipe) hasta que la comunidad publique actualizaciones. Ninguno es oficial, por lo que no hay garantía de continuidad. Morphe y NewPipe pueden quedarse sin actualizaciones si el proyecto se abandona.'
+veredictoConclusion: 'NewPipe, Vanced/ReVanced y Morphe representan tres filosofías distintas ante un mismo problema. NewPipe prioriza independencia y ligereza. ReVanced prioriza control granular y modularidad. Morphe prioriza simplicidad y experiencia pulida. Las tres son viables para uso diario.'
+revisionFutura: '2027-01'
+
+# ── Observaciones (PEM-06) ──
+observacionesTexto: >-
+  <p><strong>OBS-001 — NewPipe no modifica la app oficial de YouTube</strong><br>
+  NewPipe es un cliente independiente escrito desde cero. Usa su propio extractor para obtener metadatos y streams de video. No requiere la app oficial de YouTube instalada ni la parchea.</p>
+  <p><strong>OBS-002 — Vanced distribuía APKs modificados, ReVanced los parchea localmente</strong><br>
+  Vanced distribuía APKs de YouTube ya modificados, lo que llevó a su cese y desistimiento en 2022. ReVanced aprende de esto y distribuye solo parches: el usuario parchea su propia copia de YouTube en el dispositivo.</p>
+  <p><strong>OBS-003 — Morphe es una app independiente con instalación directa</strong><br>
+  YouTube Morphe se descarga e instala como un APK directo desde morphe.software. No requiere microG, no requiere parchear, no requiere la app oficial de YouTube.</p>
+  <p><strong>OBS-004 — Ninguna requiere cuenta de Google para funcionar</strong><br>
+  NewPipe no soporta inicio de sesión. Vanced/ReVanced lo soportan mediante microG (opcional). Morphe soporta inicio de sesión sin microG aparente.</p>
+  <p><strong>OBS-005 — SponsorBlock está integrado en ReVanced, no en NewPipe ni Morphe</strong><br>
+  ReVanced incluye parches para SponsorBlock (salta automáticamente segmentos patrocinados). NewPipe no lo soporta. Morphe no lo incluye.</p>
+  <p><strong>OBS-006 — Todas ofrecen reproducción en segundo plano y sin anuncios</strong><br>
+  Las tres alternativas cumplen con las dos funciones más demandadas: reproducir audio con pantalla apagada y eliminar publicidad en video.</p>
+  <p><strong>OBS-007 — La instalación de ReVanced requiere más pasos</strong><br>
+  ReVanced Manager descarga la app original y los parches, los aplica, y firma el APK resultante. El proceso toma aproximadamente 1-2 minutos y requiere microG para inicio de sesión.</p>
+  <p><strong>OBS-008 — El ecosistema de parches de ReVanced cubre más que YouTube</strong><br>
+  ReVanced ofrece parches para YouTube Music, TikTok, Twitter, Reddit y Twitch. NewPipe y Morphe se limitan a YouTube.</p>
+# ── Evidencias (PEM-08) ──
+evidenciasTexto: >-
+  <table><thead><tr><th>#</th><th>Tipo</th><th>Descripción</th><th>Asociada</th></tr></thead><tbody>
+  <tr><td>EV-001</td><td>Captura</td><td>NewPipe reproduciendo video — interfaz propia sin rastro de la app oficial</td><td>OBS-001</td></tr>
+  <tr><td>EV-002</td><td>Captura</td><td>YouTube Vanced — interfaz idéntica a YouTube pero sin anuncios</td><td>OBS-002</td></tr>
+  <tr><td>EV-003</td><td>Captura</td><td>YouTube Morphe en reproducción en segundo plano</td><td>OBS-003</td></tr>
+  <tr><td>EV-004</td><td>Documentación</td><td>Repositorio de NewPipe en GitHub — código abierto, extractor propio</td><td>OBS-001</td></tr>
+  <tr><td>EV-005</td><td>Documentación</td><td>Sitio oficial de ReVanced — parches modulares y CLI</td><td>OBS-007</td></tr>
+  <tr><td>EV-006</td><td>Documentación</td><td>Página de Morphe — lista de apps disponibles</td><td>OBS-003</td></tr>
+  </tbody></table>
+# ── Riesgos Conocidos (PEM-09) ──
+riesgosTexto: >-
+  <ol>
+  <li><strong>Dependencia de mantenedores externos.</strong> Las tres herramientas dependen de equipos comunitarios. Si el proyecto abandona, no hay actualizaciones. NewPipe tiene historia de desarrollo constante. Vanced ya murió una vez. Morphe es relativamente nuevo.</li>
+  <li><strong>Inestabilidad post-actualización de YouTube.</strong> Cuando YouTube cambia su API o estructura interna, el extractor de NewPipe y los parches de ReVanced pueden romperse hasta que la comunidad publique una actualización.</li>
+  <li><strong>Instalación fuera de Play Store.</strong> Las tres opciones requieren instalar APKs desde fuentes no oficiales. Android muestra advertencias de seguridad. El usuario debe confiar en el mantenedor.</li>
+  <li><strong>Sin garantía de continuidad.</strong> Al no ser productos comerciales, ninguna ofrece SLA, soporte ni garantía de funcionamiento futuro. El modelo es el de software libre comunitario.</li>
+  </ol>
+enlaces:
+  - label: 'NewPipe — repositorio oficial'
+    url: 'https://github.com/TeamNewPipe/NewPipe'
+  - label: 'ReVanced — sitio oficial'
+    url: 'https://revanced.app'
+  - label: 'YouTube Morphe — sitio oficial'
+    url: 'https://morphe.software'
 ---
 
 import ScreenshotFrame from '../../components/ScreenshotFrame.astro';

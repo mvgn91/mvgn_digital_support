@@ -93,3 +93,22 @@ El pillnav en mobile (bottom bar con scroll-spy) demostró ser un patrón efecti
 
 1. **Eliminar `revision` del esquema de contenido.** El campo queda obsoleto para artículos de A. Ibañez. Puede reaparecer solo si hay contribuciones externas verificadas.
 2. **Firma editorial consistente:** cuando no hay `revision`, el pie de artículo muestra "A. Ibañez · Fundador · MVGN Labs".
+
+---
+
+## Sesión 023 — Migración PEM de artículos + Upgrade MVGN v4.0
+
+**Fecha:** 2026-07-15
+**Contexto:** Migración de NewPipe y Vanced+ReVanced+Morphe al estándar PEM. Upgrade del Runtime MVGN de v3.5 a v4.0.
+
+### Hallazgos
+
+| # | Hallazgo | Categoría | Implicancia |
+|---|----------|-----------|-------------|
+| LL-020 | **Artículos comparativos multi-herramienta requieren observaciones transversales.** NewPipe evalúa 3 herramientas distintas; las OBS debieron estructurarse por herramienta (OBS-001 a OBS-003) en vez de por característica, para mantener trazabilidad clara | Editorial | Para artículos multi-herramienta, agrupar OBS por herramienta evaluada, no por característica transversal |
+| LL-021 | **El estándar PEM funciona para artículos sin veredicto único.** Artículos informativos (no evaluaciones) como "cómo funciona X" pueden usar el estándar PEM sin forzar un veredicto de compra. El veredicto se convierte en análisis de perfil de usuario en vez de recomendación. | Editorial | PEM-10 (Veredicto) debe soportar modo informativo: "para quién sirve" sin "cómprelo no lo compre". El estándar es protocolo de evaluación, no plantilla de reseña. |
+
+### Decisiones derivadas
+
+1. **Veredicto informativo**: En artículos multi-herramienta sin una recomendación única, PEM-10 se adapta a modo análisis de perfiles (para quién sí/no cada opción).
+2. **Nuevos artículos**: EXP-2026-00002 (NewPipe) y EXP-2026-00003 (Vanced) completan el estándar PEM con 3 artículos. Quedan 2-7 para alcanzar v1.0 Estable.

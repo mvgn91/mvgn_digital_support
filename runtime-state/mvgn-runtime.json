@@ -1,14 +1,26 @@
 {
-  "runtime_version": "3.5.0",
-  "schema_version": "1.1.0",
+  "runtime_version": "4.0",
+  "schema_version": "2.0.0",
   "profile": "lite",
+  "execution_mode": "NORMAL",
+  "review_pipeline_enabled": false,
   "capabilities": {
     "telemetry": true,
     "traceability": true,
     "analytics": true,
-    "event_history": true
+    "event_history": true,
+    "multi_agent": true,
+    "review_pipeline": true,
+    "agent_roles": true
   },
   "actors": [
+    {
+      "model": "deepseek-v4-flash-free",
+      "id": "agent-agent-buffy",
+      "name": "agent-buffy",
+      "type": "ai",
+      "provider": "Deepseek"
+    },
     {
       "id": "agent-kimchi",
       "type": "ai",

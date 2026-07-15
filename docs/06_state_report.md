@@ -1,8 +1,8 @@
 # 06 — State Report: MVGN DIGITAL HUB
 
 > Proyecto raíz · Sitio web de MVGN Labs — Centro de Soporte Digital
-> Framework: MVGN v3.5 (Lite, modo FLOW)
-> Última actualización: 2026-07-13
+> Framework: MVGN v4.0 (Lite, modo NORMAL)
+> Última actualización: 2026-07-15
 
 ## Cabecera
 
@@ -10,11 +10,11 @@
 |-------|-------|
 | **Estado** | COMPLETED |
 | **Tarea activa** | — |
-| **Progreso** | 68/30+ |
-| **Última acción** | Sesión 022: Pulido editorial — `revision` removido de bitwarden.mdx, firma de artículo alineada con filosofía MVGN (autor = reviewer). Finalización MVGN con actualización de documentación, commit y push. |
+| **Progreso** | 70/30+ |
+| **Última acción** | Sesión 023: Migración PEM de NewPipe (EXP-2026-00002) y Vanced+ReVanced+Morphe (EXP-2026-00003). Upgrade MVGN v3.5 → v4.0 completo. |
 | **Siguiente acción** | Esperando instrucciones del fundador. |
 | **Bloqueos activos** | — |
-| **Última sesión** | ses-022 |
+| **Última sesión** | ses-023 |
 
 ## Contexto del proyecto
 
@@ -33,7 +33,7 @@
 | Analytics | `analytics/` (spec + README) | ✅ Cargado |
 | Event History | `events/2026-07-08.jsonl` | ✅ 20+ eventos (hasta ses-007) |
 | Runtime State | `.mvgn-context.json` | ✅ COMPLETED (ses-018) |
-| Runtime Manifest | `runtime-state/mvgn-runtime.json` | ✅ v3.5.0 |
+| Runtime Manifest | `runtime-state/mvgn-runtime.json` | ✅ v4.0 |
 | Policies | `policies/README.md` | ✅ Cargado |
 | Event Bus | `event-history/event-bus-spec.md` | ✅ Cargado |
 | Actor Identity | `runtime-state/actor-identity-spec.md` | ✅ Cargado |
@@ -130,6 +130,15 @@
 | **Layout artículo** | `src/pages/laboratorio/[slug].astro` — Secciones PEM: Ficha MVGN (colapsable), Veredicto Técnico (grid), Cierre Editorial. |
 | **Trazabilidad** | `.mvgn-context.json` — ses-021 registrada con telemetría completa. |
 
+## Cambios de la sesión 023 — Migración PEM + Upgrade MVGN v4.0
+
+| Área | Cambio |
+|------|--------|
+| **NewPipe (EXP-2026-00002)** | Migración completa al estándar PEM. 8 observaciones (independencia NewPipe, historia Vanced, Morphe, SponsorBlock, cobertura ReVanced). 6 evidencias. 4 riesgos. Veredicto informativo multi-perfil. |
+| **Vanced+ReVanced+Morphe (EXP-2026-00003)** | Migración completa al estándar PEM. 8 observaciones (Vanced Manager, cese/desistimiento, parches modulares ReVanced, microG, proceso técnico). 6 evidencias. 4 riesgos. |
+| **Upgrade MVGN** | Runtime actualizado de v3.5 a v4.0. Nuevas specs: agent_roles, review_pipeline, execution_modes, review_reports, agent_registry, review_metrics, conflict_resolution, migration_guide. Runtime spec v2.0.0 con Agent Events. |
+| **Build** | Verificado — 8 rutas sin errores. |
+
 ## Cambios de la sesión 022 — Pulido Editorial + Finalización MVGN
 
 | Área | Cambio |
@@ -140,9 +149,9 @@
 
 ## Próximos pasos sugeridos
 
-1. Migrar artículo existente como piloto del estándar (bitwarden)
-2. Redactar nuevos artículos bajo protocolo PEM
-3. Configurar dominio personalizado en Cloudflare Pages
+1. Redactar nuevos artículos bajo protocolo PEM (2-7 restantes para v1.0 Estable)
+2. Configurar dominio personalizado en Cloudflare Pages
+3. Reemplazar placeholders de capturas con imágenes reales
 
 **Nota:** No hay archivos v2.3 preservados. MVGN 3.5 es la única fuente de verdad. Todo el legacy pre-3.5 fue eliminado o archivado en `_archive/`.
 

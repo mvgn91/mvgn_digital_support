@@ -6,6 +6,67 @@ heroImage: 'https://placehold.co/560x315/1e1b4b/818cf8?text=Vanced+Manager'
 tags: ['android', 'tutorial', 'modding', 'youtube']
 icon: 'settings'
 featured: false
+
+# MVGN Evaluation Standard v1.0-rc
+expediente: EXP-2026-00003
+versionEstandar: v1.0-rc
+autor: A. Ibañez
+contextoUso: uso cotidiano
+alcanceCubre: 'Evaluación del ecosistema de parcheo de aplicaciones Android: Vanced Manager (instalador histórico), ReVanced Manager (sistema de parches modulares) y Morphe (plataforma de apps modificadas). Incluye funcionamiento interno del parcheo, uso de microG, proceso de instalación y apps soportadas.'
+alcanceNoCubre: 'Evaluación de las apps modificadas resultantes, tutorial paso a paso de parcheo, análisis de seguridad del código modificado, ni revisión legal del modelo de distribución.'
+veredictoParaQuienSi: 'Usuarios de Android con curiosidad técnica que quieran entender cómo funciona el modding de apps. ReVanced para quien busca control y versatilidad, Morphe para quien solo quiere el resultado sin proceso técnico.'
+veredictoParaQuienNo: 'Usuarios que prefieren no instalar software de fuentes externas, quienes necesitan garantías de soporte comercial, o quienes no se sienten cómodos con el concepto de modificar aplicaciones.'
+veredictoProblema: 'Navegar el ecosistema de herramientas de parcheo de aplicaciones Android para recuperar funcionalidades perdidas o bloqueadas por las apps oficiales.'
+veredictoCoste: 'Vanced Manager: gratuito (descontinuado) · ReVanced Manager: gratuito · Morphe: gratuito. Todos de código abierto o distribución gratuita.'
+veredictoLimites: 'Vanced ya no funciona y no recibe actualizaciones. ReVanced requiere mantenimiento manual de parches. Morphe centraliza la oferta en su equipo, lo que genera dependencia de un solo mantenedor.'
+veredictoConclusion: 'El ecosistema de parcheo ha madurado significativamente desde Vanced. ReVanced representa la aproximación más robusta y sostenible técnicamente. Morphe es la opción más accesible. La decisión depende de cuánto control quiera el usuario sobre el proceso.'
+revisionFutura: '2027-01'
+
+# ── Observaciones (PEM-06) ──
+observacionesTexto: >-
+  <p><strong>OBS-001 — Vanced Manager automatizaba todo el proceso de parcheo</strong><br>
+  Vanced Manager descargaba la APK base de YouTube, aplicaba las modificaciones, instalaba microG y dejaba la app lista. El usuario solo abría el Manager y tocaba "Instalar".</p>
+  <p><strong>OBS-002 — Vanced fue descontinuado por cese y desistimiento de Google en 2022</strong><br>
+  Google envió un cese y desistimiento al equipo de Vanced por distribuir APKs modificados de YouTube. El proyecto cerró y recomendó migrar a ReVanced.</p>
+  <p><strong>OBS-003 — ReVanced usa parches modulares independientes de la app</strong><br>
+  A diferencia de Vanced, ReVanced separa los parches del instalador. Los parches son archivos independientes que pueden actualizarse por separado y aplicarse a múltiples apps, no solo YouTube.</p>
+  <p><strong>OBS-004 — ReVanced permite parchear apps además de YouTube</strong><br>
+  ReVanced ofrece parches para YouTube Music, TikTok, Twitter, Reddit y Twitch. Cada app tiene parches específicos (sin anuncios, descargas, SponsorBlock, etc.).</p>
+  <p><strong>OBS-005 — microG es necesario para iniciar sesión en apps parcheadas con ReVanced</strong><br>
+  microG es una implementación open source de los servicios de Google Play. Actúa como puente entre la app modificada y los servidores de Google, permitiendo inicio de sesión sin revelar qué app modificada está haciendo la llamada.</p>
+  <p><strong>OBS-006 — Morphe ofrece apps modificadas listas para instalar</strong><br>
+  Morphe (morphe.software) distribuye versiones modificadas de YouTube, YouTube Music, Reddit, Twitter y otras apps como APKs directos. No requiere parcheo ni microG.</p>
+  <p><strong>OBS-007 — El parcheo descompila, modifica y recompila la app original</strong><br>
+  El proceso técnico implica descompilar la APK a código smali, localizar las funciones objetivo (carga de anuncios, verificación de Premium), modificarlas y recompilar la app. Luego se firma con una clave nueva porque la original se rompe al modificar el código.</p>
+  <p><strong>OBS-008 — Las apps parcheadas no pueden coexistir con las oficiales</strong><br>
+  Como la app modificada se firma con una clave distinta a la original, Android las trata como apps diferentes. Sin embargo, tienen el mismo package name, por lo que hay que desinstalar la oficial antes de instalar la modificada.</p>
+# ── Evidencias (PEM-08) ──
+evidenciasTexto: >-
+  <table><thead><tr><th>#</th><th>Tipo</th><th>Descripción</th><th>Asociada</th></tr></thead><tbody>
+  <tr><td>EV-001</td><td>Captura</td><td>Vanced Manager — interfaz de instalación del gestor original</td><td>OBS-001</td></tr>
+  <tr><td>EV-002</td><td>Captura</td><td>ReVanced Manager — selector de parches modulares</td><td>OBS-003</td></tr>
+  <tr><td>EV-003</td><td>Captura</td><td>Morphe — plataforma de apps modificadas disponibles</td><td>OBS-006</td></tr>
+  <tr><td>EV-004</td><td>Documentación</td><td>Repositorio de ReVanced en GitHub — parches, CLI, documentación</td><td>OBS-003</td></tr>
+  <tr><td>EV-005</td><td>Documentación</td><td>Sitio oficial de microG — implementación open source de servicios Google</td><td>OBS-005</td></tr>
+  <tr><td>EV-006</td><td>Documentación</td><td>Página de Morphe — lista completa de apps y descargas</td><td>OBS-006</td></tr>
+  </tbody></table>
+# ── Riesgos Conocidos (PEM-09) ──
+riesgosTexto: >-
+  <ol>
+  <li><strong>Riesgo legal.</strong> El parcheo de apps puede violar términos de servicio. Aunque el ecosistema ha evolucionado para operar en zona gris (ReVanced no distribuye APKs modificados), el usuario asume la responsabilidad legal de modificar software de terceros.</li>
+  <li><strong>Seguridad del parche.</strong> Al modificar una app, el usuario confía en que el parche no contiene código malicioso. ReVanced mitiga esto siendo open source, pero el usuario promedio no audita el código de cada parche.</li>
+  <li><strong>Dependencia de comunidad.</strong> Si el equipo de ReVanced o Morphe abandona el proyecto, no hay actualizaciones. ReVanced tiene una comunidad activa; Morphe depende de un equipo más pequeño.</li>
+  <li><strong>Incompatibilidad por actualizaciones.</strong> Cuando una app oficial se actualiza, los parches pueden dejar de funcionar hasta que la comunidad publique una versión compatible. Esto aplica tanto a ReVanced como a Morphe.</li>
+  </ol>
+enlaces:
+  - label: 'ReVanced — sitio oficial'
+    url: 'https://revanced.app'
+  - label: 'Repositorio ReVanced en GitHub'
+    url: 'https://github.com/revanced'
+  - label: 'YouTube Morphe'
+    url: 'https://morphe.software'
+  - label: 'microG Project'
+    url: 'https://microg.org'
 ---
 
 import ScreenshotFrame from '../../components/ScreenshotFrame.astro';

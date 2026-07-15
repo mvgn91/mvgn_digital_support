@@ -1,7 +1,7 @@
 # 07 — Runtime Specification
 
-> **MVGN v3.0 — Event-Driven AI Governance Runtime**
-> **Versión del documento:** 1.0.0
+> **MVGN v4.0 — Multi-Agent Governance Runtime**
+> **Versión del documento:** 2.0.0
 > **Propósito:** Especificación técnica del Runtime. Define qué es un evento, su estructura, garantías y límites.
 
 ---
@@ -160,6 +160,20 @@ Según ADR-005, los actores se representan con el siguiente schema:
 | `MANIFEST_UPDATED` | Runtime Manifest modificado | `previous_version`, `new_version` |
 | `ACTOR_REGISTERED` | Nuevo actor registrado | `actor` completo |
 
+### Dominio: Agent (MVGN 4.0)
+
+| Evento | Disparador | Campos adicionales |
+|--------|-----------|-------------------|
+| `AGENT_ASSIGNED` | Agente asignado a tarea | `agent_id`, `task_id`, `role` |
+| `AGENT_COMPLETED` | Agente completó tarea | `agent_id`, `task_id`, `output` en metadata |
+| `AGENT_REVIEW_STARTED` | Revisión iniciada | `agent_id`, `task_id` |
+| `AGENT_REVIEW_COMPLETED` | Revisión completada | `agent_id`, `task_id`, `report` en metadata |
+| `REVIEW_FAILED` | Revisión falló | `agent_id`, `task_id`, `findings` en metadata |
+| `REVIEW_APPROVED` | Revisión aprobada | `agent_id`, `task_id` |
+| `PIPELINE_COMPLETED` | Pipeline completado | `task_id`, `agents[]` en metadata |
+| `CONFLICT_DETECTED` | Discrepancia entre agentes | `agent_a`, `agent_b`, `topic` |
+| `CONFLICT_RESOLVED` | Resolución por operador | `resolution`, `decided_by` |
+
 ## 5. Garantías del Runtime
 
 ### 5.1 Lo que el Runtime garantiza
@@ -206,11 +220,11 @@ Los consumidores del Event Bus son:
 
 Cada artefacto de datos del Runtime tiene su propio `schema_version`, independiente de `runtime_version`:
 
-| Artefacto | schema_version inicial | Ubicación |
-|-----------|----------------------|-----------|
+| Artefacto | schema_version | Ubicación |
+|-----------|----------------|-----------|
 | Runtime Event | `1.0.0` | `docs/07_runtime_spec.md` |
-| Runtime Manifest | `1.0.0` | `mvgn-runtime.json` |
-| Runtime State | `1.0.0` | `.mvgn-context.json` |
+| Runtime Manifest | `2.0.0` | `mvgn-runtime.json` |
+| Runtime State | `2.0.0` | `.mvgn-context.json` |
 | Event History | `1.0.0` | `events/` (archivos JSONL) |
 
 ### Reglas de versionamiento
@@ -232,4 +246,5 @@ Cada artefacto de datos del Runtime tiene su propio `schema_version`, independie
 ---
 
 **Historial:**
+- 2026-07-15: Actualización — Runtime Specification v2.0.0 — Agent Events domain (9 eventos), schema versions actualizados
 - 2026-07-08: Creación inicial — Runtime Specification v1.0.0
